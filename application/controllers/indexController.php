@@ -9,7 +9,7 @@ class indexController extends baseController {
     }
 
     public function index() {
-        echo View::loadTemplate('index', array(
+        View::renderTemplate(__FUNCTION__, array(
             'title' => 'Main Title.',
             'content' => 'The Main Page Of the MVC-Based Frameword!'
         ));
