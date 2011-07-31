@@ -2,8 +2,10 @@
 class Router {
     private $controller, $method, $args,$controllerInstance;
     private $controllerName, $controllerAddress;
+    public $registry;
     
     public function __construct(Registry $registry) {
+        $this->registry = $registry;
         $this->controller = $registry->request->getController();
         $this->method     = $registry->request->getMethod();
         $this->args       = $registry->request->getArgs();
@@ -27,7 +29,7 @@ class Router {
     
     private function instantiatingController(){
         require_once $this->controllerAddress;
-        $this->controllerInstance = new $this->controllerName;
+        $this->controllerInstance = new $this->controllerName($this->registry);
         if($this->controllerInstance){
             return true;
         }

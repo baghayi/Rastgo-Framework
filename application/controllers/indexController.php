@@ -1,17 +1,21 @@
 <?php
+
 class indexController extends baseController {
 
-    
-    public function index(){
-        echo 'We are in the IndexController, 
-            And laughing to you!
-            Happy Birthday!';
-        echo '<br />';
-        var_dump(func_get_args());
-        echo '<br />';
+    public $registry;
+
+    public function __construct(Registry $registry) {
+        $this->registry = $registry;
     }
-    
-    public function contact(){
+
+    public function index() {
+        echo View::loadTemplate('index', array(
+            'title' => 'Main Title.',
+            'content' => 'The Main Page Of the MVC-Based Frameword!'
+        ));
+    }
+
+    public function contact() {
         echo 'Congratulation, You Are In the Contact Page';
         echo '<br />';
         var_dump(func_get_args());

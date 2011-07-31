@@ -9,3 +9,9 @@ define('SCRIPT_ROOT_FOLDER_NAME','RastgoFramework');
  * Web site protocol that are useing, like (http, https)
  */
 define('WEB_PROTOCOL','http');
+
+/**
+ * The Template Folder Name, 
+ */
+define('TEMPLATE_FOLDER_NAME','defaultTemplate');
+
