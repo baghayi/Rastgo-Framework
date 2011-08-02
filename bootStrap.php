@@ -41,7 +41,6 @@ require_once FILE_PATH . 'application' . DS . 'view.php';
 
 
 $registry = Registry::getInstance();
-$registry->view = new View();
 $registry->request = new Request();
 try{
     $registry->router = new Router($registry);

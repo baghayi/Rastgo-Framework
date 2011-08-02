@@ -1,13 +1,7 @@
 <?php
 
 class indexController extends baseController {
-
-    public $registry;
-
-    public function __construct(Registry $registry) {
-        $this->registry = $registry;
-    }
-
+    
     public function index() {
         View::renderTemplate(__FUNCTION__, array(
             'title' => 'Main Title.',
