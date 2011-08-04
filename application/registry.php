@@ -17,5 +17,7 @@ final class Registry {
     public function __get($var){
         return $this->registry[$var]; 
     }
+    
+    private function __construct() {}
 
 }
