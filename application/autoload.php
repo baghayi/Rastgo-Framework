@@ -9,6 +9,10 @@ function __autoload($className){
      * MVC main files address
      */
     $fileNameMVC = FILE_PATH . 'application' . DS . $className .'.php';
+    /**
+     * Modeles file
+     */
+    $fileModels = FILE_PATH . 'application' . DS . 'models' . DS . $className .'.php';
     
     /**
      * At this part we are about to loading library files,
@@ -23,6 +27,15 @@ function __autoload($className){
     
     else if(file_exists($fileNameMVC)){
         require_once $fileNameMVC;
+        return true;
+    }
+    
+    /**
+     * We are checking whether there is any file in model directory or not,
+     * If there is then including it,
+     */
+    else if(file_exists($fileModels)){
+        require_once $fileModels;
         return true;
     }
     return false;
