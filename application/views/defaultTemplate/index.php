@@ -6,6 +6,12 @@
         <body>
             <h2><?=$title?></h2>
             <p><?=$content?></p>
+            
+<!--            <ol>
+                <?php //foreach($usersList as $user): ?>
+                <li><?=$user?></li>
+                <?php //endforeach; ?>
+            </ol>-->
 
         </body>
 
