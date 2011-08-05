@@ -36,12 +36,3 @@ define('TEMPLATE_DIR_ADDRESS',FILE_PATH . 'application' . DS . 'views' . DS . TE
  * Loding libraries, and MVC required files, ...
  */
 require_once FILE_PATH . 'application' . DS . 'autoload.php';
-
-
-$registry = Registry::getInstance();
-$registry->url = new Url();
-try{
-    $registry->router = new Router($registry);
-}catch(Exception $e){
-    echo $e->getMessage();
-}
