@@ -1,6 +1,4 @@
 <?php
-require_once 'config.php';
-
 /**
  * Directory seperator constant
  */
@@ -11,6 +9,11 @@ define('DS',DIRECTORY_SEPARATOR);
  * like, c:\\ ... | /var/www/...
  */
 define('FILE_PATH',  realpath(dirname(__FILE__)) . DS);
+
+/**
+ * including config file
+ */
+require_once FILE_PATH . 'config' . DS . 'config.php';
 
 /**
  * Site address, 
