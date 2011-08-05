@@ -36,7 +36,7 @@ define('TEMPLATE_DIR_ADDRESS',FILE_PATH . 'application' . DS . 'views' . DS . TE
  * Loding libraries, and MVC required files,
  */
 require_once FILE_PATH . 'application' . DS . 'registry.php';
-require_once FILE_PATH . 'application' . DS . 'request.php';
+require_once FILE_PATH . 'application' . DS . 'url.php';
 require_once FILE_PATH . 'application' . DS . 'router.php';
 require_once FILE_PATH . 'application' . DS . 'baseController.php';
 require_once FILE_PATH . 'library'     . DS . 'template.class.php';
@@ -44,7 +44,7 @@ require_once FILE_PATH . 'application' . DS . 'view.php';
 
 
 $registry = Registry::getInstance();
-$registry->request = new Request();
+$registry->url = new Url();
 try{
     $registry->router = new Router($registry);
 }catch(Exception $e){

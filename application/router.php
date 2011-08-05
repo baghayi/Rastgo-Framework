@@ -6,9 +6,9 @@ class Router {
     
     public function __construct(Registry $registry) {
         $this->registry = $registry;
-        $this->controller = $registry->request->getController();
-        $this->method     = $registry->request->getMethod();
-        $this->args       = $registry->request->getArgs();
+        $this->controller = $registry->url->getController();
+        $this->method     = $registry->url->getMethod();
+        $this->args       = $registry->url->getArgs();
         
         $this->getController();
         $this->instantiatingController();

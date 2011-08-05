@@ -1,6 +1,6 @@
 <?php
 
-class Request {
+class Url {
     private $controller,$method,$args;
 
     function __construct() {
