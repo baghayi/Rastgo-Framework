@@ -1,0 +1,2 @@
+- For models file name put an 'm' (in lower case / without quotations ) before the class name / Both file name and class it self name,
+- Be sure that if class name does have upper case word then file name must be exactly like that,
