@@ -33,14 +33,9 @@ define('TEMPLATE_SITE_PATH', SITE_PATH  . 'application' . DS . 'views' . DS . TE
 define('TEMPLATE_DIR_ADDRESS',FILE_PATH . 'application' . DS . 'views' . DS . TEMPLATE_FOLDER_NAME);
 
 /**
- * Loding libraries, and MVC required files,
+ * Loding libraries, and MVC required files, ...
  */
 require_once FILE_PATH . 'application' . DS . 'autoload.php';
-require_once FILE_PATH . 'application' . DS . 'registry.php';
-require_once FILE_PATH . 'application' . DS . 'url.php';
-require_once FILE_PATH . 'application' . DS . 'router.php';
-require_once FILE_PATH . 'application' . DS . 'baseController.php';
-require_once FILE_PATH . 'application' . DS . 'view.php';
 
 
 $registry = Registry::getInstance();
