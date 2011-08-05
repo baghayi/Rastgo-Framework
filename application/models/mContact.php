@@ -1,7 +1,8 @@
 <?php
 class mContact extends baseModel {
     /**
-     * This is just an example
+     * This is just an example, 
+     * That show us how to use and make a model files (class)
      */
     
 //    protected static $statement;
