@@ -14,6 +14,16 @@ class indexController extends baseController {
         echo '<br />';
         var_dump(func_get_args());
         echo '<br />';
+        
+        /**
+         * This bunch of code are just an example of calling and using the Model files
+         */
+        
+//        $contact = new mContact();
+//        while($res = $contact->contact()){
+//            echo $res['name'];
+//            echo '<br />';
+//        }
     }
 
 }
