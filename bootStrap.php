@@ -16,6 +16,11 @@ define('FILE_PATH',  realpath(dirname(__FILE__)) . DS);
 require_once FILE_PATH . 'config' . DS . 'config.php';
 
 /**
+ * Including Database settings file,
+ */
+require_once FILE_PATH . 'config' . DS . 'database.php';
+
+/**
  * Site address, 
  * Like: http://127.0.0.1/.../current_directory
  */
