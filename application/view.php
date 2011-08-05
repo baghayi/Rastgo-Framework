@@ -1,5 +1,5 @@
 <?php
-class View extends template {
+class View extends Template {
     
     public function __construct() {
         template::setBaseDir(TEMPLATE_DIR_ADDRESS);

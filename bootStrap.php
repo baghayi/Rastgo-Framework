@@ -35,11 +35,11 @@ define('TEMPLATE_DIR_ADDRESS',FILE_PATH . 'application' . DS . 'views' . DS . TE
 /**
  * Loding libraries, and MVC required files,
  */
+require_once FILE_PATH . 'application' . DS . 'autoload.php';
 require_once FILE_PATH . 'application' . DS . 'registry.php';
 require_once FILE_PATH . 'application' . DS . 'url.php';
 require_once FILE_PATH . 'application' . DS . 'router.php';
 require_once FILE_PATH . 'application' . DS . 'baseController.php';
-require_once FILE_PATH . 'library'     . DS . 'template.class.php';
 require_once FILE_PATH . 'application' . DS . 'view.php';
 
 
