@@ -1,2 +1,4 @@
-- For models file name put an 'm' (in lower case / without quotations ) before the class name / Both file name and class it self name,
-- Be sure that if class name does have upper case word then file name must be exactly like that,
+- Every model file name and also class name must contain 'Model' word in its end. (class name: " class indexModel{ ... " |File name: " indexModel.php ")
+- Extending from the baseModel class is optional, but for using the database features extending baseModel is necessary.
+- For each Controller's method , model class file must have the same method name too.
+- Creating the index method at first is necessary, when you have extended from baseModel class! (Abstract method)
