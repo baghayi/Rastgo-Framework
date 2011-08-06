@@ -1,9 +1,13 @@
-*{
-    background-color: blue;
-}
 h2{
     background-color: yellow;
+    text-align: center;
 }
 p{
     background: red;
+}
+#maindiv{
+    width: 500px;
+    height: 500px;
+    background-color: green;
+    margin: 0 auto;
 }
