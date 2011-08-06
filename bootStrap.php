@@ -30,7 +30,7 @@ define('SITE_PATH', WEB_PROTOCOL . '://'.$_SERVER["SERVER_NAME"].'/'.SCRIPT_ROOT
  * Site Path to the template, 
  * For loading stylesheets, or javascripts, ..
  */
-define('TEMPLATE_SITE_PATH', SITE_PATH  . 'application' . DS . 'views' . DS . TEMPLATE_FOLDER_NAME . DS);
+define('SITE_TEMPLATE_PATH', SITE_PATH  . 'application' . DS . 'views' . DS . TEMPLATE_FOLDER_NAME . DS);
 
 /**
  * Full address of template in view folder,
