@@ -1,10 +1,16 @@
 <?php
 abstract class baseController {
-    public $registry;
+    public static $registry;
     
     public function __construct(Registry $registy) {
-        $this->registry = $registy;
-        $this->registry->view = new View();
+        static::$registry = $registy;
+        static::$registry->view = new View();
+    }
+    
+    protected static function loadModel($loadMethod = false){
+        static::$registry->loader->loadModel(static::$registry->request->getController());
+        if($loadMethod === TRUE)
+            return static::$registry->model->{static::$registry->request->getMethod()}();
     }
 
     public abstract function index();
