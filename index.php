@@ -2,7 +2,8 @@
 require_once 'bootStrap.php';
 
 $registry = Registry::getInstance();
-$registry->url = new Url();
+$registry->request = new Request();
+$registry->loader = new Loader($registry);
 try{
     $registry->router = new Router($registry);
 }catch(Exception $e){
