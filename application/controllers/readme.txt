@@ -1,0 +1,5 @@
+- The class and file name of the controller must contain Controller in its end, (class name: " class indexController{ ... " |File name: " indexController.php ")
+- Extending from the baseController class in required, else you will be given an error!
+- For including and using the models in controller you need to use loadModel method, In addition that it is static method (static::loadModel)
+- Creating the index method at first is necessary. (Abstract method)
+- To get the arguments (method's parameters use the 'func_get_args()' function)
