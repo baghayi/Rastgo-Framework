@@ -1,10 +1,12 @@
 <?php
+namespace root\application\baseController;
+
 abstract class baseController {
     public static $registry;
     
-    public function __construct(Registry $registy) {
+    public function __construct(\root\application\Registry\Registry $registy) {
         static::$registry = $registy;
-        static::$registry->view = new View();
+        static::$registry->view = new \root\application\View\View();
     }
     
     protected static function loadModel($loadMethod = false){
