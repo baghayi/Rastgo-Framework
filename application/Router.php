@@ -1,10 +1,11 @@
 <?php
+namespace root\application\Router;
 class Router {
     private $controller, $method, $args,$controllerInstance;
     private $controllerName, $controllerAddress;
     public $registry;
     
-    public function __construct(Registry $registry) {
+    public function __construct(\root\application\Registry\Registry $registry) {
         $this->registry = $registry;
         $this->controller = $registry->request->getController();
         $this->method     = $registry->request->getMethod();
@@ -23,7 +24,7 @@ class Router {
             $this->controllerAddress = $controllerAddress;
             return true;
         }
-        throw new Exception('404 Error: The Controller File Does Not Exist!');
+        throw new \Exception('404 Error: The Controller File Does Not Exist!');
         return false;
     }
     
@@ -33,12 +34,12 @@ class Router {
         if($this->controllerInstance){
             return true;
         }
-        throw new Exception('Controller Counld Be instantiated.');
+        throw new \Exception('Controller Counld Be instantiated.');
     }
     
     private function checkingMethod(){
         if(!method_exists($this->controllerName, $this->method)){
-            throw new Exception('Entered Method ( '.__METHOD__ .' ) Cound Not Be Found');
+            throw new \Exception('Entered Method ( '.__METHOD__ .' ) Cound Not Be Found');
         }
     }
     
