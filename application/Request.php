@@ -1,4 +1,5 @@
 <?php
+namespace root\application\Request;
 
 class Request {
     private $controller,$method,$args;
