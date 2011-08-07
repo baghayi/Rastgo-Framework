@@ -1,11 +1,11 @@
 <?php
 require_once 'bootStrap.php';
 
-$registry = Registry::getInstance();
-$registry->request = new Request();
+$registry = \root\application\Registry\Registry::getInstance();
 $registry->loader = new Loader($registry);
+$registry->request = new \root\application\Request\Request();
 try{
-    $registry->router = new Router($registry);
+    $registry->router = new \root\application\Router\Router($registry);
 }catch(Exception $e){
     echo $e->getMessage();
 }
