@@ -1,8 +1,9 @@
 <?php
-class View extends Template {
+namespace root\application\View;
+class View extends \root\library\Template\index\Template {
     
     public function __construct() {
-        template::setBaseDir(TEMPLATE_DIR_ADDRESS);
+        \root\library\Template\index\Template::setBaseDir(TEMPLATE_DIR_ADDRESS);
     }
     
 }
