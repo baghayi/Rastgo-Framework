@@ -1,4 +1,5 @@
 <?php
+namespace root\library\Template\index;
 class Template {
 
     /**
@@ -58,7 +59,7 @@ class Template {
 
         $templatePath = $baseDir . '/' . $template . '' . self::getExtension();
         if (!file_exists($templatePath)) {
-            throw new Exception('Could not include template ' . $templatePath);
+            throw new \Exception('Could not include template ' . $templatePath);
         }
 
         return self::loadTemplateFile($templatePath, $vars);
