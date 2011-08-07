@@ -1,4 +1,6 @@
 <?php
+namespace root\application\Registry;
+
 final class Registry {
     private $registry = array();
     private static $instance = null;
