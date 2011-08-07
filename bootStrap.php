@@ -38,6 +38,8 @@ define('SITE_TEMPLATE_PATH', SITE_PATH  . 'application' . DS . 'views' . DS . TE
 define('TEMPLATE_DIR_ADDRESS',FILE_PATH . 'application' . DS . 'views' . DS . TEMPLATE_FOLDER_NAME);
 
 /**
- * Loding libraries, and MVC required files, ...
+ * We are just including the Loader file that can been able to load or include other classes and files,
+ * Then instantiating it
  */
-require_once FILE_PATH . 'application' . DS . 'autoload.php';
+require_once FILE_PATH . 'application' . DS . 'Loader.php';
+Loader::setAutoLoader();
