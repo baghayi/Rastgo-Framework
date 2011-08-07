@@ -1,0 +1,2 @@
+- Every classes that will be added to the library folder must contain a namespace to its folder and include the file name without its extention, (Exactly) like: root\library\YOUR CLASS FOLDER NAME\index
+    for more information have a look at this like: http://groups.google.com/group/php-standards/web/psr-0-final-proposal?pli=1
