@@ -1,8 +1,9 @@
 <?php
 namespace root\application\Request;
 
-class Request {
+final class Request {
     private $controller,$method,$args;
+    private static $defaultController = 'index', $defaultMethod = 'index';
 
     function __construct() {
         
@@ -18,12 +19,12 @@ class Request {
         /**
          * Getting controller,
          */
-        $this->controller = ($controller = array_shift($url)) ? $controller : 'index';
+        $this->controller = ($controller = array_shift($url)) ? $controller : self::$defaultController;
         
         /**
          * Getting Method.
          */
-        $this->method = ($method = array_shift($url)) ? $method : 'index';
+        $this->method = ($method = array_shift($url)) ? $method : self::$defaultMethod;
         
         /**
          * Getting All of the Arguments,
@@ -41,6 +42,13 @@ class Request {
     
     public function getArgs(){
         return $this->args;
+    }
+    
+    public static function setDefaultController($controller){
+        self::$defaultController = $controller;
+    }
+    public static function sefDefaultMethod($method){
+        self::$defaultMethod = $method;
     }
 
 }
