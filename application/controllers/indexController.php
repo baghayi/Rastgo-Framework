@@ -1,6 +1,5 @@
 <?php
-
-class indexController extends root\application\baseController\baseController {
+class indexController extends baseController {
     
     public function index() {
         \root\application\View\View::renderTemplate(__FUNCTION__, array(
