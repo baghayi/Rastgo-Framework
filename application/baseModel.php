@@ -1,6 +1,5 @@
 <?php
-namespace root\application\baseModel;
-abstract class baseModel extends \PDO {
+abstract class baseModel extends PDO {
 
     public function __construct() {
         global $db_info;
