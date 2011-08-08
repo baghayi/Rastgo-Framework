@@ -1,6 +1,4 @@
 <?php
-namespace root\application\baseController;
-
 abstract class baseController {
     public static $registry;
     
