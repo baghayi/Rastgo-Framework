@@ -29,6 +29,7 @@ class Router {
     }
     
     private function instantiatingController(){
+        require_once FILE_PATH . 'application' . DS . 'baseController.php';
         require_once $this->controllerAddress;
         $this->controllerInstance = new $this->controllerName($this->registry);
         if($this->controllerInstance){
