@@ -1,4 +1,4 @@
-<doceType>
+<!docetype html>
     <html>
         <head>
             <title><?=$title?></title>
