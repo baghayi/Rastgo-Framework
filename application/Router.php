@@ -40,7 +40,7 @@ class Router {
     
     private function checkingMethod(){
         if(!method_exists($this->controllerName, $this->method)){
-            throw new \Exception('Entered Method ( '.__METHOD__ .' ) Cound Not Be Found');
+            throw new \Exception('Entered Method ( '. $this->registry->request->getMethod() .' ) Cound Not Be Found');
         }
     }
     
