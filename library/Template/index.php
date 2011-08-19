@@ -59,7 +59,7 @@ class Template {
 
         $templatePath = $baseDir . '/' . $template . '' . self::getExtension();
         if (!file_exists($templatePath)) {
-            throw new \Exception('Could not include template ' . $templatePath);
+            \root\library\ErrorReporting\index\ErrorReporting::reportError('Could not include template ' . $templatePath, __LINE__, __METHOD__, true);
         }
 
         return self::loadTemplateFile($templatePath, $vars);
