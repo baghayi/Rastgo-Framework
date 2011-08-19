@@ -3,5 +3,8 @@ RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-l
-
 RewriteRule ^(.+)$ index.php/$1
+
+# To disallow folders to show their contents (files)
+Options All -Indexes
+
