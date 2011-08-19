@@ -16,11 +16,10 @@ final class Loader {
 
             if (class_exists($ModelCompleteName))
                 $this->registry->model = new $ModelCompleteName;
-
             else
-                throw new Exception('Model Class Does Not Exists!');
+                root\library\ErrorReporting\index\ErrorReporting::reportError ('Model Class Does Not Exists!', __LINE__, __METHOD__, true);
         }else {
-            throw new Exception('Model File Could Not Be Found!');
+            root\library\ErrorReporting\index\ErrorReporting::reportError('Model File Could Not Be Found!', __LINE__, __METHOD__, true);
         }
     }
 
