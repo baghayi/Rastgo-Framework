@@ -1,2 +1,5 @@
-/nbproject/private/
-/nbproject/
+nbproject/private/
+nbproject/
+logs/authentication.txt
+logs/database.txt
+logs/others.txt
