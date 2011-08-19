@@ -3,7 +3,7 @@
  * Database setting,
  * Put Your own information here:
  */
-DatabaseConfig::setDBname('testt');
+DatabaseConfig::setDBname('test');
 DatabaseConfig::setDBUsername('root');
 DatabaseConfig::setDBPassword('demo');
 DatabaseConfig::setDBHost('localhost');
