@@ -24,7 +24,7 @@ class Router {
             $this->controllerAddress = $controllerAddress;
             return true;
         }
-        throw new \Exception('404 Error: The Controller File Does Not Exist!');
+        \root\library\ErrorReporting\index\ErrorReporting::reportError('404 Error: The Controller File Does Not Exist!', __LINE__, __METHOD__, true);
         return false;
     }
     
@@ -35,12 +35,12 @@ class Router {
         if($this->controllerInstance){
             return true;
         }
-        throw new \Exception('Controller Counld Be instantiated.');
+        \root\library\ErrorReporting\index\ErrorReporting::reportError('Controller Counld Be instantiated.', __LINE__, __METHOD__, true);
     }
     
     private function checkingMethod(){
         if(!method_exists($this->controllerName, $this->method)){
-            throw new \Exception('Entered Method ( '. $this->registry->request->getMethod() .' ) Cound Not Be Found');
+            \root\library\ErrorReporting\index\ErrorReporting::reportError('Entered Method ( '. $this->registry->request->getMethod() .' ) Cound Not Be Found', __LINE__, __METHOD__, true);
         }
     }
     
