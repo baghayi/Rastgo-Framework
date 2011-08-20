@@ -17,6 +17,13 @@ final class ErrorReporting {
      * @reportedError string 
      */
     private static $reportedError;
+    /**
+     * The size of the each log files, A limitation for Log Files
+     * The number is in byte,
+     * And by default it's 10 M or 10000000 bytes
+     * @var integer  $logFileSize
+     */
+    private static $logFileSize = 10000000;
 
     /**
      *  This is the main method that we can report errors with it,
@@ -31,7 +38,8 @@ final class ErrorReporting {
         $TodaysDate_Time = strftime("%c");
         $userIPAddress = $_SERVER['REMOTE_ADDR'];
         $referedPlace = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '---';
-        static::$reportedError = "- {$TodaysDate_Time} | {$userIPAddress} | Error Message: {$message}, At line: {$line}, \r\n\t In Method: {$methodName}, \r\n\t The Referer Address: {$referedPlace} . \r\n";
+        static::$reportedError = "- {$TodaysDate_Time} | {$userIPAddress} | Error Message: {$message}, At line: {$line}, In Method: {$methodName}, The Referer Address: {$referedPlace} . \r\n";
+        static::spliteLogFile($errorType);
         static::WriteInLogFile($errorType);
         if ($throwException === TRUE)
             static::throwException($message);
@@ -52,8 +60,8 @@ final class ErrorReporting {
          */
         static::createLogFiles();
         $couldNotWriteMessage = 'Reported Message Could Not Be Written In The Log File!';
-        $fileAddress = LOG_FOLDER_PATH . $fileName . static::$logFileExtention;
-        if(!($handle = fopen($fileAddress, 'a'))){
+        $fileAddress = LOG_FOLDER_PATH .$fileName . DS . $fileName . static::$logFileExtention;
+        if (!($handle = fopen($fileAddress, 'a'))) {
             $fileCanNotBeOpenedMessage = 'The Log File Is Not Able To Be Opened!';
             static::throwException($fileCanNotBeOpenedMessage);
         }
@@ -61,22 +69,35 @@ final class ErrorReporting {
             static::throwException($couldNotWriteMessage);
 
         fclose($handle);
-        return TRUE;
     }
 
     /**
      * With this method we are creating the Log files,
      */
     private static function createLogFiles() {
-        $dirNotWritableMessage = 'The Log Directory Is Not Writable, Please Change Its Permission To 777 And Then Refresh The Page,<br /> If You Did Not Get Any Messages Like This Change That File\'s Permission to 755, <br /> Directory Address: <strong> ' . LOG_FOLDER_PATH . ' </strong>';
+        $dirNotWritableMessage = 'The Log Directory Is Not Writable, Please Change Its Permission To 777 And Then Refresh The Page,<br /> If You Did Not Get Any Messages Like This Again, Change That File\'s Permission to 755, <br /> Directory Address: <strong> ' . LOG_FOLDER_PATH . ' </strong>';
         foreach (static::$errorTypes as $fileName) {
-            $fileAddress = LOG_FOLDER_PATH . $fileName . static::$logFileExtention;
+            /**
+             * Checing for directories,
+             */
+            if(!file_exists(LOG_FOLDER_PATH . $fileName) or !is_dir(LOG_FOLDER_PATH . $fileName)){
+                if(is_writable(LOG_FOLDER_PATH))
+                    mkdir(LOG_FOLDER_PATH . $fileName);
+                else
+                    static::throwException($dirNotWritableMessage);                    
+            }
+            
+            /**
+             * Checking for log files,
+             */
+            $fileAddress = LOG_FOLDER_PATH . $fileName . DS . $fileName . static::$logFileExtention;
             if (!file_exists($fileAddress)) {
-                if (!is_writable(LOG_FOLDER_PATH)) {
-                    static::throwException($dirNotWritableMessage);
-                } else {
+                if (is_writable(LOG_FOLDER_PATH . $fileName)) {
                     $fileHandle = fopen($fileAddress, 'a');
                     fclose($fileHandle);
+                } else {
+                    $dirNotWritableMessageInside = 'The Log Directory Is Not Writable, Please Change Its Permission To 777 And Then Refresh The Page,<br /> If You Did Not Get Any Messages Like This Again, Change That Folder\'s Permission to 755, <br /> Directory Address: <strong> ' . LOG_FOLDER_PATH .$fileName. ' </strong>';
+                    static::throwException($dirNotWritableMessageInside);
                 }
                 static::checkingLogFiles($fileAddress);
             }
@@ -114,6 +135,30 @@ final class ErrorReporting {
      */
     public static function showErrorTypes() {
         return static::$errorTypes;
+    }
+
+    private static function spliteLogFile($fileName) {
+        if(file_exists(LOG_FOLDER_PATH . $fileName .DS .$fileName. static::$logFileExtention)) {
+            $fileAbsolutePath = LOG_FOLDER_PATH . $fileName .DS.$fileName . static::$logFileExtention;
+            $fileSize = filesize($fileAbsolutePath);
+            $date = strftime("%Y_%m_%d_%H_%M_%S", time());
+            $fileNewAbsolutePath = LOG_FOLDER_PATH . $fileName .DS. $date . '__' . $fileName . static::$logFileExtention;
+            if ($fileSize >= static::$logFileSize) {
+                if (false === rename($fileAbsolutePath, $fileNewAbsolutePath))
+                    static::reportError('The Log File Could Not Be Renamed!', __LINE__, __METHOD__,false);
+                else
+                    return false;
+            }
+        }
+    }
+    
+    /**
+     *  With this method we are able to set/change the file limitation size,
+     *  Remember that it must be an integer and it must be in bytes!
+     * @param integer $fileSize 
+     */
+    public static function setFileSize($fileSize){
+        static::$logFileSize = (int)$fileSize;
     }
 
 }
