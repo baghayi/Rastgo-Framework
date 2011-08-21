@@ -2,7 +2,7 @@
 final class Loader {
     protected $registry;
 
-    function __construct(root\application\Registry\Registry $registry) {
+    public function __construct(root\application\Registry\Registry $registry) {
         $this->registry = $registry;
     }
 
@@ -28,13 +28,38 @@ final class Loader {
     }
 
     public static function autoLoader($namespace) {
-
+        /**
+         * First, We are Converting the name space to an array
+         */
         $filePath = explode('\\', $namespace);
+        /**
+         * To take the Class name (Not class file name) from the end of the namespace
+         */
         $className = array_pop($filePath);
+        /**
+         * to remove the root key from the beggining of the namespace
+         */
         array_shift($filePath);
+        
+        /**
+         * After taking and removing those stuffs, then we are converting namespace from array to an string 
+         * using the directory seperator that it can work perfectly in every OS (like: windows, linux, ...)
+         */
         $filePath = implode(DS, $filePath);
+        /**
+         * Now we have just removed that root key from the beggining of the namespace that was extra and also
+         * Took the Class name (not its file name) from the namespace
+         * And now we have got the address to the class file from the root of the Framework,
+         * 
+         * It means that with combining the (FILE_PATH) constant that gives us the absolute path to the Framework's root and having the address of the class name in the
+         * Framework (that we it is) and adding the file extention to these things we can have the full path to that class that was called!
+         */
         $filePath = FILE_PATH . $filePath . '.php';
-
+        
+        /*
+         * We are checking to see whether that class exists or not,
+         * If it exists then we are calling that class with using the (require_once) function
+         */
         if (file_exists($filePath)) {
             require_once $filePath;
         }
