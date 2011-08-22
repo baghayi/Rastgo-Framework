@@ -1,12 +1,9 @@
 <?php
 final class Loader {
-    protected $registry;
-
-    public function __construct(root\application\Registry\Registry $registry) {
-        $this->registry = $registry;
-    }
 
     public function loadModel($ModleName) {
+        global $registry;
+
         $ModelCompleteName = $ModleName . 'Model';
         $ModelPath = FILE_PATH . 'application' . DS . 'models' . DS . $ModelCompleteName . '.php';
 
@@ -15,7 +12,7 @@ final class Loader {
             require_once $ModelPath;
 
             if (class_exists($ModelCompleteName))
-                $this->registry->model = new $ModelCompleteName;
+                $registry->model = new $ModelCompleteName;
             else
                 root\library\ErrorReporting\index\ErrorReporting::reportError ('Model Class Does Not Exists!', __LINE__, __METHOD__, true);
         }else {
