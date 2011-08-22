@@ -3,63 +3,80 @@
  * Database setting,
  * Put Your own information here:
  */
-DatabaseConfig::setDBname('test');
-DatabaseConfig::setDBUsername('root');
-DatabaseConfig::setDBPassword('demo');
-DatabaseConfig::setDBHost('localhost');
-DatabaseConfig::setDBType('mysql');
-DatabaseConfig::setDBPort('3306');
+$dbConfig = array();
+$dbConfig['name'] = 'test';
+$dbConfig['username'] = 'root';
+$dbConfig['password'] = 'demo';
+$dbConfig['host'] = 'localhost';
+$dbConfig['type'] = 'mysql';
+$dbConfig['port'] = 3306;
 
 final class DatabaseConfig {
-    private static $dbName, $dbUsername, $dbPassword, $dbHost, $dbType, $dbPort = 3306;
-
-    public static function setDBName($dbName){
-        static::$dbName = $dbName;
+    private $dbName, $dbUsername, $dbPassword, $dbHost, $dbType, $dbPort = 3306;
+    
+    public function __construct($dbConfigInfo) {
+        if(!is_array($dbConfigInfo))
+            \root\library\ErrorReporting\index\ErrorReporting::reportError ('The Entered Parameter In Not Az Array! <br />It Must Be An Array!', __LINE__, __METHOD__, true);
+        elseif(is_array($dbConfigInfo)){
+            $parameters = array('name'=>'setDBName','username'=>'setDBUsername','password'=>'setDBPassword','host'=>'setDBHost','type'=>'setDBType','port'=>'setDBPort');
+            foreach($dbConfigInfo as $key => $value){
+                foreach ($parameters as $parmKey => $paramValue){
+                    if($key === $parmKey){
+                        $this->{$paramValue}($value);
+                        continue;
+                    }
+                }
+            }
+        }
     }
     
-    public static function setDBUsername($dbUsername){
-        static::$dbUsername = $dbUsername;
+    public function setDBName($dbName){
+        $this->dbName = $dbName;
     }
     
-    public static function setDBPassword($dbPassword){
-        static::$dbPassword = $dbPassword;
+    public function setDBUsername($dbUsername){
+        $this->dbUsername = $dbUsername;
     }
     
-    public static function setDBHost($dbHost){
-        static::$dbHost = $dbHost;
+    public function setDBPassword($dbPassword){
+        $this->dbPassword = $dbPassword;
     }
     
-    public static function setDBType($dbType){
-        static::$dbType = $dbType;
+    public function setDBHost($dbHost){
+        $this->dbHost = $dbHost;
     }
     
-    public static function setDBPort($dbPort){
-        static::$dbPort = $dbPort;
+    public function setDBType($dbType){
+        $this->dbType = $dbType;
     }
     
-    public static function getDBName(){
-        return static::$dbName;
+    public function setDBPort($dbPort){
+        $this->dbPort = $dbPort;
+    }
+    
+    public function getDBName(){
+        return $this->dbName;
         
     }
     
-    public static function getDBUsername(){
-        return static::$dbUsername;
+    public function getDBUsername(){
+        return $this->dbUsername;
     }
     
-    public static function getDBPassword(){
-        return static::$dbPassword;
+    public function getDBPassword(){
+        return $this->dbPassword;
     }
     
-    public static function getDBHost(){
-        return static::$dbHost;
+    public function getDBHost(){
+        return $this->dbHost;
     }
     
-    public static function getDBType(){
-        return static::$dbType;
+    public function getDBType(){
+        return $this->dbType;
     }
     
-    public static function getDBPort(){
-        return static::$dbPort;
+    public function getDBPort(){
+        return $this->dbPort;
     }
 
 }
