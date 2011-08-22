@@ -1,16 +1,9 @@
 <?php
 namespace root\application\Router;
 class Router {
-    private $controller, $method, $args,$controllerInstance;
-    private $controllerName, $controllerAddress;
-    public $registry;
+    private $controllerInstance, $controllerName, $controllerAddress;
     
-    public function __construct(\root\application\Registry\Registry $registry) {
-        $this->registry = $registry;
-        $this->controller = $registry->request->getController();
-        $this->method     = $registry->request->getMethod();
-        $this->args       = $registry->request->getArgs();
-        
+    public function __construct() {
         $this->getController();
         $this->instantiatingController();
         $this->checkingMethod();
@@ -18,9 +11,11 @@ class Router {
     }
     
     private function getController(){
-        $controllerAddress = FILE_PATH . 'application' . DS . 'controllers' . DS . $this->controller . 'Controller.php';
+        global $registry;
+        
+        $controllerAddress = FILE_PATH . 'application' . DS . 'controllers' . DS . $registry->request->getController() . 'Controller.php';
         if(file_exists($controllerAddress) and is_readable($controllerAddress)){
-            $this->controllerName = $this->controller . 'Controller';
+            $this->controllerName = $registry->request->getController() . 'Controller';
             $this->controllerAddress = $controllerAddress;
             return true;
         }
@@ -31,7 +26,7 @@ class Router {
     private function instantiatingController(){
         require_once FILE_PATH . 'application' . DS . 'baseController.php';
         require_once $this->controllerAddress;
-        $this->controllerInstance = new $this->controllerName($this->registry);
+        $this->controllerInstance = new $this->controllerName();
         if($this->controllerInstance){
             return true;
         }
@@ -39,16 +34,21 @@ class Router {
     }
     
     private function checkingMethod(){
-        if(!method_exists($this->controllerName, $this->method)){
-            \root\library\ErrorReporting\index\ErrorReporting::reportError('Entered Method ( '. $this->registry->request->getMethod() .' ) Cound Not Be Found', __LINE__, __METHOD__, true);
+        global $registry;
+        
+        if(!method_exists($this->controllerName, $registry->request->getMethod())){
+            \root\library\ErrorReporting\index\ErrorReporting::reportError('Entered Method ( '. $registry->request->getMethod() .' ) Cound Not Be Found', __LINE__, __METHOD__, true);
         }
     }
     
     private function callingMethod(){
-        if(empty($this->args)){
-            call_user_func(array($this->controllerName,$this->method));
+        global $registry;
+        
+        $args = $registry->request->getArgs();
+        if(empty($args)){
+            call_user_func(array($this->controllerName,$registry->request->getMethod()));
         }else{
-            call_user_func_array(array($this->controllerName,$this->method), $this->args);
+            call_user_func_array(array($this->controllerName,$registry->request->getMethod()), $registry->request->getArgs());
         }
     }
 
