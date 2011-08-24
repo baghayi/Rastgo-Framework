@@ -7,11 +7,26 @@ abstract class baseController {
         $registry->view->setBaseDir(TEMPLATE_DIR_ADDRESS);
     }
     
-    protected static function loadModel($loadMethod = false){
+    protected static function loadModel($loadMethod = false, $modelName = null, $modelMethod = null){
         global $registry;
-        $registry->loader->loadModel($registry->request->getController());
-        if($loadMethod === TRUE)
-            return $registry->model->{$registry->request->getMethod()}();
+        if($modelName !== null)
+            $modelToBeCalled = $modelName;
+        else
+            $modelToBeCalled = $registry->request->getController();
+        
+        if($modelMethod !== null)
+            $modelMethodCalled = $modelMethod;
+        else
+            $modelMethodCalled = $registry->request->getMethod();
+            
+        $registry->loader->loadModel($modelToBeCalled);
+        if($loadMethod === TRUE){
+            if(method_exists($modelToBeCalled.'Model',$modelMethodCalled))
+                return $registry->model->{$modelMethodCalled}();
+            else
+                \root\library\ErrorReporting\index\ErrorReporting::reportError ('Requested Method Via The Controller Does Not Exists In The Model File.', __LINE__, __METHOD__,true);
+                    
+        }
     }
 
     public abstract function index();
