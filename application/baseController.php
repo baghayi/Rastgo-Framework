@@ -4,6 +4,7 @@ abstract class baseController {
     public function __construct() {
         global $registry;
         $registry->view = new \root\application\View\View();
+        $registry->view->setBaseDir(TEMPLATE_DIR_ADDRESS);
     }
     
     protected static function loadModel($loadMethod = false){
