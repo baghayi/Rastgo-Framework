@@ -14,9 +14,9 @@ final class Loader {
             if (class_exists($ModelCompleteName))
                 $registry->model = new $ModelCompleteName;
             else
-                root\library\ErrorReporting\index\ErrorReporting::reportError ('Model Class Does Not Exists!', __LINE__, __METHOD__, true);
+                $registry->reportError ('Model Class Does Not Exists!', __LINE__, __METHOD__, true);
         }else {
-            root\library\ErrorReporting\index\ErrorReporting::reportError('Model File Could Not Be Found!', __LINE__, __METHOD__, true);
+            $registry->reportError('Model File Could Not Be Found!', __LINE__, __METHOD__, true);
         }
     }
 
