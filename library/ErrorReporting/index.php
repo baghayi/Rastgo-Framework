@@ -74,7 +74,7 @@ final class ErrorReporting {
      */
     private function createLogFiles() {
         $dirNotWritableMessage = 'The Log Directory Is Not Writable, Please Change Its Permission To 777 And Then Refresh The Page,<br /> If You Did Not Get Any Messages Like This Again, Change That File\'s Permission to 755, <br /> Directory Address: <strong> ' . LOG_FOLDER_PATH . ' </strong>';
-        foreach ($this->$errorTypes as $fileName) {
+        foreach ($this->errorTypes as $fileName) {
             /**
              * Checing for directories,
              */
