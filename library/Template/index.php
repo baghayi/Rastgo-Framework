@@ -53,13 +53,14 @@ class Template {
      * @return string returns the rendered template file 
      */
     public function loadTemplate($template, $vars = array(), $baseDir=null) {
+        global $registry;
         if ($baseDir == null) {
             $baseDir = $this->getBaseDir();
         }
 
         $templatePath = $baseDir . '/' . $template . '' . $this->getExtension();
         if (!file_exists($templatePath)) {
-            \root\library\ErrorReporting\index\ErrorReporting::reportError('Could not include template ' . $templatePath, __LINE__, __METHOD__, true);
+            $registry->reportError('Could not include template ' . $templatePath, __LINE__, __METHOD__, true);
         }
 
         return $this->loadTemplateFile($templatePath, $vars);
