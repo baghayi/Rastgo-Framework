@@ -60,7 +60,7 @@ class Template {
 
         $templatePath = $baseDir . '/' . $template . '' . $this->getExtension();
         if (!file_exists($templatePath)) {
-            $registry->reportError('Could not include template ' . $templatePath, __LINE__, __METHOD__, true);
+            $registry->error->reportError('Could not include template ' . $templatePath, __LINE__, __METHOD__, true);
         }
 
         return $this->loadTemplateFile($templatePath, $vars);
