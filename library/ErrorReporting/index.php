@@ -1,29 +1,27 @@
 <?php
-
 namespace root\library\ErrorReporting\index;
 
 final class ErrorReporting {
-
     /**
      * With this property we want to seperate the error messages in files instead of putting all error messages toghether in a one file,
      * And this array are going to be equaled with one parameter of the reportError() method,
      * @errorTypes array
      */
-    private static $errorTypes = array('database', 'authentication', 'others');
-    private static $logFileExtention = '.txt';
+    private $errorTypes = array('database', 'authentication', 'others');
+    private $logFileExtention = '.txt';
     /**
      *  This property is going to contain the complete error, includes error line, error method, can cantain IP, the main message, ...
      *  To log it and or even throw it as a exception
      * @reportedError string 
      */
-    private static $reportedError;
+    private $reportedError;
     /**
      * The size of the each log files, A limitation for Log Files
      * The number is in byte,
      * And by default it's 10 M or 10000000 bytes
      * @var integer  $logFileSize
      */
-    private static $logFileSize = 10000000;
+    private $logFileSize = 10000000;
 
     /**
      *  This is the main method that we can report errors with it,
@@ -34,18 +32,18 @@ final class ErrorReporting {
      * @param boolean $throwException
      * @param string $errorType 
      */
-    public static function reportError($message, $line, $methodName, $throwException = FALSE, $errorType = 'others') {
+    public function reportError($message, $line, $methodName, $throwException = FALSE, $errorType = 'others') {
         $TodaysDate_Time = strftime("%c");
         $userIPAddress = $_SERVER['REMOTE_ADDR'];
         $referedPlace = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '---';
-        static::$reportedError = "- {$TodaysDate_Time} | {$userIPAddress} | Error Message: {$message}, At line: {$line}, In Method: {$methodName}, The Referer Address: {$referedPlace} . \r\n";
-        static::spliteLogFile($errorType);
-        static::WriteInLogFile($errorType);
+        $this->reportedError = "- {$TodaysDate_Time} | {$userIPAddress} | Error Message: {$message}, At line: {$line}, In Method: {$methodName}, The Referer Address: {$referedPlace} . \r\n";
+        $this->spliteLogFile($errorType);
+        $this->WriteInLogFile($errorType);
         if ($throwException === TRUE)
-            static::throwException($message);
+            $this->throwException($message);
     }
 
-    private static function throwException($message) {
+    private function throwException($message) {
         throw new \Exception($message);
     }
 
@@ -53,20 +51,20 @@ final class ErrorReporting {
      * With this method we are wrting the error message in the log file
      * @param string $fileName 
      */
-    private static function WriteInLogFile($fileName) {
+    private function WriteInLogFile($fileName) {
         /**
          * Create And check whether log files are created or Not!\
          * If there is any problem it would be thrown an exception.
          */
-        static::createLogFiles();
+        $this->createLogFiles();
         $couldNotWriteMessage = 'Reported Message Could Not Be Written In The Log File!';
-        $fileAddress = LOG_FOLDER_PATH .$fileName . DS . $fileName . static::$logFileExtention;
+        $fileAddress = LOG_FOLDER_PATH .$fileName . DS . $fileName . $this->logFileExtention;
         if (!($handle = fopen($fileAddress, 'a'))) {
             $fileCanNotBeOpenedMessage = 'The Log File Is Not Able To Be Opened!';
-            static::throwException($fileCanNotBeOpenedMessage);
+            $this->throwException($fileCanNotBeOpenedMessage);
         }
-        if (FALSE === fwrite($handle, static::$reportedError))
-            static::throwException($couldNotWriteMessage);
+        if (FALSE === fwrite($handle, $this->reportedError))
+            $this->throwException($couldNotWriteMessage);
 
         fclose($handle);
     }
@@ -74,9 +72,9 @@ final class ErrorReporting {
     /**
      * With this method we are creating the Log files,
      */
-    private static function createLogFiles() {
+    private function createLogFiles() {
         $dirNotWritableMessage = 'The Log Directory Is Not Writable, Please Change Its Permission To 777 And Then Refresh The Page,<br /> If You Did Not Get Any Messages Like This Again, Change That File\'s Permission to 755, <br /> Directory Address: <strong> ' . LOG_FOLDER_PATH . ' </strong>';
-        foreach (static::$errorTypes as $fileName) {
+        foreach ($this->$errorTypes as $fileName) {
             /**
              * Checing for directories,
              */
@@ -84,22 +82,22 @@ final class ErrorReporting {
                 if(is_writable(LOG_FOLDER_PATH))
                     mkdir(LOG_FOLDER_PATH . $fileName);
                 else
-                    static::throwException($dirNotWritableMessage);                    
+                    $this->throwException($dirNotWritableMessage);                    
             }
             
             /**
              * Checking for log files,
              */
-            $fileAddress = LOG_FOLDER_PATH . $fileName . DS . $fileName . static::$logFileExtention;
+            $fileAddress = LOG_FOLDER_PATH . $fileName . DS . $fileName . $this->logFileExtention;
             if (!file_exists($fileAddress)) {
                 if (is_writable(LOG_FOLDER_PATH . $fileName)) {
                     $fileHandle = fopen($fileAddress, 'a');
                     fclose($fileHandle);
                 } else {
                     $dirNotWritableMessageInside = 'The Log Directory Is Not Writable, Please Change Its Permission To 777 And Then Refresh The Page,<br /> If You Did Not Get Any Messages Like This Again, Change That Folder\'s Permission to 755, <br /> Directory Address: <strong> ' . LOG_FOLDER_PATH .$fileName. ' </strong>';
-                    static::throwException($dirNotWritableMessageInside);
+                    $this->throwException($dirNotWritableMessageInside);
                 }
-                static::checkingLogFiles($fileAddress);
+                $this->checkingLogFiles($fileAddress);
             }
         }
     }
@@ -108,16 +106,16 @@ final class ErrorReporting {
      * After creating log files, with this method we are going to see whether those files are created or Not,
      * If not then an exception will be thrown!
      */
-    private static function checkingLogFiles($fileAddress) {
+    private function checkingLogFiles($fileAddress) {
         $fileDoesNotExistsMessage = 'This File Could Not Have Been Created!: <br />' . $fileAddress;
         if (!file_exists($fileAddress))
-            static::throwException($fileDoesNotExistsMessage);
+            $this->throwException($fileDoesNotExistsMessage);
         else
             return TRUE;
     }
 
-    public static function setLogFileExtension($extension) {
-        static::$logFileExtention = $extension;
+    public function setLogFileExtension($extension) {
+        $this->logFileExtention = $extension;
     }
 
     /**
@@ -125,27 +123,27 @@ final class ErrorReporting {
      * Error Types are file names that reported errors will be stored in them!
      * @param string $errorType 
      */
-    public static function addErrorType($errorType) {
-        static::$errorTypes[] = $errorType;
+    public function addErrorType($errorType) {
+        $this->errorTypes[] = $errorType;
     }
 
     /**
      * This methid can return us the Error types (file names) whicj errors will be stored in them, as an array
      * @return array
      */
-    public static function showErrorTypes() {
-        return static::$errorTypes;
+    public function showErrorTypes() {
+        return $this->errorTypes;
     }
 
-    private static function spliteLogFile($fileName) {
-        if(file_exists(LOG_FOLDER_PATH . $fileName .DS .$fileName. static::$logFileExtention)) {
-            $fileAbsolutePath = LOG_FOLDER_PATH . $fileName .DS.$fileName . static::$logFileExtention;
+    private function spliteLogFile($fileName) {
+        if(file_exists(LOG_FOLDER_PATH . $fileName .DS .$fileName. $this->logFileExtention)) {
+            $fileAbsolutePath = LOG_FOLDER_PATH . $fileName .DS.$fileName . $this->logFileExtention;
             $fileSize = filesize($fileAbsolutePath);
             $date = strftime("%Y_%m_%d_%H_%M_%S", time());
-            $fileNewAbsolutePath = LOG_FOLDER_PATH . $fileName .DS. $date . '__' . $fileName . static::$logFileExtention;
-            if ($fileSize >= static::$logFileSize) {
+            $fileNewAbsolutePath = LOG_FOLDER_PATH . $fileName .DS. $date . '__' . $fileName . $this->logFileExtention;
+            if ($fileSize >= $this->logFileSize) {
                 if (false === rename($fileAbsolutePath, $fileNewAbsolutePath))
-                    static::reportError('The Log File Could Not Be Renamed!', __LINE__, __METHOD__,false);
+                    $this->reportError('The Log File Could Not Be Renamed!', __LINE__, __METHOD__,false);
                 else
                     return false;
             }
@@ -157,8 +155,8 @@ final class ErrorReporting {
      *  Remember that it must be an integer and it must be in bytes!
      * @param integer $fileSize 
      */
-    public static function setFileSize($fileSize){
-        static::$logFileSize = (int)$fileSize;
+    public function setFileSize($fileSize){
+        $this->logFileSize = (int)$fileSize;
     }
 
 }
