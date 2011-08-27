@@ -24,7 +24,7 @@ abstract class baseController {
             if(method_exists($modelToBeCalled.'Model',$modelMethodCalled))
                 return $registry->model->{$modelMethodCalled}();
             else
-                \root\library\ErrorReporting\index\ErrorReporting::reportError ('Requested Method Via The Controller Does Not Exists In The Model File.', __LINE__, __METHOD__,true);
+                $registry->reportError ('Requested Method Via The Controller Does Not Exists In The Model File.', __LINE__, __METHOD__,true);
                     
         }
     }
