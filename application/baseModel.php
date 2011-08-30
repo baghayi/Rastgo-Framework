@@ -8,6 +8,7 @@ abstract class baseModel extends PDO {
         $username = $registry->db->getDBUsername();
         $passwd = $registry->db->getDBPassword();
         parent::__construct($dsn, $username, $passwd);
+        return;
     }
     
     public abstract function index();
