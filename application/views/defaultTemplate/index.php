@@ -2,7 +2,7 @@
     <html>
         <head>
             <title><?=$title?></title>
-            <link rel="stylesheet" href="<?php echo SITE_TEMPLATE_PATH . 'stylesheets' . DS .'style.css'; ?>" type="text/css" /> 
+            <link rel="stylesheet" href="<?php echo TEMPLATE_URL . 'stylesheets' . DS .'style.css'; ?>" type="text/css" /> 
         </head>
         <body>
             <div id="maindiv">
