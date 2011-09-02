@@ -24,13 +24,14 @@ require_once FILE_PATH . 'config' . DS . 'database.php';
  * Site address, 
  * Like: http://127.0.0.1/.../current_directory
  */
-define('SITE_PATH', WEB_PROTOCOL . '://'.$_SERVER["SERVER_NAME"].'/'.SCRIPT_ROOT_FOLDER_NAME.'/');
-
+$url_value = (SCRIPT_ROOT_FOLDER_NAME == '')? '': SCRIPT_ROOT_FOLDER_NAME .'/';
+define('URL', WEB_PROTOCOL . '://'.$_SERVER["SERVER_NAME"].'/'. $url_value);
+echo URL;
 /**
  * Site Path to the template, 
  * For loading stylesheets, or javascripts, ..
  */
-define('SITE_TEMPLATE_PATH', SITE_PATH  . 'application' . DS . 'views' . DS . TEMPLATE_FOLDER_NAME . DS);
+define('TEMPLATE_URL', URL  . 'application' . DS . 'views' . DS . TEMPLATE_FOLDER_NAME . DS);
 
 /**
  * Full address of template in view folder,
