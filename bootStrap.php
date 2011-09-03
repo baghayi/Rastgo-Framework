@@ -26,7 +26,6 @@ require_once FILE_PATH . 'config' . DS . 'database.php';
  */
 $url_value = (SCRIPT_ROOT_FOLDER_NAME == '')? '': SCRIPT_ROOT_FOLDER_NAME .'/';
 define('URL', WEB_PROTOCOL . '://'.$_SERVER["SERVER_NAME"].'/'. $url_value);
-echo URL;
 /**
  * Site Path to the template, 
  * For loading stylesheets, or javascripts, ..
