@@ -8,18 +8,18 @@ $dbConfig['name'] = 'test';
 $dbConfig['username'] = 'root';
 $dbConfig['password'] = 'demo';
 $dbConfig['host'] = 'localhost';
-$dbConfig['type'] = 'mysql';
+$dbConfig['driver'] = 'mysql';
 $dbConfig['port'] = 3306;
 
 final class DatabaseConfig {
-    private $dbName, $dbUsername, $dbPassword, $dbHost, $dbType, $dbPort = 3306;
+    private $dbName, $dbUsername, $dbPassword, $dbHost, $dbDriver, $dbPort = 3306;
     
     public function __construct($dbConfigInfo) {
         global $registry;
         if(!is_array($dbConfigInfo))
             $registry->error->reportError ('The Entered Parameter In Not Az Array! <br />It Must Be An Array!', __LINE__, __METHOD__, true);
         elseif(is_array($dbConfigInfo)){
-            $parameters = array('name'=>'setDBName','username'=>'setDBUsername','password'=>'setDBPassword','host'=>'setDBHost','type'=>'setDBType','port'=>'setDBPort');
+            $parameters = array('name'=>'setDBName','username'=>'setDBUsername','password'=>'setDBPassword','host'=>'setDBHost','driver'=>'setDBDriver','port'=>'setDBPort');
             foreach($dbConfigInfo as $key => $value){
                 foreach ($parameters as $parmKey => $paramValue){
                     if($key === $parmKey){
@@ -47,8 +47,8 @@ final class DatabaseConfig {
         $this->dbHost = $dbHost;
     }
     
-    public function setDBType($dbType){
-        $this->dbType = $dbType;
+    public function setDBDriver($dbDriver){
+        $this->dbDriver = $dbDriver;
     }
     
     public function setDBPort($dbPort){
@@ -72,8 +72,8 @@ final class DatabaseConfig {
         return $this->dbHost;
     }
     
-    public function getDBType(){
-        return $this->dbType;
+    public function getDBDriver(){
+        return $this->dbDriver;
     }
     
     public function getDBPort(){
