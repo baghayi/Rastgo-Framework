@@ -8,6 +8,7 @@ class Router {
         $this->instantiatingController();
         $this->checkingMethod();
         $this->callingMethod();
+        return;
     }
     
     private function getController(){
@@ -28,10 +29,11 @@ class Router {
         require_once FILE_PATH . 'application' . DS . 'baseController.php';
         require_once $this->controllerAddress;
         $this->controllerInstance = new $this->controllerName();
-        if($this->controllerInstance){
+        if(is_a($this->controllerInstance, $this->controllerName)){
             return true;
         }
-        $registry->error->reportError('Controller Counld Be instantiated.', __LINE__, __METHOD__, true);
+        $registry->error->reportError('Controller Counld Not Be instantiated.', __LINE__, __METHOD__, true);
+        return FALSE;
     }
     
     private function checkingMethod(){
@@ -39,7 +41,9 @@ class Router {
         
         if(!method_exists($this->controllerName, $registry->request->getMethod())){
             $registry->error->reportError('Entered Method ( '. $registry->request->getMethod() .' ) Cound Not Be Found', __LINE__, __METHOD__, true);
+            return FALSE;
         }
+        return TRUE;
     }
     
     private function callingMethod(){
@@ -48,8 +52,10 @@ class Router {
         $args = $registry->request->getArgs();
         if(empty($args)){
             call_user_func(array($this->controllerName,$registry->request->getMethod()));
+            return TRUE;
         }else{
             call_user_func_array(array($this->controllerName,$registry->request->getMethod()), $registry->request->getArgs());
+            return TRUE;
         }
     }
 
