@@ -52,9 +52,9 @@ class Template {
      * @param string $baseDir The folder of template files where they are located
      * @return string returns the rendered template file 
      */
-    public function loadTemplate($template, $vars = array(), $baseDir=null) {
+    public function loadTemplate($template, $vars = array(), $baseDir=NULL) {
         global $registry;
-        if ($baseDir == null) {
+        if ($baseDir == NULL) {
             $baseDir = $this->getBaseDir();
         }
 
@@ -72,7 +72,7 @@ class Template {
      * @param array $vars The name and value of variables in template file to replace them with our values
      * @param string $baseDir The folder of template files where they are located
      */
-    public function renderTemplate($template, $vars = array(), $baseDir=null) {
+    public function renderTemplate($template, $vars = array(), $baseDir=NULL) {
         echo $this->loadTemplate($template, $vars, $baseDir);
     }
 

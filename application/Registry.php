@@ -3,7 +3,7 @@ namespace root\application\Registry;
 
 final class Registry {
     private $registry = array();
-    private static $instance = null;
+    private static $instance = NULL;
     
     public static function getInstance(){
         if(empty(self::$instance)){

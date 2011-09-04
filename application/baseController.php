@@ -7,14 +7,14 @@ abstract class baseController {
         $registry->view->setBaseDir(TEMPLATE_DIR_ADDRESS);
     }
     
-    protected static function loadModel($loadDefaultMethod = false, $modelName = null, $modelMethod = null){
+    protected static function loadModel($loadDefaultMethod = false, $modelName = NULL, $modelMethod = NULL){
         global $registry;
-        if($modelName !== null)
+        if($modelName !== NULL)
             $modelToBeCalled = $modelName;
         else
             $modelToBeCalled = $registry->request->getController();
         
-        if($modelMethod !== null)
+        if($modelMethod !== NULL)
             $modelMethodCalled = $modelMethod;
         else
             $modelMethodCalled = $registry->request->getMethod();
