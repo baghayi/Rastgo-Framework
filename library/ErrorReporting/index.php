@@ -41,10 +41,13 @@ final class ErrorReporting {
         $this->WriteInLogFile($errorType);
         if ($throwException === TRUE)
             $this->throwException($message);
+        
+        return TRUE;
     }
 
     private function throwException($message) {
         throw new \Exception($message);
+        return true;
     }
 
     /**
@@ -57,23 +60,23 @@ final class ErrorReporting {
          * If there is any problem it would be thrown an exception.
          */
         $this->createLogFiles();
-        $couldNotWriteMessage = 'Reported Message Could Not Be Written In The Log File!';
         $fileAddress = LOG_FOLDER_PATH .$fileName . DS . $fileName . $this->logFileExtention;
         if (!($handle = fopen($fileAddress, 'a'))) {
-            $fileCanNotBeOpenedMessage = 'The Log File Is Not Able To Be Opened!';
-            $this->throwException($fileCanNotBeOpenedMessage);
+            $this->throwException('The Log File Is Not Able To Be Opened!');
+            return FALSE;
         }
-        if (FALSE === fwrite($handle, $this->reportedError))
-            $this->throwException($couldNotWriteMessage);
-
+        if (FALSE === fwrite($handle, $this->reportedError)){
+            $this->throwException('Reported Message Could Not Be Written In The Log File!');
+            return FALSE;
+        }
         fclose($handle);
+        return TRUE;
     }
 
     /**
      * With this method we are creating the Log files,
      */
     private function createLogFiles() {
-        $dirNotWritableMessage = 'The Log Directory Is Not Writable, Please Change Its Permission To 777 And Then Refresh The Page,<br /> If You Did Not Get Any Messages Like This Again, Change That File\'s Permission to 755, <br /> Directory Address: <strong> ' . LOG_FOLDER_PATH . ' </strong>';
         foreach ($this->errorTypes as $fileName) {
             /**
              * Checing for directories,
@@ -81,8 +84,10 @@ final class ErrorReporting {
             if(!file_exists(LOG_FOLDER_PATH . $fileName) or !is_dir(LOG_FOLDER_PATH . $fileName)){
                 if(is_writable(LOG_FOLDER_PATH))
                     mkdir(LOG_FOLDER_PATH . $fileName);
-                else
-                    $this->throwException($dirNotWritableMessage);                    
+                else{
+                    $this->throwException('The Log Directory Is Not Writable, Please Change Its Permission To 777 And Then Refresh The Page,<br /> If You Did Not Get Any Messages Like This Again, Change That File\'s Permission to 755, <br /> Directory Address: <strong> ' . LOG_FOLDER_PATH . ' </strong>');
+                    return FALSE;
+                }
             }
             
             /**
@@ -94,12 +99,13 @@ final class ErrorReporting {
                     $fileHandle = fopen($fileAddress, 'a');
                     fclose($fileHandle);
                 } else {
-                    $dirNotWritableMessageInside = 'The Log Directory Is Not Writable, Please Change Its Permission To 777 And Then Refresh The Page,<br /> If You Did Not Get Any Messages Like This Again, Change That Folder\'s Permission to 755, <br /> Directory Address: <strong> ' . LOG_FOLDER_PATH .$fileName. ' </strong>';
-                    $this->throwException($dirNotWritableMessageInside);
+                    $this->throwException('The Log Directory Is Not Writable, Please Change Its Permission To 777 And Then Refresh The Page,<br /> If You Did Not Get Any Messages Like This Again, Change That Folder\'s Permission to 755, <br /> Directory Address: <strong> ' . LOG_FOLDER_PATH .$fileName. ' </strong>');
+                    return FALSE;
                 }
                 $this->checkingLogFiles($fileAddress);
             }
         }
+        return TRUE;
     }
 
     /**
@@ -107,15 +113,17 @@ final class ErrorReporting {
      * If not then an exception will be thrown!
      */
     private function checkingLogFiles($fileAddress) {
-        $fileDoesNotExistsMessage = 'This File Could Not Have Been Created!: <br />' . $fileAddress;
-        if (!file_exists($fileAddress))
-            $this->throwException($fileDoesNotExistsMessage);
+        if (!file_exists($fileAddress)){
+            $this->throwException('This File Could Not Have Been Created!: <br />' . $fileAddress);
+            return FALSE;
+        }
         else
             return TRUE;
     }
 
     public function setLogFileExtension($extension) {
         $this->logFileExtention = $extension;
+        return TRUE;
     }
 
     /**
@@ -125,6 +133,7 @@ final class ErrorReporting {
      */
     public function addErrorType($errorType) {
         $this->errorTypes[] = $errorType;
+        return TRUE;
     }
 
     /**
@@ -136,18 +145,16 @@ final class ErrorReporting {
     }
 
     private function spliteLogFile($fileName) {
-        if(file_exists(LOG_FOLDER_PATH . $fileName .DS .$fileName. $this->logFileExtention)) {
-            $fileAbsolutePath = LOG_FOLDER_PATH . $fileName .DS.$fileName . $this->logFileExtention;
-            $fileSize = filesize($fileAbsolutePath);
-            $date = strftime("%Y_%m_%d_%H_%M_%S", time());
-            $fileNewAbsolutePath = LOG_FOLDER_PATH . $fileName .DS. $date . '__' . $fileName . $this->logFileExtention;
-            if ($fileSize >= $this->logFileSize) {
-                if (false === rename($fileAbsolutePath, $fileNewAbsolutePath))
+        if(file_exists($fileAbsolutePath = LOG_FOLDER_PATH . $fileName .DS .$fileName. $this->logFileExtention)) {
+            $fileNewAbsolutePath = LOG_FOLDER_PATH . $fileName .DS. strftime("%Y_%m_%d_%H_%M_%S", time()) . '__' . $fileName . $this->logFileExtention;
+            if (filesize($fileAbsolutePath) >= $this->logFileSize) {
+                if (false === rename($fileAbsolutePath, $fileNewAbsolutePath)){
                     $this->reportError('The Log File Could Not Be Renamed!', __LINE__, __METHOD__,false);
-                else
-                    return false;
+                    return FALSE;
+                }   
             }
         }
+        return true;
     }
     
     /**
@@ -157,6 +164,7 @@ final class ErrorReporting {
      */
     public function setFileSize($fileSize){
         $this->logFileSize = (int)$fileSize;
+        return TRUE;
     }
 
 }
