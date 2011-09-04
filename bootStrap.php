@@ -8,7 +8,7 @@ define('DS',DIRECTORY_SEPARATOR);
  * Script real path, ( from server's root to script root folder )
  * like, c:\\ ... | /var/www/...
  */
-define('FILE_PATH',  realpath(dirname(__FILE__)) . DS);
+define('FILE_PATH',  get_magic_quotes_gpc()? dirname(__FILE__) . DS : addslashes(dirname(__FILE__)) . DS);
 
 /**
  * including config file
