@@ -1,7 +1,6 @@
 <?php
 namespace root\library\Template\index;
 class Template {
-
     /**
      *  gives us the direction of template files where they are located
      * @var string $baseDir
@@ -19,6 +18,7 @@ class Template {
      */
     public function setBaseDir($dir) {
         $this->baseDir = $dir;
+        return TRUE;
     }
 
     /**
@@ -35,6 +35,7 @@ class Template {
      */
     public function setExtension($ext) {
         $this->defaultTemplateExtension = $ext;
+        return TRUE;
     }
 
     /**
@@ -54,15 +55,14 @@ class Template {
      */
     public function loadTemplate($template, $vars = array(), $baseDir=NULL) {
         global $registry;
-        if ($baseDir == NULL) {
+        if ($baseDir == NULL)
             $baseDir = $this->getBaseDir();
-        }
 
-        $templatePath = $baseDir . '/' . $template . '' . $this->getExtension();
+        $templatePath = $baseDir . DS . $template . $this->getExtension();
         if (!file_exists($templatePath)) {
             $registry->error->reportError('Could not include template ' . $templatePath, __LINE__, __METHOD__, true);
+            return FALSE;
         }
-
         return $this->loadTemplateFile($templatePath, $vars);
     }
 
@@ -74,6 +74,7 @@ class Template {
      */
     public function renderTemplate($template, $vars = array(), $baseDir=NULL) {
         echo $this->loadTemplate($template, $vars, $baseDir);
+        return;
     }
 
     /**
@@ -84,11 +85,9 @@ class Template {
      */
     private function loadTemplateFile($templatePath, $vars) {
         extract($vars, EXTR_OVERWRITE);
-        $template_return = '';
         ob_start();
         require $templatePath;
-        $template_return = ob_get_clean();
-        return $template_return;
+        return ob_get_clean();
     }
 
 }
