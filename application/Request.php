@@ -6,7 +6,6 @@ final class Request {
     private static $defaultController = 'index', $defaultMethod = 'index';
 
     function __construct() {
-        
         /**
          * Taking the the URL and cleaning it with the current filder name and then,
          * We could been able to extract controller, method and arguments .
@@ -30,6 +29,8 @@ final class Request {
          * Getting All of the Arguments,
          */
         $this->args = isset($url[0])? $url : array();
+        
+        return;
     }
     
     public function getController(){
@@ -46,9 +47,11 @@ final class Request {
     
     public static function setDefaultController($controller){
         self::$defaultController = $controller;
+        return TRUE;
     }
     public static function sefDefaultMethod($method){
         self::$defaultMethod = $method;
+        return TRUE;
     }
 
 }

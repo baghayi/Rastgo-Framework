@@ -11,20 +11,26 @@ final class Loader {
             require_once FILE_PATH . 'application' . DS . 'baseModel.php';
             require_once $ModelPath;
 
-            if (class_exists($ModelCompleteName))
+            if (class_exists($ModelCompleteName)){
                 $registry->model = new $ModelCompleteName;
-            else
+                return TRUE;
+            }
+            else{
                 $registry->error->reportError ('Model Class Does Not Exists!', __LINE__, __METHOD__, true);
+                return FALSE;
+            }
         }else {
             $registry->error->reportError('Model File Could Not Be Found!', __LINE__, __METHOD__, true);
+            return FALSE;
         }
     }
 
     public static function setAutoLoader() {
         spl_autoload_register(array(__class__, 'autoLoader'));
+        return;
     }
 
-    public static function autoLoader($namespace) {
+    private static function autoLoader($namespace) {
         /**
          * First, We are Converting the name space to an array
          */
@@ -59,7 +65,9 @@ final class Loader {
          */
         if (file_exists($filePath)) {
             require_once $filePath;
+            return TRUE;
         }
+        return FALSE;
     }
 
 }

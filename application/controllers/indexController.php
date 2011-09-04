@@ -9,5 +9,6 @@ class indexController extends baseController {
             'content' => 'The Main Page Of the MVC-Based Frameword!',
             'modelmessage' => static::loadModel(true)
         ));
+        return;
     }
 }
