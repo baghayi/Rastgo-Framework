@@ -14,7 +14,7 @@ final class Registry {
     
     public function __set($var, $parm){
         $this->registry[$var] = $parm;
-        return TRUE;
+        return;
     }
     
     public function __get($var){

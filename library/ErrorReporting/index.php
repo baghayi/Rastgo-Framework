@@ -39,15 +39,15 @@ final class ErrorReporting {
         $this->reportedError = "- {$TodaysDate_Time} | {$userIPAddress} | Error Message: {$message}, At line: {$line}, In Method: {$methodName}, The Referer Address: {$referedPlace} . \r\n";
         $this->spliteLogFile($errorType);
         $this->WriteInLogFile($errorType);
-        if ($throwException === TRUE)
+        if ($throwException == TRUE)
             $this->throwException($message);
         
-        return TRUE;
+        return 1;
     }
 
     private function throwException($message) {
         throw new \Exception($message);
-        return true;
+        return;
     }
 
     /**
@@ -63,14 +63,14 @@ final class ErrorReporting {
         $fileAddress = LOG_FOLDER_PATH .$fileName . DS . $fileName . $this->logFileExtention;
         if (!($handle = fopen($fileAddress, 'a'))) {
             $this->throwException('The Log File Is Not Able To Be Opened!');
-            return FALSE;
+            return;
         }
         if (FALSE === fwrite($handle, $this->reportedError)){
             $this->throwException('Reported Message Could Not Be Written In The Log File!');
-            return FALSE;
+            return;
         }
         fclose($handle);
-        return TRUE;
+        return 1;
     }
 
     /**
@@ -86,7 +86,7 @@ final class ErrorReporting {
                     mkdir(LOG_FOLDER_PATH . $fileName);
                 else{
                     $this->throwException('The Log Directory Is Not Writable, Please Change Its Permission To 777 And Then Refresh The Page,<br /> If You Did Not Get Any Messages Like This Again, Change That File\'s Permission to 755, <br /> Directory Address: <strong> ' . LOG_FOLDER_PATH . ' </strong>');
-                    return FALSE;
+                    return;
                 }
             }
             
@@ -100,12 +100,12 @@ final class ErrorReporting {
                     fclose($fileHandle);
                 } else {
                     $this->throwException('The Log Directory Is Not Writable, Please Change Its Permission To 777 And Then Refresh The Page,<br /> If You Did Not Get Any Messages Like This Again, Change That Folder\'s Permission to 755, <br /> Directory Address: <strong> ' . LOG_FOLDER_PATH .$fileName. ' </strong>');
-                    return FALSE;
+                    return;
                 }
                 $this->checkingLogFiles($fileAddress);
             }
         }
-        return TRUE;
+        return 1;
     }
 
     /**
@@ -115,15 +115,15 @@ final class ErrorReporting {
     private function checkingLogFiles($fileAddress) {
         if (!file_exists($fileAddress)){
             $this->throwException('This File Could Not Have Been Created!: <br />' . $fileAddress);
-            return FALSE;
+            return;
         }
         else
-            return TRUE;
+            return 1;
     }
 
     public function setLogFileExtension($extension) {
         $this->logFileExtention = $extension;
-        return TRUE;
+        return 1;
     }
 
     /**
@@ -133,7 +133,7 @@ final class ErrorReporting {
      */
     public function addErrorType($errorType) {
         $this->errorTypes[] = $errorType;
-        return TRUE;
+        return 1;
     }
 
     /**
@@ -150,11 +150,11 @@ final class ErrorReporting {
             if (filesize($fileAbsolutePath) >= $this->logFileSize) {
                 if (false === rename($fileAbsolutePath, $fileNewAbsolutePath)){
                     $this->reportError('The Log File Could Not Be Renamed!', __LINE__, __METHOD__,false);
-                    return FALSE;
+                    return;
                 }   
             }
         }
-        return true;
+        return 1;
     }
     
     /**
@@ -164,7 +164,7 @@ final class ErrorReporting {
      */
     public function setFileSize($fileSize){
         $this->logFileSize = (int)$fileSize;
-        return TRUE;
+        return 1;
     }
 
 }

@@ -26,10 +26,10 @@ abstract class baseController {
                 return $registry->model->{$modelMethodCalled}();
             else{
                 $registry->error->reportError('Requested Method Via The Controller Does Not Exists In The Model File.', __LINE__, __METHOD__,true);
-                return FALSE;
+                return;
             }
         }
-        return TRUE;
+        return 1;
     }
 
     public abstract function index();

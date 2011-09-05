@@ -18,7 +18,7 @@ class Template {
      */
     public function setBaseDir($dir) {
         $this->baseDir = $dir;
-        return TRUE;
+        return 1;
     }
 
     /**
@@ -35,7 +35,7 @@ class Template {
      */
     public function setExtension($ext) {
         $this->defaultTemplateExtension = $ext;
-        return TRUE;
+        return 1;
     }
 
     /**
@@ -61,7 +61,7 @@ class Template {
         $templatePath = $baseDir . DS . $template . $this->getExtension();
         if (!file_exists($templatePath)) {
             $registry->error->reportError('Could not include template ' . $templatePath, __LINE__, __METHOD__, true);
-            return FALSE;
+            return;
         }
         return $this->loadTemplateFile($templatePath, $vars);
     }
@@ -91,4 +91,3 @@ class Template {
     }
 
 }
-?>

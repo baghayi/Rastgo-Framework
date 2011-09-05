@@ -13,15 +13,15 @@ final class Loader {
 
             if (class_exists($ModelCompleteName)){
                 $registry->model = new $ModelCompleteName;
-                return TRUE;
+                return 1;
             }
             else{
                 $registry->error->reportError ('Model Class Does Not Exists!', __LINE__, __METHOD__, true);
-                return FALSE;
+                return;
             }
         }else {
             $registry->error->reportError('Model File Could Not Be Found!', __LINE__, __METHOD__, true);
-            return FALSE;
+            return;
         }
     }
 
@@ -65,9 +65,9 @@ final class Loader {
          */
         if (file_exists($filePath)) {
             require_once $filePath;
-            return TRUE;
+            return 1;
         }
-        return FALSE;
+        return 0;
     }
 
 }

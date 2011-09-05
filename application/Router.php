@@ -18,10 +18,10 @@ class Router {
         if(file_exists($controllerAddress) and is_readable($controllerAddress)){
             $this->controllerName = $registry->request->getController() . 'Controller';
             $this->controllerAddress = $controllerAddress;
-            return true;
+            return 1;
         }
         $registry->error->reportError('404 Error: The Controller File Does Not Exist!', __LINE__, __METHOD__, true);
-        return false;
+        return;
     }
     
     private function instantiatingController(){
@@ -30,10 +30,10 @@ class Router {
         require_once $this->controllerAddress;
         $this->controllerInstance = new $this->controllerName();
         if(is_a($this->controllerInstance, $this->controllerName)){
-            return true;
+            return 1;
         }
         $registry->error->reportError('Controller Counld Not Be instantiated.', __LINE__, __METHOD__, true);
-        return FALSE;
+        return;
     }
     
     private function checkingMethod(){
@@ -41,9 +41,9 @@ class Router {
         
         if(!method_exists($this->controllerName, $registry->request->getMethod())){
             $registry->error->reportError('Entered Method ( '. $registry->request->getMethod() .' ) Cound Not Be Found', __LINE__, __METHOD__, true);
-            return FALSE;
+            return;
         }
-        return TRUE;
+        return 1;
     }
     
     private function callingMethod(){
@@ -52,10 +52,10 @@ class Router {
         $args = $registry->request->getArgs();
         if(empty($args)){
             call_user_func(array($this->controllerName,$registry->request->getMethod()));
-            return TRUE;
+            return 1;
         }else{
             call_user_func_array(array($this->controllerName,$registry->request->getMethod()), $registry->request->getArgs());
-            return TRUE;
+            return 1;
         }
     }
 

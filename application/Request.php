@@ -47,11 +47,11 @@ final class Request {
     
     public static function setDefaultController($controller){
         self::$defaultController = $controller;
-        return TRUE;
+        return 1;
     }
     public static function sefDefaultMethod($method){
         self::$defaultMethod = $method;
-        return TRUE;
+        return 1;
     }
 
 }
