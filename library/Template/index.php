@@ -5,7 +5,7 @@ class Template {
      *  gives us the direction of template files where they are located
      * @var string $baseDir
      */
-    private $baseDir = '.';
+    private $baseDir = TEMPLATE_DIR_ADDRESS;
     /**
      *  The extension of template files that we are using
      * @var string $defaultTemplateExtension
