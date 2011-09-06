@@ -33,9 +33,9 @@ class Cache {
 
         if (!strlen($result)) {
             $registry->error->reportError('An Error occured while caching the content!!', __LINE__, __METHOD__, true);
-            return false;
+            return;
         } else {
-            return true;
+            return 1;
         }
     }
 
@@ -50,7 +50,7 @@ class Cache {
         $filename = $this->cacheFolderPath . $this->encryptName($name, $groupName);
         if (!file_exists($filename)) {
             $registry->error->reportError('Requested Cache File Does Not Exists.', __LINE__, __METHOD__);
-            return false;
+            return;
         }
         $content = file_get_contents($filename);
         $content = unserialize($content);
@@ -59,12 +59,12 @@ class Cache {
             return $content['content'];
         } elseif (time() > $content['creationTime'] + $content['duration']) {
             $this->deleteCache($name, $groupName);
-            return false;
+            return 0;
         } else {
             return $content['content'];
         }
     }
-    
+
     /**
      * Starts to save all stuffs in buffer
      * @return boalen, true if it's done successfuly, else false will be returned 
@@ -74,18 +74,18 @@ class Cache {
         if (!$this->hasBufferStarted) {
             ob_start();
             $this->hasBufferStarted = true;
-            return true;
+            return 1;
         }
-        return false;
+        return 0;
     }
 
-/**
- * Stops and cache the bufffer, then returning the buffered content,
- * @param string $name, A name for cache file
- * @param string $groupName, A group name for cache file
- * @param int $duration, A limited time for our cache file to stop using it if the giving time is passed,
- * @return mixed, it returns the buffered stuffs (The contents) if it was succeed, otherwise it will return false
- */
+    /**
+     * Stops and cache the bufffer, then returning the buffered content,
+     * @param string $name, A name for cache file
+     * @param string $groupName, A group name for cache file
+     * @param int $duration, A limited time for our cache file to stop using it if the giving time is passed,
+     * @return mixed, it returns the buffered stuffs (The contents) if it was succeed, otherwise it will return false
+     */
     public function cacheBuffer($name, $groupName, $duration = 3600) {
         if ($this->hasBufferStarted === true) {
             $this->bufferContent = ob_get_clean();
@@ -94,42 +94,96 @@ class Cache {
 
             return $this->bufferContent;
         }
-        return false;
+        return 0;
     }
 
     /**
      * 	Delete a cache file. Usually not used unless you create a cache file with $duration = 0 and want to regenerate the cache.
      * 	@param string $name Name of the caching file.
      *  @param string $groupName Group name of the file
-     * 	@return bool False if file doesn't exist, true if the process has been successed.
+     * 	@return int False if file doesn't exist, true if the process has been successed.
      */
     public function deleteCache($name, $groupName) {
         $filename = $this->cacheFolderPath . $this->encryptName($name, $groupName);
         if (!file_exists($filename)) {
-            return false;
+            return 0;
         } else {
             unlink($filename);
-            return true;
+            return 1;
         }
     }
-    
-    public function deleteAGroup($groupName){
-        
+
+    /**
+     * This method let's us to remove a group of files, the cache files will be detected using their group name that their are cached!
+     * @global object $registry, let's us to access Registry class that can been able to use other classes too,
+     * @param string $groupName, The group name of the cache file to detect and remove those files at once
+     * @return int, it will return 1 in success, otherwise it will return 0 
+     */
+    public function deleteAGroup($groupName) {
+        global $registry;
+        $toSearch = $this->encryptName('', $groupName);
+        foreach(glob("{$this->cacheFolderPath}*{$toSearch}") as $file){
+            if(!unlink($file)){
+                $registry->error->reportError('The Cache file ( '.$file.' ) Could not be removed', __LINE__, __METHOD__);
+                return 0;
+            }
+        }
+        return 1;
     }
 
+    /**
+     *  We can set our cache files extention through this method
+     * @param string $extension
+     * @return int, 1 to show us it's done 
+     */
     public function setFileExtension($extension) {
         $this->fileExtension = $extension;
-        return;
+        return 1;
     }
-
+    
+    /**
+     * To get the file extension we can use this method
+     * @return string , cache file extention
+     */
+    public function getFileExtension() {
+        return $this->fileExtension;
+    }
+    
+    /**
+     * This method let's us to define the cache folder address to it's propper property
+     * @param string $folderAddress
+     * @return bool, 1 to show us it's done  
+     */
     public function setCacheFolderPath($folderAddress) {
         $this->cacheFolderPath = $folderAddress;
-        return;
+        return 1;
     }
-
+    
+    /**
+     *  We can get the cache directory's path through this method
+     * @return string , cache directory's path
+     */
+    public function getCacheFolderPath() {
+        return $this->cacheFolderPath;
+    }
+    
+    
+    /**
+     * With this method we can tell class to hash (md5) cache file names or not
+     * @param boolean $value, true then file name will be md5()ed, false then it won't
+     * @return bool, 1 to show us it's done  
+     */
     public function setHashFileName($value) {
         $this->hashFileName = $value;
-        return;
+        return 1;
+    }
+    
+    /**
+     * This method will return us true of it's going to hash (md5) our cache file names, or false if it's not
+     * @return bool , true or false
+     */
+    public function getHashFileName() {
+        return $this->hashFileName;
     }
 
     /**
@@ -139,11 +193,10 @@ class Cache {
      * 	@access private
      */
     private function encryptName($name, $groupName) {
-        if ($this->hashFileName == TRUE) {
+        if ($this->hashFileName == TRUE)
             return md5($name) . '_' . md5($groupName) . $this->fileExtension;
-        } elseif ($this->hashFileName == FALSE) {
-            return $name . '_' . $groupName . $this->fileExtension;
-        }
-    }
 
+        elseif ($this->hashFileName == FALSE)
+            return $name . '_' . $groupName . $this->fileExtension;
+    }
 }
