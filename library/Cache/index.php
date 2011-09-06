@@ -1,4 +1,5 @@
 <?php
+
 namespace root\library\Cache\index;
 
 class Cache {
@@ -18,6 +19,7 @@ class Cache {
      */
     public function cacheContent($name, $groupName, $content, $duration = 3600) {
         global $registry;
+        $this->createCacheFolder();
         $filename = $this->cacheFolderPath . $this->encryptName($name, $groupName);
 
         $content = array(
@@ -35,6 +37,28 @@ class Cache {
             $registry->error->reportError('An Error occured while caching the content!!', __LINE__, __METHOD__, true);
             return;
         } else {
+            return 1;
+        }
+    }
+
+    /**
+     * This method are going to create our cache directory where our cache files will be stored
+     * @global object $registry , The object of Registry Class
+     */
+    private function createCacheFolder() {
+        if (!file_exists($this->cacheFolderPath) or !is_dir($this->cacheFolderPath)) {
+            global $registry;
+            if (is_writable(dirname($this->cacheFolderPath))){
+                chdir(dirname($this->cacheFolderPath));
+                mkdir($this->cacheFolderPath);
+            }
+            else {
+                $registry->error->reportError('The Cache Directory Is Not Writeable,
+                Please Change The Cache Directory\'s Permission To 777, Then Refresh The Page And Then Change It To 755 (Do Not Forget It, Its neccesary
+                 To Change It Back To 755 Again, OtherWise It Can Be Security Issue)<br />
+                 Cache Directory Path: <strong>(' . dirname($this->cacheFolderPath) . ')</strong>', __LINE__, __METHOD__, true);
+                return;
+            }
             return 1;
         }
     }
@@ -122,9 +146,9 @@ class Cache {
     public function deleteAGroup($groupName) {
         global $registry;
         $toSearch = $this->encryptName('', $groupName);
-        foreach(glob("{$this->cacheFolderPath}*{$toSearch}") as $file){
-            if(!unlink($file)){
-                $registry->error->reportError('The Cache file ( '.$file.' ) Could not be removed', __LINE__, __METHOD__);
+        foreach (glob("{$this->cacheFolderPath}*{$toSearch}") as $file) {
+            if (!unlink($file)) {
+                $registry->error->reportError('The Cache file ( ' . $file . ' ) Could not be removed', __LINE__, __METHOD__);
                 return 0;
             }
         }
@@ -140,7 +164,7 @@ class Cache {
         $this->fileExtension = $extension;
         return 1;
     }
-    
+
     /**
      * To get the file extension we can use this method
      * @return string , cache file extention
@@ -148,7 +172,7 @@ class Cache {
     public function getFileExtension() {
         return $this->fileExtension;
     }
-    
+
     /**
      * This method let's us to define the cache folder address to it's propper property
      * @param string $folderAddress
@@ -158,7 +182,7 @@ class Cache {
         $this->cacheFolderPath = $folderAddress;
         return 1;
     }
-    
+
     /**
      *  We can get the cache directory's path through this method
      * @return string , cache directory's path
@@ -166,8 +190,7 @@ class Cache {
     public function getCacheFolderPath() {
         return $this->cacheFolderPath;
     }
-    
-    
+
     /**
      * With this method we can tell class to hash (md5) cache file names or not
      * @param boolean $value, true then file name will be md5()ed, false then it won't
@@ -177,7 +200,7 @@ class Cache {
         $this->hashFileName = $value;
         return 1;
     }
-    
+
     /**
      * This method will return us true of it's going to hash (md5) our cache file names, or false if it's not
      * @return bool , true or false
@@ -199,4 +222,5 @@ class Cache {
         elseif ($this->hashFileName == FALSE)
             return $name . '_' . $groupName . $this->fileExtension;
     }
+
 }
