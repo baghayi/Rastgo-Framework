@@ -6,4 +6,8 @@ class indexModel extends baseModel {
         return $message;
     }
     
+    public function cache(){
+        return 'This Message is Cached!';
+    }
+    
 }
