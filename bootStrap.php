@@ -44,11 +44,6 @@ define('TEMPLATE_DIR_ADDRESS',FILE_PATH . 'application' . DS . 'views' . DS . TE
 define('LOG_FOLDER_PATH', FILE_PATH . 'logs' . DS);
 
 /**
- * Cache main folder path,
- */
-define('CACHE_MAIN_DIR', FILE_PATH . 'cache' . DS . 'cachefiles' . DS);
- 
-/**
  * We are just including the Loader file that can been able to load or include other classes and files,
  * Then instantiating it
  */
