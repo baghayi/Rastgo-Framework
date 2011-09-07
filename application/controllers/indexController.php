@@ -3,10 +3,12 @@ class indexController extends baseController {
     
     public function index() {
         global $registry;
-        
+        $registry->translation = new \root\library\Translator\index\Translator();
+        $registry->translation->loadLanguageFile('main');
+
         $registry->view->renderTemplate(__FUNCTION__, array(
-            'title' => 'Framework\'s Main Title.',
-            'content' => 'The Main Page Of the MVC-Based Frameword!',
+            'title' => $registry->translation->translate('indexTitle'),
+            'content' => $registry->translation->translate('indexContent'),
             'modelmessage' => static::loadModel(true)
         ));
         return;
@@ -16,6 +18,8 @@ class indexController extends baseController {
         global $registry;
         $registry->cache = new root\library\Cache\index\Cache;
         $registry->cache->setHashFileName(false);
+        $registry->translation = new \root\library\Translator\index\Translator();
+        $registry->translation->loadLanguageFile('main');
         
         /**
          * If the Cache file exists these bunch of codes will be excuted
@@ -29,8 +33,8 @@ class indexController extends baseController {
          */
         $registry->cache->startBuffer();
         $registry->view->renderTemplate('index', array(
-            'title' => 'Framework\'s Main Title.',
-            'content' => 'The Main Page Of the MVC-Based Frameword!',
+            'title' => $registry->translation->translate('indexTitle'),
+            'content' => $registry->translation->translate('indexContent'),
             'modelmessage' => static::loadModel(true)
         ));
         echo $registry->cache->cacheBuffer('cache','cache',3);
