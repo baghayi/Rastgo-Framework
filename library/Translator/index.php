@@ -25,7 +25,7 @@ final class Translator {
     
     public function loadLanguageFile($fileName){
         global $registry;
-        $fileAddress = FILE_PATH . 'languages' . DS . $this->defaultLanguage . DS . $fileName . $this->langFileExtension;
+        $fileAddress = FILE_PATH . '__rfolder' . DS . 'languages' . DS . $this->defaultLanguage . DS . $fileName . $this->langFileExtension;
         if(file_exists($fileAddress)){
             include $fileAddress;
             if(!isset($language) || !is_array($language)){
