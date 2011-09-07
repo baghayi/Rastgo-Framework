@@ -38,12 +38,6 @@ define('TEMPLATE_URL', URL  . 'application' . DS . 'views' . DS . TEMPLATE_FOLDE
 define('TEMPLATE_DIR_ADDRESS',FILE_PATH . 'application' . DS . 'views' . DS . TEMPLATE_FOLDER_NAME);
 
 /**
- * Defing Log folder absolute path,
- * To use it in ErrorReporting class,
- */
-define('LOG_FOLDER_PATH', FILE_PATH . 'logs' . DS);
-
-/**
  * We are just including the Loader file that can been able to load or include other classes and files,
  * Then instantiating it
  */
