@@ -8,7 +8,7 @@ final class ErrorReporting {
      * @errorTypes array
      */
     private $errorTypes = array('database', 'authentication', 'others');
-    private $logFileExtention = '.txt';
+    private $logFileExtention = '.txt',$logDirPath;
     /**
      *  This property is going to contain the complete error, includes error line, error method, can cantain IP, the main message, ...
      *  To log it and or even throw it as a exception
@@ -22,6 +22,11 @@ final class ErrorReporting {
      * @var integer  $logFileSize
      */
     private $logFileSize = 10000000;
+    
+    public function __construct() {
+        $this->logDirPath = FILE_PATH . '__rfolder' . DS . 'logs' . DS;
+        return;
+    }
 
     /**
      *  This is the main method that we can report errors with it,
@@ -55,12 +60,9 @@ final class ErrorReporting {
      * @param string $fileName 
      */
     private function WriteInLogFile($fileName) {
-        /**
-         * Create And check whether log files are created or Not!\
-         * If there is any problem it would be thrown an exception.
-         */
+        $this->createLogDir();
         $this->createLogFiles();
-        $fileAddress = LOG_FOLDER_PATH .$fileName . DS . $fileName . $this->logFileExtention;
+        $fileAddress = $this->logDirPath .$fileName . DS . $fileName . $this->logFileExtention;
         if (!($handle = fopen($fileAddress, 'a'))) {
             $this->throwException('The Log File Is Not Able To Be Opened!');
             return;
@@ -79,46 +81,18 @@ final class ErrorReporting {
     private function createLogFiles() {
         foreach ($this->errorTypes as $fileName) {
             /**
-             * Checing for directories,
+             * Checing to create directories,
              */
-            if(!file_exists(LOG_FOLDER_PATH . $fileName) or !is_dir(LOG_FOLDER_PATH . $fileName)){
-                if(is_writable(LOG_FOLDER_PATH))
-                    mkdir(LOG_FOLDER_PATH . $fileName);
+            if(!file_exists($this->logDirPath . $fileName) or !is_dir($this->logDirPath . $fileName)){
+                if(is_writable($this->logDirPath))
+                    mkdir($this->logDirPath . $fileName);
                 else{
-                    $this->throwException('The Log Directory Is Not Writable, Please Change Its Permission To 777 And Then Refresh The Page,<br /> If You Did Not Get Any Messages Like This Again, Change That File\'s Permission to 755, <br /> Directory Address: <strong> ' . LOG_FOLDER_PATH . ' </strong>');
+                    $this->throwException('The Log Directory Is Not Writable, Please Change Its Permission To 777 And Then Refresh The Page,<br /> If You Did Not Get Any Messages Like This Again, Change That File\'s Permission to 755, <br /> Directory Address: <strong> ' . $this->logDirPath . ' </strong>');
                     return;
                 }
-            }
-            
-            /**
-             * Checking for log files,
-             */
-            $fileAddress = LOG_FOLDER_PATH . $fileName . DS . $fileName . $this->logFileExtention;
-            if (!file_exists($fileAddress)) {
-                if (is_writable(LOG_FOLDER_PATH . $fileName)) {
-                    $fileHandle = fopen($fileAddress, 'a');
-                    fclose($fileHandle);
-                } else {
-                    $this->throwException('The Log Directory Is Not Writable, Please Change Its Permission To 777 And Then Refresh The Page,<br /> If You Did Not Get Any Messages Like This Again, Change That Folder\'s Permission to 755, <br /> Directory Address: <strong> ' . LOG_FOLDER_PATH .$fileName. ' </strong>');
-                    return;
-                }
-                $this->checkingLogFiles($fileAddress);
             }
         }
         return 1;
-    }
-
-    /**
-     * After creating log files, with this method we are going to see whether those files are created or Not,
-     * If not then an exception will be thrown!
-     */
-    private function checkingLogFiles($fileAddress) {
-        if (!file_exists($fileAddress)){
-            $this->throwException('This File Could Not Have Been Created!: <br />' . $fileAddress);
-            return;
-        }
-        else
-            return 1;
     }
 
     public function setLogFileExtension($extension) {
@@ -145,8 +119,8 @@ final class ErrorReporting {
     }
 
     private function spliteLogFile($fileName) {
-        if(file_exists($fileAbsolutePath = LOG_FOLDER_PATH . $fileName .DS .$fileName. $this->logFileExtention)) {
-            $fileNewAbsolutePath = LOG_FOLDER_PATH . $fileName .DS. strftime("%Y_%m_%d_%H_%M_%S", time()) . '__' . $fileName . $this->logFileExtention;
+        if(file_exists($fileAbsolutePath = $this->logDirPath . $fileName .DS .$fileName. $this->logFileExtention)) {
+            $fileNewAbsolutePath = $this->logDirPath . $fileName .DS. strftime("%Y_%m_%d_%H_%M_%S", time()) . '__' . $fileName . $this->logFileExtention;
             if (filesize($fileAbsolutePath) >= $this->logFileSize) {
                 if (false === rename($fileAbsolutePath, $fileNewAbsolutePath)){
                     $this->reportError('The Log File Could Not Be Renamed!', __LINE__, __METHOD__,false);
@@ -165,6 +139,20 @@ final class ErrorReporting {
     public function setFileSize($fileSize){
         $this->logFileSize = (int)$fileSize;
         return 1;
+    }
+    
+    private function createLogDir(){
+        if(!file_exists($this->logDirPath) || !is_dir($this->logDirPath)){
+            chdir('__rfolder');
+            if(is_writable(dirname($this->logDirPath))){
+                mkdir($this->logDirPath);
+                return 1;
+            }else{
+                $this->throwException('The __rfolder Directory Is Not Writable, Please Change Its Permission To 777 And Then Refresh The Page,<br /> If You Did Not Get Any Messages Like This Again, Change That File\'s Permission to 755, <br /> Directory Address: <strong> ' . dirname($this->logDirPath) . ' </strong>');
+                    return;
+            }
+        }
+        return;
     }
 
 }
