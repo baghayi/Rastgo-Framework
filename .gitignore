@@ -1,6 +1,4 @@
 nbproject/private/
 nbproject/
-logs/authentication/
-logs/database/
-logs/others/
-rfolder/cache/
+__rfolder/cache/
+__rfolder/logs/
