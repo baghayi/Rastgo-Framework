@@ -12,6 +12,7 @@ class Cache {
      */
     public function __construct() {
         $this->cacheFolderPath = FILE_PATH .'__rfolder' . DS . $this->cacheFolderName. DS;
+        return;
     }
 
     /**
