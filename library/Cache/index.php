@@ -182,17 +182,25 @@ class Cache {
     }
 
     /**
-     * This method let's us to define the cache folder address to it's propper property
-     * @param string $folderAddress
+     * This method let's us to define the cache folder name to it's propper property
+     * @param string $folderName
      * @return bool, 1 to show us it's done  
      */
-    public function setCacheFolderPath($folderAddress) {
-        $this->cacheFolderPath = $folderAddress;
+    public function setCacheFolderName($folderName) {
+        $this->cacheFolderName = $folderName;
         return 1;
+    }
+    
+    /**
+     * Thorugh this method we are able to get cache folde name
+     * @return string  
+     */
+     public function getCacheFolderName() {
+        return $this->cacheFolderName;
     }
 
     /**
-     *  We can get the cache directory's path through this method
+     *  We can get the cache directory's absolute path through this method
      * @return string , cache directory's path
      */
     public function getCacheFolderPath() {
