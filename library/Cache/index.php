@@ -4,14 +4,14 @@ namespace root\library\Cache\index;
 
 class Cache {
 
-    private $fileExtension = '.txt', $hashFileName = true, $cacheFolderPath = 'cache/cachfiles', $bufferContent, $hasBufferStarted = false;
+    private $fileExtension = '.txt', $hashFileName = true, $cacheFolderPath,$cacheFolderName = 'cache', $bufferContent, $hasBufferStarted = false;
     
     /**
      * This cinstruct function makes our cache Folder Path and puts it in propper property ($cacheFolderPath).,
      * Instead of using the constant
      */
     public function __construct() {
-        $this->cacheFolderPath = FILE_PATH . 'cache' . DS . 'cachefiles' . DS;
+        $this->cacheFolderPath = FILE_PATH .'rfolder' . DS . $this->cacheFolderName. DS;
     }
 
     /**
