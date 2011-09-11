@@ -27,15 +27,14 @@ final class Translator {
         global $registry;
         $fileAddress = FILE_PATH . '__rfolder' . DS . 'languages' . DS . $this->defaultLanguage . DS . $fileName . $this->langFileExtension;
         if(file_exists($fileAddress)){
-            include $fileAddress;
-            if(!isset($language) || !is_array($language)){
-                $registry->error->reportError('The Variable inside of the language file is not setted as ( $language ) or It is not an array', __LINE__, __METHOD__, true);
+            $this->languageArray = require_once $fileAddress;
+            if(!is_array($this->languageArray)){
+                $registry->error->reportError('The Returned Value From The Called Language File Is Not An Array!', __LINE__, __METHOD__, true);
                 return;
             }
-            $this->languageArray = $language;
             return 1;
         }else{
-            $registry->error->reportError('Wanted Language Package Does Not Exists!', __LINE__, __METHOD__, true);
+            $registry->error->reportError('Wanted Language Package (File) Does Not Exists!', __LINE__, __METHOD__, true);
             return;
         }
     }
