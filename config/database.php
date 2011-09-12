@@ -3,7 +3,7 @@
  * Database setting,
  * Put Your own information here:
  */
-$dbConfig = array();
+static $dbConfig = array();
 $dbConfig['name'] = 'test';
 $dbConfig['username'] = 'root';
 $dbConfig['password'] = 'demo';
