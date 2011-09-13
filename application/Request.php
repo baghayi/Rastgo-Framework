@@ -2,7 +2,7 @@
 namespace root\application\Request;
 
 final class Request {
-    private $controller,$method,$args;
+    private $controller, $method, $args;
     private static $defaultController = 'index', $defaultMethod = 'index';
 
     function __construct() {
@@ -16,7 +16,7 @@ final class Request {
         }
         
         /**
-         * Getting controller,
+         * Getting controller.
          */
         $this->controller = ($controller = array_shift($url)) ? $controller : self::$defaultController;
         
@@ -26,7 +26,7 @@ final class Request {
         $this->method = ($method = array_shift($url)) ? $method : self::$defaultMethod;
         
         /**
-         * Getting All of the Arguments,
+         * Getting All of the Arguments.
          */
         $this->args = isset($url[0])? $url : array();
         
