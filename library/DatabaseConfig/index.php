@@ -7,13 +7,19 @@ final class DatabaseConfig {
 
     public function __construct($dbConfigInfo) {
         global $registry;
+        
         if (!is_array($dbConfigInfo)) {
             $registry->error->reportError('The Entered Parameter In Not Az Array! <br />It Must Be An Array!', __LINE__, __METHOD__, true);
             return 0;
-        } elseif (is_array($dbConfigInfo)) {
+        }
+        
+        elseif (is_array($dbConfigInfo)) {
             $parameters = array('name' => 'setDBName', 'username' => 'setDBUsername', 'password' => 'setDBPassword', 'host' => 'setDBHost', 'driver' => 'setDBDriver', 'port' => 'setDBPort');
+            
             foreach ($dbConfigInfo as $key => $value) {
+                
                 foreach ($parameters as $parmKey => $paramValue) {
+                    
                     if ($key === $parmKey) {
                         $this->{$paramValue}($value);
                         continue;
