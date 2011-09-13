@@ -7,6 +7,6 @@ static $dbConfig = array();
 $dbConfig['name'] = 'test';
 $dbConfig['username'] = 'root';
 $dbConfig['password'] = 'demo';
-$dbConfig['host'] = 'localhost';
+$dbConfig['host'] = '127.0.0.1';
 $dbConfig['driver'] = 'mysql';
 $dbConfig['port'] = 3306;
