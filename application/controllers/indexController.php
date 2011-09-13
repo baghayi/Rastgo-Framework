@@ -22,14 +22,14 @@ class indexController extends baseController {
         $registry->translation->loadLanguageFile('main');
         
         /**
-         * If the Cache file exists these bunch of codes will be excuted
+         * If the Cache file exists these bunch of codes will be excuted.
          */
-        if($registry->cache->getCache('cache','cache')){
-            echo $registry->cache->getCache('cache','cache');
+        if($registry->cache->getCache('cache', 'cache')){
+            echo $registry->cache->getCache('cache', 'cache');
             return;
         }
         /**
-         * If the cache file does not exists then these belowe codes will be excuted
+         * If the cache file does not exists then these belowe codes will be excuted.
          */
         $registry->cache->startBuffer();
         $registry->view->renderTemplate('index', array(
@@ -37,6 +37,7 @@ class indexController extends baseController {
             'content' => $registry->translation->translate('indexContent'),
             'modelmessage' => static::loadModel(true)
         ));
-        echo $registry->cache->cacheBuffer('cache','cache',3);
+        echo $registry->cache->cacheBuffer('cache', 'cache', 3);
+        return;
     }
 }
