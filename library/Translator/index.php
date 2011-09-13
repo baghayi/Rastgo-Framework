@@ -16,24 +16,30 @@ final class Translator {
     }
     
     public function translate($keyWord, $fileName = null){
-        if($fileName !== null)
-             $this->loadLanguageFile($fileName);
         
-        $result = isset($this->languageArray[$keyWord])?$this->languageArray[$keyWord]:null;
-        return $result;
+        if($fileName !== null){
+             $this->loadLanguageFile($fileName);
+        }
+        
+        return isset($this->languageArray[$keyWord])?$this->languageArray[$keyWord]:null;
     }
     
     public function loadLanguageFile($fileName){
         global $registry;
         $fileAddress = FILE_PATH . '__rfolder' . DS . 'languages' . DS . $this->defaultLanguage . DS . $fileName . $this->langFileExtension;
+        
         if(file_exists($fileAddress)){
             $this->languageArray = require_once $fileAddress;
+            
             if(!is_array($this->languageArray)){
                 $registry->error->reportError('The Returned Value From The Called Language File Is Not An Array!', __LINE__, __METHOD__, true);
                 return;
             }
+            
             return 1;
-        }else{
+        }
+        
+        else{
             $registry->error->reportError('Wanted Language Package (File) Does Not Exists!', __LINE__, __METHOD__, true);
             return;
         }
