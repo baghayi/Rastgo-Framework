@@ -114,6 +114,11 @@ final class SessionDB extends \root\application\baseModel\baseModel {
         return 1;
     }
     
+    /**
+     * This method is used to remove the sessions from the Database.
+     * @param str $sessionId This is the session id
+     * @return boolean True on success or false on failure.
+     */
     private function removeRowInDb($sessionId)
     {
         $secondSth = $this->prepare("DELETE FROM `{$this->DBTableName}` WHERE session_id=:sessionId;");
