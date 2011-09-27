@@ -1,7 +1,7 @@
 <?php
 namespace root\library\SessionDB\index;
 
-final class SessionDB extends \root\application\baseModel\baseModel {
+class SessionDB extends \root\application\baseModel\baseModel {
     private $sessionName = 'PHPSESSID', $DBTableName = 'session';
 
     public function __construct($unicodeQuery = false)
