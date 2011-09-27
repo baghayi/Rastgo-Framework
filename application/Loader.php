@@ -9,7 +9,6 @@ final class Loader {
         $ModelPath = FILE_PATH . 'application' . DS . 'models' . DS . $ModelCompleteName . '.php';
 
         if (file_exists($ModelPath)) {
-            require_once FILE_PATH . 'application' . DS . 'baseModel.php';
             require_once $ModelPath;
 
             if (class_exists($ModelCompleteName)){
