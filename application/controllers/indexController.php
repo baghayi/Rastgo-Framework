@@ -40,4 +40,55 @@ class indexController extends baseController {
         echo $registry->cache->cacheBuffer('cache', 'cache', 3);
         return;
     }
+    
+    public function register(){
+        /**
+         * To start using the Authentication class, first you need to make an object of this class.
+         */
+        $auth = new \root\library\Authentication\index\Authentication(true);
+        /**
+         * is used to set the name of the database table name with all operations will be done in it.
+         */
+        $auth->initDbTableName('auth');
+        /**
+         * used to set the name of the database column which the hash of password will be saved in it.
+         */
+        $auth->initDBHashColumnName('password_hash');
+        /**
+         * used to set the name of the database column which the hash of password should store there.
+         */
+        $auth->initDBSaltColumnName('password_salt');
+        /**
+         * This method is used to set the session_id column name in database which session_id should store in that column.
+         */
+        $auth->initDBSessionIdColumnName('session_id');
+        /**
+         * via this method you must set the name of the database column which stores user unique id that you can identify user with it (like: username, email, or other thing that you want)
+         */
+        $auth->initDBUserIdentifierColumnName('username');
+        /**
+         * Used to set a expiration time for the session cookie,
+         * It's neccessary to use this method if you do not want your session cookie to be expired after your user close the browser.
+         */
+        var_dump($auth->initSessionCookieParams('day'));
+        /**
+         * This is used to login user via session cookie that is set by this mehtod: loginViaUserRawInfo()
+         */
+        var_dump($auth->loginViaCookie());
+        /**
+         * Login for the first time using this method (via html forms)
+         */
+        #var_dump($auth->loginViaUserRawInfo(array(
+        #    'username' => 'hossein',
+        #    'password' => 'hossein'
+        #), true, true));
+        /**
+         * Create a salt and hashed password ussing this method
+         */
+        $password = $auth->makePassHashSalt('hossein');
+        /**
+         * insert the user information to database
+         */
+        $auth->registerNewUser(array('username' => 'hossein', 'email' => 'golam@gmail.com', 'password_hash' => $password['passHash'], 'password_salt' => $password['passSalt']));
+    }
 }
