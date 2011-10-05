@@ -474,6 +474,7 @@ class Authentication extends \root\application\baseModel\baseModel {
         {
             header("Location: {$redirectTo}");
         }
+        return;
     }
     
 
