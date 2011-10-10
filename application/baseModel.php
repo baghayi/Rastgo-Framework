@@ -13,8 +13,7 @@ abstract class baseModel extends \PDO {
         
         if($unicodeQuery === true)
         {
-            $sth = $this->prepare('SET NAMES utf8');
-            $sth->execute();
+            $sth = $this->query('SET NAMES utf8');
         }
         return;
     }
