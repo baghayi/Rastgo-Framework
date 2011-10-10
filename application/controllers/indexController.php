@@ -90,5 +90,22 @@ class indexController extends baseController {
          * insert the user information to database
          */
         $auth->registerNewUser(array('username' => 'hossein', 'email' => 'golam@gmail.com', 'password_hash' => $password['passHash'], 'password_salt' => $password['passSalt']));
+        
+        return;
     }
+    
+    public function pagination()
+    {
+        $page = new root\library\Pagination\index\Pagination(func_get_args());
+        $page->initURLQueryStringName('page');
+        $page->initTotalItemToBeShown(10);
+        echo($page->getNewPageAddress($page->currentPageNumber()));
+        echo '<br />';
+        echo($page->getStyledPageNumbers('select * from session'));
+        echo '<br />';
+        var_dump($page->getContent("select * from session"));
+        
+        return;
+    }
+        
 }
