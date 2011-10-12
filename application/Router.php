@@ -15,13 +15,16 @@ class Router {
         global $registry;
         
         $controllerAddress = FILE_PATH . 'application' . DS . 'controllers' . DS . $registry->request->getController() . 'Controller.php';
-        if(file_exists($controllerAddress) and is_readable($controllerAddress)){
+        
+        if(file_exists($controllerAddress) and is_readable($controllerAddress))
+        {
             $this->controllerName = $registry->request->getController() . 'Controller';
             $this->controllerAddress = $controllerAddress;
             return 1;
         }
-        $registry->error->reportError('404 Error: The Controller File Does Not Exist!', __LINE__, __METHOD__, true);
-        return;
+
+        header("Location: " . URL . 'error/notFound/Controller/');
+        exit;
     }
     
     private function instantiatingController(){
@@ -41,9 +44,10 @@ class Router {
     private function checkingMethod(){
         global $registry;
         
-        if(!method_exists($this->controllerName, $registry->request->getMethod())){
-            $registry->error->reportError('Entered Method ( '. $registry->request->getMethod() .' ) Cound Not Be Found', __LINE__, __METHOD__, true);
-            return;
+        if(!method_exists($this->controllerName, $registry->request->getMethod()))
+        {
+            header("Location: " . URL . 'error/notFound/Method/');
+            exit;
         }
         
         return 1;
