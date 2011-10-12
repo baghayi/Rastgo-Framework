@@ -3,7 +3,7 @@ namespace root\library\Pagination\index;
 
 class Pagination extends \root\application\baseModel\baseModel {
     
-    private $firtPageName = 'First Page', $lastPageName = 'Last Page', $nextPageName = 'Next Page', $previousPageName = 'Previous Page', $leftToRightLanguage = true, $urlQueryStringName = NULL, $totalItemsToBeShown = NULL;
+    private $firstPageName = 'First Page', $lastPageName = 'Last Page', $nextPageName = 'Next Page', $previousPageName = 'Previous Page', $leftToRightLanguage = true, $urlQueryStringName = NULL, $totalItemsToBeShown = NULL;
     private $totalPages = NULL, $URLQueryString, $currentPageNumber = NULL, $currentPageNumberState = false, $dbQuery;
     
     /**
