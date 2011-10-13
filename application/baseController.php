@@ -39,5 +39,5 @@ abstract class baseController {
         return 1;
     }
 
-    public abstract function index();
+    protected abstract function index();
 }
