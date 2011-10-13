@@ -2,10 +2,7 @@
 
 class errorController extends baseController {
     
-    public function index()
-    {
-        call_user_func(array('errorController', 'notFound'), 'Method');
-    }
+    protected function index(){}
     
     public function notFound()
     {
