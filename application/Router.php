@@ -44,6 +44,12 @@ class Router {
     private function checkingMethod(){
         global $registry;
         
+        if(!in_array($registry->request->getMethod(), get_class_methods($this->controllerName)))
+        {
+            header("Location: " . URL . 'error/notFound/Method/');
+            exit;
+        }
+        
         if(!method_exists($this->controllerName, $registry->request->getMethod()))
         {
             header("Location: " . URL . 'error/notFound/Method/');
