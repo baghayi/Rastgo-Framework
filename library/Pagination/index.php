@@ -3,7 +3,7 @@ namespace root\library\Pagination\index;
 
 class Pagination extends \root\application\baseModel\baseModel {
     
-    private $firstPageName = 'First Page', $lastPageName = 'Last Page', $nextPageName = 'Next Page', $previousPageName = 'Previous Page', $leftToRightLanguage = true, $urlQueryStringName = NULL, $totalItemsToBeShown = NULL;
+    private $firstPageName = 'First Page', $lastPageName = 'Last Page', $nextPageName = 'Next Page', $previousPageName = 'Previous Page', $urlQueryStringName = NULL, $totalItemsToBeShown = NULL;
     private $totalPages = NULL, $URLQueryString, $currentPageNumber = NULL, $currentPageNumberState = false, $dbQuery;
     
     /**
@@ -427,17 +427,6 @@ class Pagination extends \root\application\baseModel\baseModel {
         return;
     }
     
-    /**
-     * Through this method we can define if our web page is for left to right users or not.
-     * By inserting true if its left to right (ltr) language that we are using, or false if its right to left (rtl) language that we are using.
-     * @param type $value True or false should be the value.
-     * @return void
-     */
-    public function initLeftToRightLanguage($value) 
-    {
-        $this->leftToRightLanguage = (boolean)$value;
-        return;
-    }
 
     /**
      * Through this method it's possible to set or change the first page link's name.
