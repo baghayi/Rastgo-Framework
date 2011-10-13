@@ -160,7 +160,7 @@ class Pagination extends \root\application\baseModel\baseModel {
         
         if($currentPageNum !== 1)
         {
-            $finalString .= "<li id=\"firstpageid\"><a href=\"{$this->getNewPageAddress(1)}\">{$this->firtPageName}</a></li>\n";
+            $finalString .= "<li id=\"firstpageid\"><a href=\"{$this->getNewPageAddress(1)}\">{$this->firstPageName}</a></li>\n";
             $finalString .= "<li id=\"previouspageid\"><a href=\"{$this->getNewPageAddress($currentPageNum - 1)}\">{$this->previousPageName}</a></li>\n";
         }
         
@@ -446,7 +446,7 @@ class Pagination extends \root\application\baseModel\baseModel {
      */
     public function initFirstPageName($firstPageName) 
     {
-        $this->firtPageName = $firstPageName;
+        $this->firstPageName = $firstPageName;
         return;
     }
     
