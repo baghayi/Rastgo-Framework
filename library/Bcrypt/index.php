@@ -14,9 +14,16 @@ class Bcrypt {
      */
     public function __construct($prefix = '', $rounds = 12) 
     {
+        global $registry;
+        
+        if(!is_numeric($rounds))
+        {
+            $registry->error->reportError("The second parameter of the __construct method must be an integer!", __LINE__, __METHOD__, true, 'authentication');
+        }
+        
         if (CRYPT_BLOWFISH != 1) 
         {
-            global $registry;
+            
             $registry->error->reportError("bcrypt is not supported in this installation. See http://php.net/crypt", __LINE__, __METHOD__, true, 'authentication');
         }
 
