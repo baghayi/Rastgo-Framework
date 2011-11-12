@@ -33,7 +33,8 @@ if (!isset($_SERVER['SERVER_NAME'])){
  * Like: http://127.0.0.1/.../current_directory .
  */
 $url_value = (SCRIPT_ROOT_FOLDER_NAME == '') ? '' : SCRIPT_ROOT_FOLDER_NAME . '/';
-define('URL', WEB_PROTOCOL . '://' . $_SERVER["SERVER_NAME"] . '/' . $url_value);
+$portNumber = (Port_Number_In_URL) ? ':' .  $_SERVER['SERVER_PORT'] : '';
+define('URL', WEB_PROTOCOL . '://' . $_SERVER["SERVER_NAME"] . $portNumber . '/' . $url_value);
 /**
  * Site Path to the template, 
  * For loading stylesheets, or javascripts, ... .
