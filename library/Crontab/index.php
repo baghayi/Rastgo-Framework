@@ -51,10 +51,10 @@ class Crontab {
         
         if (!in_array($job, $jobs)) 
         {
-            return false;
+            return 0;
         }
         
-        return true;
+        return 1;
     }
 
     /**
@@ -67,7 +67,7 @@ class Crontab {
     {
         if ($this->doesJobExist($job)) 
         {
-            return false;
+            return 0;
         }
         
         $jobs = $this->getJobs();
@@ -84,7 +84,7 @@ class Crontab {
     {
         if (!$this->doesJobExist($job)) 
         {
-            return false;
+            return 0;
         }
         
         $jobs = $this->getJobs();
