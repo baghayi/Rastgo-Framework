@@ -25,6 +25,14 @@ class Crontab {
     public function getJobs() 
     {
         $output = shell_exec('crontab -l');
+        
+        if(gettype($output) !== 'string')
+        {
+            global $registry;
+            $registry->error->reportError('Something does not work properly while working with crontab command!', __LINE__, __METHOD__, true);
+            return 0;
+        }
+        
         return $this->stringToArray($output);
     }
 
@@ -36,6 +44,11 @@ class Crontab {
      */
     public function saveJobs($jobs = array()) 
     {
+        /**
+         * Check if there is not any problem in accessing the cron!
+         */
+        $this->getJobs();
+        
         $output = shell_exec('echo "' . $this->arrayToString($jobs) . '" | crontab -');
         return $output;
     }
