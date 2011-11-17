@@ -3,8 +3,13 @@ namespace root\library\Crontab\CrontabCommand;
 
 class CrontabCommand
 {
-    private $minute = '*', $hour = '*', $dayOfMonth = '*', $month = '*', $dayOfWeek = '*', $command = NULL;
-    private $registry = NULL;
+    private $minute = '*',
+            $hour = '*',
+            $dayOfMonth = '*',
+            $month = '*',
+            $dayOfWeek = '*',
+            $command = NULL,
+            $registry = NULL;
     
     /**
      * This construct class is just bringing the Registry class object to this class, to use it in the class methods.
