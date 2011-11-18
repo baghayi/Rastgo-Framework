@@ -2,7 +2,15 @@
 namespace root\library\Authentication\index;
 
 class Authentication extends \root\application\baseModel\baseModel {
-    private $sessionInstance = NULL, $dbTableName = 'authentication', $pepper = '', $dbHashColumnName = 'pass_hash', $dbSaltColumnName = 'pass_salt', $userIdentifier, $dbUserIdentifierColumnName = NULL, $sessionId, $dbSessionIdColumnName = 'session_id';
+    private $sessionInstance = NULL,
+            $dbTableName = 'authentication',
+            $pepper = '',
+            $dbHashColumnName = 'pass_hash',
+            $dbSaltColumnName = 'pass_salt',
+            $userIdentifier,
+            $dbUserIdentifierColumnName = NULL,
+            $sessionId,
+            $dbSessionIdColumnName = 'session_id';
     
     public function __construct($unicodeQuery = false) 
     {
