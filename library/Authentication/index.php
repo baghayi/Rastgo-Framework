@@ -1,9 +1,11 @@
 <?php
 namespace root\library\Authentication\index;
 
-use root\library\Bcrypt\index\Bcrypt;
+use root\library\Bcrypt\index\Bcrypt,
+    root\application\baseModel\baseModel,
+    root\library\SessionDB\index\SessionDB;
 
-class Authentication extends \root\application\baseModel\baseModel {
+class Authentication extends baseModel {
     private $sessionInstance = NULL,
             $dbTableName = 'authentication',
             $pepper = '',
@@ -17,7 +19,7 @@ class Authentication extends \root\application\baseModel\baseModel {
     public function __construct($unicodeQuery = false) 
     {
         parent::__construct($unicodeQuery);
-        $this->sessionInstance = new \root\library\SessionDB\index\SessionDB();
+        $this->sessionInstance = new SessionDB();
         /**
          * For security reasons it's better only allow cookies to been able to have the sessions and nothing esle (like URLs)
          */
