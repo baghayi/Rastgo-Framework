@@ -244,7 +244,7 @@ class Authentication extends \root\application\baseModel\baseModel {
      * @param str $checkHash The hash of password that is stored in database.
      * @return mixed (will return salt/hash if the third parameter is not setted.) otherwise it will return 1 on success and or will return 0 on failure in comparison the hash of password.
      */
-    public function makePassHashSalt($rawPassword, $passSalt = NULL, $checkHash = NULL)
+    public function makePassHashSaltMD5($rawPassword, $passSalt = NULL, $checkHash = NULL)
     {
         $password = array();
         
