@@ -32,7 +32,7 @@ HTML;
         /**
          * To start using the Authentication class, first you need to make an object of this class.
          */
-        $auth = new \root\library\Authentication\index\Authentication(true);
+        $auth = new Authentication(true);
         /**
          * is used to set the name of the database table name with all operations will be done in it.
          */
