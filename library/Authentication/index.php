@@ -1,6 +1,8 @@
 <?php
 namespace root\library\Authentication\index;
 
+use root\library\Bcrypt\index\Bcrypt;
+
 class Authentication extends \root\application\baseModel\baseModel {
     private $sessionInstance = NULL,
             $dbTableName = 'authentication',
@@ -292,6 +294,30 @@ class Authentication extends \root\application\baseModel\baseModel {
         return $password;
     }
     
+    /**
+     * Using this method you can hash your user raw password or even check raw password with the stored hash in database (or wherever it is stored) to see whether it is equal or not.
+     * To make a hash of user raw password just define the first parameter and left the second parameter alone, then the method will return a Bcrypt hash of the user raw password as a string.
+     * 
+     * And to verify user password with the hash that is stored in the database (or wherever it is stored), you should define the second parameter too, 
+     * The second parameter is the hashed password of the user and the first parameter should be user raw password, then it will return a boolean that can tell you it is equal or not,
+     * If it is equal it will return True, otherwise it will return false if it is not equal.
+     * 
+     * @param type $rawPassword The raw password that the user inserted it (using html forms or ... ).
+     * @param string $checkHash The hashed password that was stored in database or wherever it was stored.
+     * @return boolean|string The hashed password will be return of the second parameter is not set, otherwise true will return if the raw password and hashed password is equal, otherwise false will be returned.
+     */
+    public function makePassHashBcrypt($rawPassword, $checkHash = NULL) 
+    {
+        $BcryptObject = new Bcrypt();
+        $hashedPassword = $BcryptObject->hash($rawPassword);
+        
+        if($checkHash !== NULL)
+        {
+            return $BcryptObject->verify($rawPassword, $checkHash);
+        }
+        
+        return $hashedPassword;
+    }
 
     /**
      * As a second salt (pepper) to use it in hashin the password just for more security!
