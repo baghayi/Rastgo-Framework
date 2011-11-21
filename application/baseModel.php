@@ -6,10 +6,9 @@ abstract class baseModel extends \PDO {
     public function __construct($unicodeQuery = false) {
         global $registry;
         
-        $dsn = $registry->db->getDBDriver() . ':host=' . $registry->db->getDBHost() . ';port=' . $registry->db->getDBPort() . ';dbname=' . $registry->db->getDBName();
-        $username = $registry->db->getDBUsername();
-        $passwd = $registry->db->getDBPassword();
-        parent::__construct($dsn, $username, $passwd);
+        $dsn = $registry->db->dbDriver() . ':host=' . $registry->db->dbHost() . ';port=' . $registry->db->dbPort() . ';dbname=' . $registry->db->dbName();
+
+        parent::__construct($dsn, $registry->db->dbUsername(), $registry->db->dbPassword(), $registry->db->pdoOptions());
         
         if($unicodeQuery === true)
         {
