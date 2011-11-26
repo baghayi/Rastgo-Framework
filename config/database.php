@@ -21,22 +21,26 @@ $dbConfig['username'] = 'root';
 $dbConfig['password'] = 'demo';
 
 /**
- * The host name of the database (required).
+ * The host name of the database (optional).
+ * Default is: '127.0.0.1'
  */
-$dbConfig['host'] = '127.0.0.1';
+#$dbConfig['host'] = '127.0.0.1';
 
 /**
- * The driver name of the database (required).
+ * The driver name of the database (optional).
+ * Default is: 'mysql'
  */
-$dbConfig['driver'] = 'mysql';
+#$dbConfig['driver'] = 'mysql';
 
 /**
  * The port number of the database (optional).
+ * Default is: 3306
  */
-//$dbConfig['port'] = 3306;
+#$dbConfig['port'] = 3306;
 
 /**
  * The variable will be given to the fourth parameter of the PDO class as options (optional).
  * And must be an array.
+ * Default is: array()
  */
 #$dbConfig['pdoOptions'] = array();
