@@ -3,7 +3,7 @@ abstract class baseController {
     
     public function __construct() {
         global $registry;
-        $registry->view = new \root\application\View\View();
+        $registry->view = new \root\core\View\View();
         return;
     }
     
