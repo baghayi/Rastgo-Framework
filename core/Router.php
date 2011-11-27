@@ -1,6 +1,8 @@
 <?php
-namespace root\application\Router;
-class Router {
+namespace root\core\Router;
+
+class Router 
+{
     private $controllerInstance, $controllerName, $controllerAddress;
     
     public function __construct() {
@@ -29,7 +31,6 @@ class Router {
     
     private function instantiatingController(){
         global $registry;
-        require_once FILE_PATH . 'application' . DS . 'baseController.php';
         require_once $this->controllerAddress;
         $this->controllerInstance = new $this->controllerName();
         
