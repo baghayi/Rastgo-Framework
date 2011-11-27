@@ -1,4 +1,6 @@
 <?php
+namespace root\core\baseController;
+
 abstract class baseController {
     
     public function __construct() {
