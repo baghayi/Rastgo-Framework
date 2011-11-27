@@ -1,5 +1,5 @@
 <?php
-namespace root\application\baseModel;
+namespace root\core\baseModel;
 
 abstract class baseModel extends \PDO {
 
