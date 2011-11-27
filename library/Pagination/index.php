@@ -1,7 +1,7 @@
 <?php
 namespace root\library\Pagination\index;
 
-class Pagination extends \root\application\baseModel\baseModel {
+class Pagination extends \root\core\baseModel\baseModel {
     
     private $firstPageName = 'First Page', $lastPageName = 'Last Page', $nextPageName = 'Next Page', $previousPageName = 'Previous Page', $urlQueryStringName = NULL, $totalItemsToBeShown = NULL;
     private $totalPages = NULL, $URLQueryString, $currentPageNumber = NULL, $currentPageNumberState = false, $dbQuery;
