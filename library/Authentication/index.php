@@ -2,7 +2,7 @@
 namespace root\library\Authentication\index;
 
 use root\library\Bcrypt\index\Bcrypt,
-    root\application\baseModel\baseModel,
+    root\core\baseModel\baseModel,
     root\library\SessionDB\index\SessionDB;
 
 class Authentication extends baseModel {
