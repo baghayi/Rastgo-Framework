@@ -24,7 +24,7 @@ final class ErrorReporting {
     private $logFileSize = 10000000;
     
     public function __construct() {
-        $this->logDirPath = FILE_PATH . '__rfolder' . DS . 'logs' . DS;
+        $this->logDirPath = FILE_PATH . 'application' . DS . '__rfolder' . DS . 'logs' . DS;
         return;
     }
 
@@ -155,7 +155,7 @@ final class ErrorReporting {
     private function createLogDir(){
         
         if(!file_exists($this->logDirPath) || !is_dir($this->logDirPath)){
-            chdir( FILE_PATH .'__rfolder');
+            chdir( FILE_PATH . 'application' . DS . '__rfolder');
             
             if(is_writable(dirname($this->logDirPath))){
                 mkdir($this->logDirPath);
