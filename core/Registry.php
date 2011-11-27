@@ -1,5 +1,5 @@
 <?php
-namespace root\application\Registry;
+namespace root\core\Registry;
 
 final class Registry {
     private $registry = array();
