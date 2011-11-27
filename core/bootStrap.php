@@ -8,7 +8,7 @@ define('DS', DIRECTORY_SEPARATOR);
  * Script real path, ( from server's root to script root folder ) .
  * like, c:\\ ... | /var/www/... .
  */
-define('FILE_PATH', get_magic_quotes_gpc() ? dirname(__FILE__) . DS : addslashes(dirname(__FILE__)) . DS);
+define('FILE_PATH', get_magic_quotes_gpc() ? dirname(dirname(__FILE__)) . DS : addslashes(dirname(dirname(__FILE__))) . DS);
 
 /**
  * including config file.
@@ -46,5 +46,5 @@ define('TEMPLATE_URL', URL . 'application' . DS . 'views' . DS . TEMPLATE_FOLDER
  * can been able to load or include other classes and files
  * then instantiating it.
  */
-require_once FILE_PATH . 'application' . DS . 'Loader.php';
-\root\application\Loader\Loader::setAutoLoader();
+require_once FILE_PATH . 'core' . DS . 'Loader.php';
+\root\core\Loader\Loader::setAutoLoader();
