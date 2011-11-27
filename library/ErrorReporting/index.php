@@ -155,7 +155,7 @@ final class ErrorReporting {
     private function createLogDir(){
         
         if(!file_exists($this->logDirPath) || !is_dir($this->logDirPath)){
-            chdir('__rfolder');
+            chdir( FILE_PATH .'__rfolder');
             
             if(is_writable(dirname($this->logDirPath))){
                 mkdir($this->logDirPath);
