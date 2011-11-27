@@ -1,4 +1,5 @@
 <?php
+use root\core\baseController\baseController;
 
 class errorController extends baseController {
     
