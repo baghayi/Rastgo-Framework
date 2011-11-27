@@ -1,5 +1,5 @@
 <?php
-namespace root\application\Loader;
+namespace root\core\Loader;
 final class Loader {
 
     public function loadModel($ModleName) {
