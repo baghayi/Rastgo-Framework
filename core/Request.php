@@ -1,5 +1,5 @@
 <?php
-namespace root\application\Request;
+namespace root\core\Request;
 
 final class Request {
     private $controller, $method, $args;
