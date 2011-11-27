@@ -1,9 +1,14 @@
 <?php
+use root\core\baseController\baseController,
+    \root\library\Translator\index\Translator,
+    root\library\Cache\index\Cache,
+    root\library\Pagination\index\Pagination;
+
 class indexController extends baseController {
     
     public function index() {
         global $registry;
-        $registry->translation = new \root\library\Translator\index\Translator();
+        $registry->translation = new Translator();
         $registry->translation->loadLanguageFile('main');
 
         $registry->view->renderTemplate(__FUNCTION__, array(
@@ -16,9 +21,9 @@ class indexController extends baseController {
     
     public function cache(){
         global $registry;
-        $registry->cache = new root\library\Cache\index\Cache;
+        $registry->cache = new Cache;
         $registry->cache->setHashFileName(false);
-        $registry->translation = new \root\library\Translator\index\Translator();
+        $registry->translation = new Translator();
         $registry->translation->loadLanguageFile('main');
         
         /**
@@ -45,7 +50,7 @@ class indexController extends baseController {
     
     public function pagination()
     {
-        $page = new root\library\Pagination\index\Pagination(func_get_args());
+        $page = new Pagination(func_get_args());
         $page->initURLQueryStringName('page');
         $page->initTotalItemToBeShown(10);
         echo($page->getNewPageAddress($page->currentPageNumber()));
