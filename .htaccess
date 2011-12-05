@@ -1,8 +1,9 @@
 RewriteEngine On
 
+RewriteCond %{REQUEST_FILENAME} !public/
 #RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-l
+#RewriteCond %{REQUEST_FILENAME} !-f
+#RewriteCond %{REQUEST_FILENAME} !-l
 
 #In some cases (web servers) It's need to set this parameter (RewriteBase), and if its in a folder, write it's name after forward-slash and also put a final forward-slash after it, too.
 #RewriteBase /
