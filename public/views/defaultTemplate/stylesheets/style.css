@@ -1,0 +1,16 @@
+h2{
+    background-color: yellow;
+    text-align: center;
+    border-radius: 20px 20px 0px 0px;
+}
+p{
+    background: red;
+}
+#maindiv{
+    width: 500px;
+    height: 500px;
+    background-color: green;
+    margin: 0 auto;
+    border-radius: 20px;
+    box-shadow: 5px 5px blue;
+}
