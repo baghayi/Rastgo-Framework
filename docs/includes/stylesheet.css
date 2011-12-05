@@ -1,0 +1,63 @@
+body > div 
+{
+	direction: rtl;
+	margin: 0 auto;
+	font-family: Tahoma, sans-serif;
+	font-size: 13px;
+	width: 900px;
+	background-color: #BEBEBE;
+	border-radius: 20px 20px 0px 0px;
+	text-align: justify;
+}
+body > div > footer
+{
+	direction: ltr;
+	text-align: center;
+}
+nav
+{
+	text-align: center;
+	background-color: #636363;
+	height: 23px;
+}
+nav > h3 {
+	display: inline;
+	margin-left: 10px;
+}
+
+section#content
+{
+	margin-left: 7px;
+	margin-right: 7px;
+}
+
+footer > p
+{
+	font-weight: bold;
+	margin-top: 20px;
+}
+
+a:hover
+{
+	color: #EE9A00;
+}
+
+nav > h3 > a {
+	color: #FFFFFF;
+}
+
+header > h1 {
+	margin-right: 15px;
+}
+
+.forLeftUsers{
+	direction: ltr;
+	text-align: left;
+	margin-left: 15px;
+}
+
+.ltr{
+	direction: ltr;
+	text-align: left;
+	font-style: italic;
+}

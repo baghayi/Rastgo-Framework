@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>مستندات فریمورک راستگو</title>
+  <meta name="description" content="The documentation of the Rastgo Framework" />
+  <meta name="author" content="Rastgo Framework" />
+
+  <meta name="viewport" content="width=device-width; initial-scale=1.0" />
+  <link href="includes/stylesheet.css" rel="stylesheet" type="text/css" />
+  <script src="includes/javascript.js" type="text/javascript"></script>
+</head>
+
+<body>
+  <div>
+    <header>
+      <h1 id="title" title='languages (پوشه فایل های زبان/ترجمه)'>languages (پوشه فایل های زبان/ترجمه)</h1>
+    </header>
+    
+    <nav>
+      <h3><a href="index.html">صفحه اصلی</a></h3>
+      <h3><a href="library.html">کتابخانه فریمورک</a></h3>
+      <h3><a href="core.html">هسته فریمورک</a></h3>
+      <h3><a href="others.html">بخش های دیگر</a></h3>
+    </nav>
+
+    <section id='content'>
+    	<article>
+			<p>این پوشه محل نگهداری فایل های زبان هست و در مورد ساختارش با هم صحبت می کنیم.</p>
+			<p>همه فایل های زبان در پوشه ای قرار گرفته و در پوشه languages قرار می گیرن</p>
+			<p>مثلا پوشه persian یا english یا ... که از این اسم هم برای تعیین پوشه زبان در متد پابلیک setDefaultLang کلاس Translator استفاده می شه</p>
+			<p>تو پوشه ی مثلا english یا ... فایل های زبان رو قرار می دید که چون پسوند فایل زبان بصورت پیش فرض .php ست شده پسوند فایل ها رو هم باید .php تعیین بشه که البته این مورد توسط متد setLangFileExtension داخل کلاس Translator قابل تغییر هست</p>
+			<p>مثلا فایل index.php یا main.php یا common.php و یا ...</p>
+			<p>داخل فایل زبان مثلا main.php یا ... باید آرایه ای داشته باشید که مقادیر رو تو خودش ذخیره کرده باشه و در نهایت آرایه توسط return باید بازگشت داده بشه</p>
+			<p>و متونتون رو داخل آرایه ست کرده و برای هر کدام index ای تعریف می کنید و باقی کارها هم توسط کلاس Translator انجام خواهد شد.</p>
+    	</article>
+    </section>
+
+    <footer>
+     <p>&copy; Copyright  by Rastgo Framework 2011</p>
+    </footer>
+  </div>
+</body>
+</html>

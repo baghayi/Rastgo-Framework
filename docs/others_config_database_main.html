@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>مستندات فریمورک راستگو</title>
+  <meta name="description" content="The documentation of the Rastgo Framework" />
+  <meta name="author" content="Rastgo Framework" />
+
+  <meta name="viewport" content="width=device-width; initial-scale=1.0" />
+  <link href="includes/stylesheet.css" rel="stylesheet" type="text/css" />
+  <script src="includes/javascript.js" type="text/javascript"></script>
+</head>
+
+<body>
+  <div>
+    <header>
+      <h1 id="title" title='database.php (تنظیمات مربوط به دیتابیس اصلی)'>database.php (تنظیمات مربوط به دیتابیس اصلی)</h1>
+    </header>
+    
+    <nav>
+      <h3><a href="index.html">صفحه اصلی</a></h3>
+      <h3><a href="library.html">کتابخانه فریمورک</a></h3>
+      <h3><a href="core.html">هسته فریمورک</a></h3>
+      <h3><a href="others.html">بخش های دیگر</a></h3>
+    </nav>
+
+    <section id='content'>
+    	<article>
+			<p>این فایل جهت قرار دادن تنظیمات مربوط به دیتابیس هست و در حقیقت دستورات دیتابیس اصلی مون که قراره باهاش بطور پیش فرض کار کنیم و در صورتی که حین کار بخواهیم به دیتابیس های دیگه ای کانکت بشیم می تونیم از طریق متدهای کلاس DatabaseConfig به این هدف دست یابیم.</p>
+			<br />
+			
+			<p>اطلاعات دیتابیس باید بصورت آرایه در متغییر ای بنام $dbConfig ذخیره بشه.</p>
+			<p>کلید های آرایه شامل:</p>
+			<p>- name برای نام دیتابیس</p>
+			<p>- username نام کاربری دیتابیس</p>
+			<p>- password کلمه عبور دیتابیس</p>
+			<p>- host آدرس دیتابیسمون یا IP اش که معمولا یا localhost داده می شه و یا IP که این گزینه اختیاری هست و مقدار پیش فرض  127.0.0.1 هست.</p>
+			<p>- driver هم برای تعیین درایور دیتابیسمون هست که مثلا برای کار با mysql همین مقدار mysql رو بهش می دیم. که این گزینه اختیاری هست و مقدار پیش فرض mysql هست.</p>
+			<p>- port شماره پورت دیتابیس که وارد کردن این مقدار اختیاری هست و مقدار پیش فرض 3306 هست.</p>
+			<p>- pdoOptions برای تعیین آپشن های مربوط به کلاس PDO هست و این دستورات باید بصورت ارایه باشه و این اطلاعات در حقیقت به پارامتر چهارم کلاس PDO داده می شه. و همینطور این مقدار اختیاری هست و تعیین نکردنش مشکلی ایجاد نمی کنه.</p>
+			<br />
+			
+			<p>آرایه بصورت استاتیک هستش و از همین آرایه در فایل index.php در ریشه برنامه مون ازش استفاده می شه و به کلاس DatabaseConfig تحویل داده می شه.</p>
+    	</article>
+    </section>
+
+    <footer>
+     <p>&copy; Copyright  by Rastgo Framework 2011</p>
+    </footer>
+  </div>
+</body>
+</html>

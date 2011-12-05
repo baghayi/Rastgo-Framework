@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>مستندات فریمورک راستگو</title>
+  <meta name="description" content="The documentation of the Rastgo Framework" />
+  <meta name="author" content="Rastgo Framework" />
+
+  <meta name="viewport" content="width=device-width; initial-scale=1.0" />
+  <link href="includes/stylesheet.css" rel="stylesheet" type="text/css" />
+  <script src="includes/javascript.js" type="text/javascript"></script>
+</head>
+
+<body>
+  <div>
+    <header>
+      <h1 id="title" title='indexModel.php (مدل پیش فرض)'>indexModel.php (مدل پیش فرض)</h1>
+    </header>
+    
+    <nav>
+      <h3><a href="index.html">صفحه اصلی</a></h3>
+      <h3><a href="library.html">کتابخانه فریمورک</a></h3>
+      <h3><a href="core.html">هسته فریمورک</a></h3>
+      <h3><a href="others.html">بخش های دیگر</a></h3>
+    </nav>
+
+    <section id='content'>
+    	<article>
+			<p>کلاس indexModel هم که نمونه ای از model های ماست (و به اسم index که بطور پیشفرض باید به این اسم باشه / مگر اینکه اسم کنترلر رو از index به اسم دیگه ای تعییر بدید که در موردش قبلا بحث شده/ در توضیحات فایل application\controllers\indexController.php ) </p>
+			<p>که اسم model هم در حقیقت index هست که بنا به قوانین این فریمورم باید کلمه Model رو به انتهای model اضافه کنید (هم برای فایل model  و هم برای اسم کلاسش)</p>
+			<p>وظیفه model ها هم اتصال به دیتابیس و انجام عملیات مورد نظر ماست</p>
+			<p>و همینطور این کلاس از کلاس baseModel ارث بری می کنه (برای اینکه بتونیم از دیتابیس استفاده کنیم) در صورتی که نیاز به دیتابیس ندارم می تونیم ارث بری نکنیم ازش (به این توجه کنید که کار model ها کار با دیتابیس هست پس در نتیجه ارث بری نکردن ازش بی معنی خواهد بود)</p>
+			<br />
+			
+			<h4>متدها</h4>
+			<p>متد پیش فرض کلاس index هست که چون این متد abstract در کلاس پدر هست (baseModel) پس باید تعریف بشه</p>
+			<p>و همینطور متنی داخل این متد فقط برای تست آورده شده است که کارش نشون داده بشه و در تست سربلند بیاد بیرون :))</p>
+			<hr />
+			
+			<p>یه متد دیگه ای به این کلاس اضافه شده به اسم cache که نحوه استفاده از کلاس کش توش بکار رفته و به عنوان مثال افزوده شده و کار خاصی نمی کنه</p>
+    	</article>
+    </section>
+
+    <footer>
+     <p>&copy; Copyright  by Rastgo Framework 2011</p>
+    </footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>مستندات فریمورک راستگو</title>
+  <meta name="description" content="The documentation of the Rastgo Framework" />
+  <meta name="author" content="Rastgo Framework" />
+
+  <meta name="viewport" content="width=device-width; initial-scale=1.0" />
+  <link href="includes/stylesheet.css" rel="stylesheet" type="text/css" />
+  <script src="includes/javascript.js" type="text/javascript"></script>
+</head>
+
+<body>
+  <div>
+    <header>
+      <h1 id="title" title='Loader.php (برای لودفایل ها توسط Namecpase شون)'>Loader.php (برای لودفایل ها توسط Namecpase شون)</h1>
+    </header>
+    
+    <nav>
+      <h3><a href="index.html">صفحه اصلی</a></h3>
+      <h3><a href="library.html">کتابخانه فریمورک</a></h3>
+      <h3><a href="core.html">هسته فریمورک</a></h3>
+      <h3><a href="others.html">بخش های دیگر</a></h3>
+    </nav>
+
+    <section id='content'>
+    	<article>
+			<p>کار این فایل لود دیگر کلاس ها و همینطور model هاست</p>
+			<p>این کلاس فاینال هست و ۳ تا متد داره</p>
+			
+			<h4>متدها</h4>
+			<p>متد ای به اسم loadModel هست که باهاش model ها رو لود می کنیم</p>
+			<p>این model ها یه کلاسی base ای داره که بقیه بتونن ازش ارث بری کنن و قبلا این کلاس base رو هم گذاشته بودم که توسط همین لودر لود بشه که دیدم الکی کارو فقط زیاد می کنه و واسه همین قبل از لود کردن model صدا زده شده، کلاس baseModel هم بطور دستی لود می شه که دیگه الکی لقمه رو دو دهنمون نچرخونیم</p>
+			<hr />
+			
+			<p>یه متد دیگه ای به اسم autoLoader لود هست که وظیفش اینه که کلاس ها رو لود کنه / البته باید namespace های هر کلاس دقیق وارد بشه که بتونه تشخصی بده کلاس ها کجای برنامه و بطور دقیق تر کدوم پوشه قرار دارن که بتونه لودشون کنه و همینطور این کلاس استاتیک تشریف دارن.</p>
+			<hr />
+			
+			<p>متد آخری setAutoLoader و یک متد استاتیک هست که وظیفش اینه که متد قبلی یعنی autoLoader رو به عنوان Autoloader به php معرفی کنه / بطور دقیق:</p>
+			<p>طبیعتا باید بدونید کار __autoload چی هست / کارش اینه که وقتی کلاسی صدا زده می شه این PHP دنبال این تابع می گرده که اگه کلاسی قبلا LOAD نشده باشه بتونه ازش استفاده کنه و طبق مسیری که برنامه نویس تو تابع داده بر طبق همون کلاس رو لود کنه.</p>
+			<p>واسه اطلاعات بهتر در مورد __autoload به اینجا مراجعه کنید:</p>
+			<p><a href="http://us.php.net/manual/en/language.oop5.autoload.php" alt="Autoload">Autoload</a></p>
+			<br />
+			
+			<h4>آدرس دهی namespace ها در این فریمورک</h4>
+			<p>خوب در مورد آدرس دهی namepsace ها هم تو این فریمورک توضیح بدم که بدونید چطوری باید برای هر کلاس namespace درست تعریف کنید که فریمورک بتونه کلاس مربوطه رو لود کنه</p>
+			<p>روشش دقیق مثل آدرس دهی فایل ها و پوشه ها تو سیستم عامل ها می مونه</p>
+			<p>بطور دقیق تر یعنی:</p>
+			<p>برای پوشه اصلی یعنی ریشه فریمورک از کلمه root استفاده می شه و بک اسلش \ و همینطور تا انتها</p>
+			<p>یعنی فرض کنید کلاسی داریم به اسم Test.php در شاخه application/class - خوب برای تعریف namespace به این فایل مون باید اینطوری عمل کنیم:</p>
+			<pre class="ltr">namespace root\application\class\Test;</pre>
+			<p>و یا کلاسی داریم برای ذخیره لوگ ها در همین فریمورک در آدرش زیر قرار داره: (نسبت به ریشه برنامه)</p>
+			<pre class="ltr">library\ErrorReporting\index.php</pre>
+			<p>که indx.php اسم فایل کلاس هست و ErrorReporting هم پوشه ای هست که کلاس توش قرار داره و دقیقا هم اسم کلاس (داخل فایل کلاس : / class ErrorReporting {...})</p>
+			<p>که برای تعریف namespace به این کلاس باید اینطوری عمل کنیم:</p>
+			<pre class="ltr">namespace root\library\ErrorReporting\index;</pre>
+			<p>که به این طریق loader خودش می یاد و کلاس ها رو پیدا می کنه و لودشون می کنه</p>
+			<p>در مورد نحوه دقیق کارکردش می تونید کلاس loader رو باز کنید و متد autoLoader رو بخونید که توضیح تک تک خط ها رو توش دادم</p>
+    	</article>
+    </section>
+
+    <footer>
+     <p>&copy; Copyright  by Rastgo Framework 2011</p>
+    </footer>
+  </div>
+</body>
+</html>

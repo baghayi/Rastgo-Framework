@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>مستندات فریمورک راستگو</title>
+  <meta name="description" content="The documentation of the Rastgo Framework" />
+  <meta name="author" content="Rastgo Framework" />
+
+  <meta name="viewport" content="width=device-width; initial-scale=1.0" />
+  <link href="includes/stylesheet.css" rel="stylesheet" type="text/css" />
+  <script src="includes/javascript.js" type="text/javascript"></script>
+</head>
+
+<body>
+  <div>
+    <header>
+      <h1 id="title" title='SessionDB'>SessionDB</h1>
+    </header>
+    
+    <nav>
+      <h3><a href="index.html">صفحه اصلی</a></h3>
+      <h3><a href="library.html">کتابخانه فریمورک</a></h3>
+      <h3><a href="core.html">هسته فریمورک</a></h3>
+      <h3><a href="others.html">بخش های دیگر</a></h3>
+    </nav>
+
+    <section id='content'>
+    	<article>
+			<header>
+				<h3>فهرست</h3>
+			</header>
+			
+			<ul>
+				<li><a href="#mainclass" alt="index.php (کلاس اصلی)">index.php (کلاس اصلی)</a></li>
+			</ul>
+    	</article>
+    	
+    	<article>
+    		<header>
+    			<h3>توضیحات</h3>
+    		</header>
+    		
+    		<a name="mainclass" id="mainclass"></a>
+    		<h4>index.php (کلاس اصلی)</h4>
+    		<p>این کلاس بنام SessionDB برای کار با session ها و ذخیره سازیشون تو دیتابیس طراحی شده.</p>
+    		<p>این کلاس، از کلاس baseModel برای استفاده از کلاس PDO و ارتباط با دیتابیس، ارث بری می کنه.</p>
+    		<p>و همچنین namespace کلاس هم root\library\SessionDB\index هست.</p>
+    		<br />
+    		
+    		<h5>پروپرتی ها</h5>
+    		<p>- $sessionName با مقدار اولیه PHPSESSID ، که مقدار session_name رو تو خودش ذخیره می کنه</p>
+    		<hr />
+    		
+    		<p>- $DBTableName با مقدار اولیه session ، که نام جدول ای است که قراره سشن ها توش ذخیره بشن و توسط تابع initSetDBTableName() قابل تغییر است.</p>
+    		<hr />
+    		
+    		<h5>متدها</h5>
+    		<p>این کلاس ۳ نوع متد داره!</p>
+    		<p>نوع اولی متدهایی هستند که نیازی به استفاده ازشون برای کار با کلاس نخواهد بود که شامل متدهای close ، open ، garbageCollector ، destroy ، write ، read ، setHandlerSettings ، removeRowInDb ، endSession و آخری هم index هست (index فقط بخاطر این ایجاد شده که از کلاس انتزاعی ارث بری کرده و مجبور به ایجاد ایم متد بود.)</p>
+    		<p>این متد ها توسط هندلر، یا در طول برنامه و یا در کلاس سازنده استفاده می شه و کاربری برای برنامه نویس نخواهد داشت.</p>
+    		<p>نوع دوم متد هایی هستند که برای مقدار دهی اولیه استفاده می شوند و با پیشوند init ایجاد شده اند و شامل متدهای initUseOnlyCookie ، initGcProbabilityDivisor ، initSetMaxLifeTime ، initSetDBTableName ، initCreateSessionTable ،  هستند.</p>
+    		<p>این متدها نیاز هست که قبل از استفاده از کلاس (منظور از استفاده ایجاد شی از کلاس نیست و منظور استفاده از این متد ها قبل از اینکه متد ‌start کلاس صدا زده بشه هست.) در غیر اینصورت بی اثر خواهند بود.</p>
+    		<p>نوع سوم متد سازنده و متد start هست. که متد سازنده هنگام ایجاد شی از کلاس استفاده خواهد شد و دارای یک پارامتر هست و متد start که بعد از متدهایی که مقدار دهی اولیه می کنن باید صدا زده بشه و شروع کار با session ها رو اعلام می کنه.</p>
+    		
+    		<h5>- توضیحات متدهای مقداردهی اولیه کننده!</h5>
+    		<p>- متد initUseOnlyCookie برای زمانی هست که می خواهید فقط از کوکی برای ذخیره سشن آی دی استفاده بشه و برای افزایش امنیت سشن آی دی هستش و همچنین نمی خواهد سشن آی دی از طریق URL ها در دسترس باشن و فقط از طریق کوکی در دسترس باشن.</p>
+    		<hr />
+    		
+    		<p>- متد initGcProbabilityDivisor برای تعیین مقادیر session.gc_probability و session.gc_divisor هستش که برای تعیین درصد احتمالی حذف سشن های تاریخ مصرف گذشته توسط خود PHP هستش و دارای دو پارامتر هست.</p>
+    		<p>پارامتر اولی مقدار session.gc_probability رو تعیین می کنه و پارامتر دومی هم مقدار session.gc_divisor رو تعیین می کنه.</p>
+    		<hr />
+    		
+    		<p>- متد initSetMaxLifeTime برای تعیین مقدار session.gc_maxlifetime هستشن که مقدار ای که هر سشن می تونه عمر کنه رو تعیین می کنه.</p>
+    		<p>این مقدار به مقدار آخرین دسترسی به سشن اضافه می شه و با زمان فعلی حساب شده و در صورت کم بودن امکان حذف سشن مقدور می شه.</p>
+    		<hr />
+    		
+    		<p>- متد initSetDBTableName برای تعیین نام جدول ای هستش که قراره سشن ها درش ذخیره بشن.</p>
+    		<hr />
+    		
+    		<p>- متد initCreateSessionTable دارای کوئری (ساختار جدول دیتابیس) هست و با اجراش جدول مربوطه در دیتابیس ایجاد خواهد شد (که مشخصات دریتابیس در فایل config/database.php قرار دارن) و نیازی به استفاده بیش از ۱ بار ازش نیست که با اینکه بیش از یکبار هم استفاده بشه مشکلی ایجاد نخواهد کرد!</p>
+    		<br />
+    		
+    		<h5>- توضیحات متدهای نوع سوم!</h5>
+    		<p>- متد سازنده که دارای یک پارامتر هست و برای زبان هایی مثل فارسی، ... استفاده می شه که در صورتی که مقدار true بهش داده بشه کوئری SET NAMES utf8 به دیتابیس ارسال می شه تا مقادیر به درستی در دیتابیس ذخیره بشن. و مقدار پیش فرض این پارامتر FALSE هستش.</p>
+    		<hr />
+    		
+    		<p>- متد start که بعد از همه تنظیمات و زمانی مه خواستیم از سشن هامون استفاده کنیم این متد رو صدا می زنیم که باعث می شه متد setHandlerSettings صدا زده بشه و هندلر سشن ساخته شده صدا زده می شه و همه چیز آماده استفاده می شه.</p>
+    		<br />
+    		
+    		<h5>- نحوه استفاده از کلاس</h5>
+    		<p>بعد از اینکه همه تنظیمات را با متدها انجام داده و در نهایت متد start صدا زده شد، همانطوری که قبلا با سشن ها کار می کردید باید همانگونه عمل کنید و از session_start() شروع کرده و ادامه می دید</p>
+    		<p>بعنوان مثال برای اینکه سشن های تعیین شده از بین برن مثل روش عادی از تابع خود پی اچ پی session_destroy() استفاده می کنید که خود سیستم متد مربوطه که در کلاس تعیین شده رو صدا می زنه و کارش رو انجام می ده.</p>
+    	</article>
+    </section>
+
+    <footer>
+     <p>&copy; Copyright  by Rastgo Framework 2011</p>
+    </footer>
+  </div>
+</body>
+</html>

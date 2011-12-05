@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>مستندات فریمورک راستگو</title>
+  <meta name="description" content="The documentation of the Rastgo Framework" />
+  <meta name="author" content="Rastgo Framework" />
+
+  <meta name="viewport" content="width=device-width; initial-scale=1.0" />
+  <link href="includes/stylesheet.css" rel="stylesheet" type="text/css" />
+  <script src="includes/javascript.js" type="text/javascript"></script>
+</head>
+
+<body>
+  <div>
+    <header>
+      <h1 id="title" title='.htaccess (تنظیمات مربوط به وب سرور)'>.htaccess (تنظیمات مربوط به وب سرور)</h1>
+    </header>
+    
+    <nav>
+      <h3><a href="index.html">صفحه اصلی</a></h3>
+      <h3><a href="library.html">کتابخانه فریمورک</a></h3>
+      <h3><a href="core.html">هسته فریمورک</a></h3>
+      <h3><a href="others.html">بخش های دیگر</a></h3>
+    </nav>
+
+    <section id='content'>
+    	<article>
+			<p>این فایله هم اول می یاد ریرایت انجین رو توسط دستور زیر روشن می کنه:</p>
+			<pre class="ltr">RewriteEngine On</pre>
+			<hr />
+			
+			<p>بعد توسط دستور زیر می یاد همه مقادیر وارد شده در url رو به انتهای فایل index.php می زاره (بدون اینکه نیاز باشه index.php تو url دیده بشه):</p>
+			<pre class="ltr">RewriteRule ^(.+)$ public/index.php/$1</pre>
+			<hr />
+			
+			<p>و دستورهای زیر هم چند تا شرط هستش که می گه اگه چیزی که در URL وارد می شه دقیقا به همون اسم فایلی تو سرور باشه و یا لینکی باشه و یا پوشه ای باشه بجای اینکه این اسامی رو به انتهاب index.php بفرستی و (هر چی) اون فایل ها و پوشه ها و ... رو مثل حالت عادی نمایش بده و همین دیگه:</p>
+			<pre class="ltr">
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-l
+			</pre>
+			<p>که البته گزینه بطور پیش فرض غیرفعال شده است، که مربوط به پوشه هستش:</p>
+			<pre class="ltr">#RewriteCond %{REQUEST_FILENAME} !-d</pre>
+			<hr />
+			
+			<p>دستور زیر هم می گه که فایل های داخل پوشه ها رو نمایش نده که یکی بخواد بازی کنه با ما و این پوشه ها رو لود کنه خطای 403 می گیره.</p>
+			<pre class="ltr">Options All -Indexes</pre>
+			<hr />
+			
+			<p>دستور زیر هم به این خاطر اضافه شده که در برخی سرورها ممکنه با خطا روبرو بشید.</p>
+			<p>بخاطر آدرس دهی  که در هر سروری به هر کاربر تعلق می گیره و فرق می کنه و ... که با این گزینه می تونید آدرس کامل پوشه ای که اسکریپت توشه رو بهش بدید و از وقوع خطا جلوگیری کنید.</p>
+			<p>و البته همین فایل htaccess هم باید کنار باقی اسکریپت و همین جای خودش باشه و البته آدرس رو از شاخه ای که بهتون تعلق گرفته (منظور جایی که کدها برای دسترسی عموم هست و از طریق URL اولین پوشه ای هست که نمایش داده می شه) مثل پوشه public یا www یا ... و آدرس رو از همانجا تعیین می کنید و مشکل رفع می شه.</p>
+			<p>البته این گزینه بصورت پیش فرض غیر فعال شده که با برداشتن گزینه # از ابتدای دستور می تونید فعالش کنید و سپس آدرس کامل پوشه www یا‌ public یا ... به انتهای دستور اضافه کرده و اسلش هم می زارید:</p>
+			<pre class="ltr">#RewriteBase /</pre>
+			<hr />
+			
+			<p>دستور زیر هم برای این تعیین شده که پوشه public رو به عنوان شاخه اصلی و ابتدایی از طریق URL بشناسه و در ابتدا فایل index.php اجرا بشه.</p>
+			<pre class="ltr">DirectoryIndex public/index.php</pre>
+			<p>در حقیقت بخاطر اینکه فایل index.php از ریشه فریمورک به پوشه public منتقل شده این گزینه هم اضافه شده که پوشه پیشفرض و فایل پیش فرض هم تعیین بشه، در غیراینصورت مرورگر داخل ریشه اصلی دنبال فایل ای مثل index.php و ... می گرده و چون همچین چیزی نیست لیست پوشه ها رو نشون می ده و همینطور چون نمایش لیست پوشه ها غیرفعال شده، چیز خاصی به کاربر نمایش داده نمی شه و در حقیقت برنامه اجرا نمی شه.</p>
+			
+    	</article>
+    </section>
+
+    <footer>
+     <p>&copy; Copyright  by Rastgo Framework 2011</p>
+    </footer>
+  </div>
+</body>
+</html>

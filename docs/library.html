@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>مستندات فریمورک راستگو</title>
+  <meta name="description" content="The documentation of the Rastgo Framework" />
+  <meta name="author" content="Rastgo Framework" />
+
+  <meta name="viewport" content="width=device-width; initial-scale=1.0" />
+  <link href="includes/stylesheet.css" rel="stylesheet" type="text/css" />
+  <script src="includes/javascript.js" type="text/javascript"></script>
+</head>
+
+<body>
+  <div>
+    <header>
+      <h1 id="title" title='کتابخانه فریمورک'>کتابخانه فریمورک</h1>
+    </header>
+    
+    <nav>
+      <h3><a href="index.html">صفحه اصلی</a></h3>
+      <h3><a href="library.html">کتابخانه فریمورک</a></h3>
+      <h3><a href="core.html">هسته فریمورک</a></h3>
+      <h3><a href="others.html">بخش های دیگر</a></h3>
+    </nav>
+
+    <section id='content'>
+    	<article>
+    		<p>تمام کلاس های فریمورک در پوشه ای بنام library در شاخه اصلی قرار دارن و هر کلاس دارای یک پوشه مجزا به خود با نام خود کلاس خواهد بود، که اطلاعات مربوط به کلاس، از جمله خود کلاس، توضیحات، وابستگی ها، نمونه کدهای ایجاد شده برای کلاس می تونه داخل پوشه مربوط به هر کلاس قرار بگیره.</p>
+	    	<p>برای استفاده از کلاس ها و در حقیقت صدا زدنشون باید از namespace ها شون استفاده بشه، پس در نتیجه تعیین namespace برای هر کلاس ضروری می باشد و namespace ها مثل شاختار پوشه ها تعیین می شن.</p>
+	    	<p>مثلا شاخه اصلی فریمورک بنام root هست و بعد که وارد شاخه library می شیم و سپس وارد پوشه کلاس و در نهایت نام خود فایل (فایلی ای که کدها درش قرار دارن، بدون پسوند فایل) رو به عنوان namespace تعیین می کنید.</p>
+	    	<p>نکته: پسوند فایل ها هم باید .php باشن که نبایستی در namespace قرار بگیره.</p>
+	    	<p>که به عنوان مثال می شه:</p>
+	    	<p class="ltr">namespace root\library\YOUR_CLASS_FOLDER_NAME\YOUR_CLASS_FILE_NAME_WITHOUT_EXTENSION;</p>
+	    	<br />
+    	</article>
+    	
+		<article>
+			<header>
+				<h3>نحوه نام گزاری پوشه های هر کلاس</h3>
+			</header>
+			
+			<p>کلاس ها رو همینطوری نباید قرار بدید و یه پوشه ای ایجاد می کنید دقیقا به اسم نام کلاس (داخل فایل class CLASSNAME{}) و به کوچکی و بزرگی حروف هم دقت کنید که برابر باشن.</p>
+	    	<p>داخل پوشه هم نام فایل کلاس رو هر چی قرار بدید باید همون رو در انتهای namespace قرار بدید، مثلا نام فایل رو بزارید index.php کلمه index رو هم باید به namespace تو داخل فایل کلاس اضافه کنید.</p>
+	    	<p>داخل پوشه کلاس هم می تونید توضیحات تکمیلی مثل:</p>
+	    	<p>نحوه استفاده از کلاس، مثال هایی در مورد نحوه استفاده،هر چیز دیگری که نیاز به بودنش در کنار خود کلاس هست مرو تو همون پوشه می تونید قرار بدید.</p>
+    		<br />
+		</article>
+    
+    	<article>
+    		<header>
+    			<h3>لیست کلاس ها</h3>
+    		</header>
+    		
+    		<ul>
+	      		<li><a href="lib_authentication_main.html" alt="Authentication Class">Authentication</a></li>
+	      		<li><a href="lib_bcrypt_main.html" alt="Bcrypt Class">Bcrypt</a></li>
+	      		<li><a href="lib_cache_main.html" alt="Bcrypt Class">Cache</a></li>
+	      		<li><a href="lib_crontab_main.html" alt="Crontab Class">Crontab</a></li>
+	      		<li><a href="lib_databaseconfig_main.html" alt="DatabaseConfig Class">DatabaseConfig</a></li>
+	      		<li><a href="lib_errorreporting_main.html" alt="ErrorReporting Class">ErrorReporting</a></li>
+	      		<li><a href="lib_pagination_main.html" alt="Pagination Class">Pagination</a></li>
+	      		<li><a href="lib_sessiondb_main.html" alt="SessionDB Class">SessionDB</a></li>
+	      		<li><a href="lib_template_main.html" alt="Template Class">Template</a></li>
+	      		<li><a href="lib_translator_main.html" alt="Translator Class">Translator</a></li>
+	        </ul>
+    	</article>
+    </section>
+
+    <footer>
+     <p>&copy; Copyright  by Rastgo Framework 2011</p>
+    </footer>
+  </div>
+</body>
+</html>
