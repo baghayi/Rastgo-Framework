@@ -39,7 +39,7 @@ define('URL', WEB_PROTOCOL . '://' . $_SERVER["SERVER_NAME"] . $portNumber . '/'
  * Site Path to the template, 
  * For loading stylesheets, or javascripts, ... .
  */
-define('TEMPLATE_URL', URL . 'application' . DS . 'views' . DS . TEMPLATE_FOLDER_NAME . DS);
+define('TEMPLATE_URL', URL . 'public/views/' . TEMPLATE_FOLDER_NAME . '/');
 
 /**
  * We are just including the Loader file that
