@@ -68,7 +68,7 @@ final class Loader {
             return;
         }else{
             global $registry;
-            $registry->error->reportError('The Called Class File Does Not Exists!', __LINE__, __METHOD__, true);
+            $registry->error->reportError("The Called Class File Does Not Exists! ({$filePath})", __LINE__, __METHOD__, false);
             return;
         }
         return;
