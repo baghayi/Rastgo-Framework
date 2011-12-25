@@ -9,6 +9,7 @@ $registry->request = new \root\core\Request\Request();
 try 
 {
     $registry->db = new \root\library\DatabaseConfig\index\DatabaseConfig($dbConfig);
+    $registry->lib = new \root\core\LibraryController\LibraryController;
     $registry->router = new \root\core\Router\Router();
 } 
     catch (Exception $e) 
