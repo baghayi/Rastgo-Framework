@@ -37,7 +37,12 @@ final class DatabaseConfig {
             /**
              * Includes the options that will be given to the PDO class and it mnust be an array.
              */
-            $pdoOptions = array();
+            $pdoOptions = array(),
+            
+            /**
+             * The name of the database configuration name, in the config directory.
+             */
+            $configFileName = 'database.ini';
             
     /**
      * This constructor method will be run after instantiation and will get the database configuration as az array.
@@ -47,13 +52,14 @@ final class DatabaseConfig {
      * @param array $dbConfigInfo The array that includes the database configuration, such as database name, database username, ... .
      * @return void
      */
-    public function __construct($dbConfigInfo) 
+    public function __construct() 
     {
         global $registry;
+        $dbConfigInfo = $this->parseConfigFile();
         
         if (!is_array($dbConfigInfo)) 
         {
-            $registry->error->reportError('The Entered Parameter In Not Az Array! <br />It Must Be An Array!', __LINE__, __METHOD__, true);
+            $registry->error->reportError('The Entered Parameter Is Not An Array! <br />It Must Be An Array!', __LINE__, __METHOD__, true);
             return 0;
         }
         elseif (is_array($dbConfigInfo)) 
@@ -81,6 +87,13 @@ final class DatabaseConfig {
             }
             return;
         }
+    }
+    
+    public function parseConfigFile()
+    {
+        $configFileAddress = FILE_PATH . 'config' . DS . $this->configFileName;
+        
+        return parse_ini_file($configFileAddress);
     }
     
     /**
