@@ -16,11 +16,6 @@ define('FILE_PATH', get_magic_quotes_gpc() ? dirname(dirname(__FILE__)) . DS : a
 require_once FILE_PATH . 'config' . DS . 'config.php';
 
 /**
- * Including Database settings file.
- */
-require_once FILE_PATH . 'config' . DS . 'database.php';
-
-/**
  * IIS >= 6 ,
  * In IIS, It might have not been setted, then we can do ot manually!
  */
