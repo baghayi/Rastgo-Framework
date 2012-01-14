@@ -1,6 +1,7 @@
+nbproject
+nbproject/
 nbproject/private/
 nbproject/project.properties
-nbproject/
 ./nbproject
 application/__rfolder/cache/
 application/__rfolder/logs/
