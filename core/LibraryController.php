@@ -47,7 +47,7 @@ namespace root\core\LibraryController
         
         public static function configFileAddress()
         {
-            return (FILE_PATH . 'config' . DS . self::configFileName);
+            return (FILE_PATH . 'config' . DIRECTORY_SEPARATOR . self::configFileName);
         }
         
         public static function parseConfigFile()

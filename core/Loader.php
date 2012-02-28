@@ -6,7 +6,7 @@ final class Loader {
         global $registry;
 
         $ModelCompleteName = $ModleName . 'Model';
-        $ModelPath = FILE_PATH . 'application' . DS . 'models' . DS . $ModelCompleteName . '.php';
+        $ModelPath = FILE_PATH . 'application' . DIRECTORY_SEPARATOR . 'models' . DIRECTORY_SEPARATOR . $ModelCompleteName . '.php';
 
         if (file_exists($ModelPath)) {
             require_once $ModelPath;
@@ -48,7 +48,7 @@ final class Loader {
          * After taking and removing those stuffs, then we are converting namespace from array to an string .
          * using the directory seperator that it can work perfectly in every OS (like: windows, linux, ...) .
          */
-        $filePath = implode(DS, $filePath);
+        $filePath = implode(DIRECTORY_SEPARATOR, $filePath);
         /**
          * Now we have just removed that root key from the beggining of the namespace that was extra and also
          * took the Class name (not its file name) from the namespace.

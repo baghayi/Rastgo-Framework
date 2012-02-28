@@ -16,7 +16,7 @@ class Template {
      * Making ready the template directory address, and setting it in the $baseDir property.
      */
     public function __construct() {
-        $this->baseDir = FILE_PATH . 'application' . DS . 'views' . DS . TEMPLATE_FOLDER_NAME;
+        $this->baseDir = FILE_PATH . 'application' . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . TEMPLATE_FOLDER_NAME;
     }
 
     /**
@@ -67,7 +67,7 @@ class Template {
             $baseDir = $this->getBaseDir();
         }
 
-        $templatePath = $baseDir . DS . $template . $this->getExtension();
+        $templatePath = $baseDir . DIRECTORY_SEPARATOR . $template . $this->getExtension();
         
         if (!file_exists($templatePath)) {
             $registry->error->reportError('Could not include template ' . $templatePath, __LINE__, __METHOD__, true);

@@ -91,7 +91,7 @@ final class DatabaseConfig {
     
     public function parseConfigFile()
     {
-        $configFileAddress = FILE_PATH . 'config' . DS . $this->configFileName;
+        $configFileAddress = FILE_PATH . 'config' . DIRECTORY_SEPARATOR . $this->configFileName;
         
         return parse_ini_file($configFileAddress);
     }

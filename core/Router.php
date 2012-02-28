@@ -16,7 +16,7 @@ class Router
     private function getController(){
         global $registry;
         
-        $controllerAddress = FILE_PATH . 'application' . DS . 'controllers' . DS . $registry->request->getController() . 'Controller.php';
+        $controllerAddress = FILE_PATH . 'application' . DIRECTORY_SEPARATOR . 'controllers' . DIRECTORY_SEPARATOR . $registry->request->getController() . 'Controller.php';
         
         if(file_exists($controllerAddress) and is_readable($controllerAddress))
         {

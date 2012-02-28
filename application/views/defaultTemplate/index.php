@@ -1,5 +1,5 @@
 <?php
-$css = TEMPLATE_URL . 'stylesheets' . DS .'style.css';
+$css = TEMPLATE_URL . 'stylesheets' . DIRECTORY_SEPARATOR .'style.css';
 echo <<<Template
 <!docetype html>
     <html>

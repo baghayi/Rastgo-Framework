@@ -10,7 +10,7 @@ final class Cache {
      * Instead of using the constant.
      */
     public function __construct() {
-        $this->cacheFolderPath = FILE_PATH . 'application' . DS . '__rfolder' . DS . $this->cacheFolderName. DS;
+        $this->cacheFolderPath = FILE_PATH . 'application' . DIRECTORY_SEPARATOR . '__rfolder' . DIRECTORY_SEPARATOR . $this->cacheFolderName. DIRECTORY_SEPARATOR;
         return;
     }
 

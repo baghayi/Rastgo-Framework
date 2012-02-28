@@ -24,7 +24,7 @@ final class ErrorReporting {
     private $logFileSize = 10000000;
     
     public function __construct() {
-        $this->logDirPath = FILE_PATH . 'application' . DS . '__rfolder' . DS . 'logs' . DS;
+        $this->logDirPath = FILE_PATH . 'application' . DIRECTORY_SEPARATOR . '__rfolder' . DIRECTORY_SEPARATOR . 'logs' . DIRECTORY_SEPARATOR;
         return;
     }
 
@@ -65,7 +65,7 @@ final class ErrorReporting {
     private function WriteInLogFile($fileName) {
         $this->createLogDir();
         $this->createLogFolders();
-        $fileAddress = $this->logDirPath . $fileName . DS . $fileName . $this->logFileExtention;
+        $fileAddress = $this->logDirPath . $fileName . DIRECTORY_SEPARATOR . $fileName . $this->logFileExtention;
         
         if (!($handle = fopen($fileAddress, 'a'))) {
             $this->throwException('The Log File Is Not Able To Be Opened!');
@@ -128,8 +128,8 @@ final class ErrorReporting {
 
     private function spliteLogFile($fileName) {
         
-        if(file_exists($fileAbsolutePath = $this->logDirPath . $fileName . DS . $fileName . $this->logFileExtention)) {
-            $fileNewAbsolutePath = $this->logDirPath . $fileName . DS . strftime("%Y_%m_%d_%H_%M_%S", time()) . '__' . $fileName . $this->logFileExtention;
+        if(file_exists($fileAbsolutePath = $this->logDirPath . $fileName . DIRECTORY_SEPARATOR . $fileName . $this->logFileExtention)) {
+            $fileNewAbsolutePath = $this->logDirPath . $fileName . DIRECTORY_SEPARATOR . strftime("%Y_%m_%d_%H_%M_%S", time()) . '__' . $fileName . $this->logFileExtention;
             
             if (filesize($fileAbsolutePath) >= $this->logFileSize) {
                 
@@ -155,7 +155,7 @@ final class ErrorReporting {
     private function createLogDir(){
         
         if(!file_exists($this->logDirPath) || !is_dir($this->logDirPath)){
-            chdir( FILE_PATH . 'application' . DS . '__rfolder');
+            chdir( FILE_PATH . 'application' . DIRECTORY_SEPARATOR . '__rfolder');
             
             if(is_writable(dirname($this->logDirPath))){
                 mkdir($this->logDirPath);
