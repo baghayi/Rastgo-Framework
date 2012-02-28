@@ -63,7 +63,7 @@ final class Loader {
          * We are checking to see whether that class exists or not,
          * If it exists then we are calling that class with using the (require_once) function.
          */
-        if (file_exists($filePath)) {
+        if (is_readable($filePath)) {
             require_once $filePath;
             return;
         }else{
