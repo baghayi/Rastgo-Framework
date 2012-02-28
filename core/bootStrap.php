@@ -1,19 +1,14 @@
 <?php
 /**
- * Directory seperator constant.
- */
-define('DS', DIRECTORY_SEPARATOR);
-
-/**
  * Script real path, ( from server's root to script root folder ) .
  * like, c:\\ ... | /var/www/... .
  */
-define('FILE_PATH', get_magic_quotes_gpc() ? dirname(dirname(__FILE__)) . DS : addslashes(dirname(dirname(__FILE__))) . DS);
+define('FILE_PATH', get_magic_quotes_gpc() ? dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR : addslashes(dirname(dirname(__FILE__))) . DIRECTORY_SEPARATOR);
 
 /**
  * including config file.
  */
-require_once FILE_PATH . 'config' . DS . 'config.php';
+require_once FILE_PATH . 'config' . DIRECTORY_SEPARATOR . 'config.php';
 
 /**
  * IIS >= 6 ,
@@ -41,5 +36,5 @@ define('TEMPLATE_URL', URL . 'public/views/' . TEMPLATE_FOLDER_NAME . '/');
  * can been able to load or include other classes and files
  * then instantiating it.
  */
-require_once FILE_PATH . 'core' . DS . 'Loader.php';
+require_once FILE_PATH . 'core' . DIRECTORY_SEPARATOR . 'Loader.php';
 \root\core\Loader\Loader::setAutoLoader();
