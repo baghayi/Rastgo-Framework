@@ -36,9 +36,9 @@ final class Loader {
          */
         $filePath = explode('\\', $namespace);
         /**
-         * To take the Class name (Not class file name) from the end of the namespace.
+         * To remove the Class name (Not class file name) from the end of the namespace.
          */
-        $className = array_pop($filePath);
+        array_pop($filePath);
         /**
          * to remove the root key from the beggining of the namespace.
          */
