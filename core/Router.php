@@ -62,14 +62,13 @@ class Router
     
     private function callingMethod(){
         global $registry;
-        
         $args = $registry->request->getArgs();
         
         if(empty($args)){
-            call_user_func(array($this->controllerName, $registry->request->getMethod()));
+            call_user_func(array(new $this->controllerName, $registry->request->getMethod()));
             return 1;
         }else{
-            call_user_func_array(array($this->controllerName, $registry->request->getMethod()), $registry->request->getArgs());
+            call_user_func_array(array(new $this->controllerName, $registry->request->getMethod()), $registry->request->getArgs());
             return 1;
         }
     }
