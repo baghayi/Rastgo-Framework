@@ -1,10 +1,9 @@
 <?php
 namespace root\core\Loader;
 final class Loader {
+    private static $registry = NULL;
 
     public function loadModel($ModleName) {
-        global $registry;
-
         $ModelCompleteName = $ModleName . 'Model';
         $ModelPath = FILE_PATH . 'application' . DIRECTORY_SEPARATOR . 'models' . DIRECTORY_SEPARATOR . $ModelCompleteName . '.php';
 
@@ -12,20 +11,21 @@ final class Loader {
             require_once $ModelPath;
 
             if (class_exists($ModelCompleteName)){
-                $registry->model = new $ModelCompleteName;
+                static::$registry->model = new $ModelCompleteName;
                 return 1;
             }
             else{
-                $registry->error->reportError ('Model Class Does Not Exists!', __LINE__, __METHOD__, true);
+                static::$registry->error->reportError ('Model Class Does Not Exists!', __LINE__, __METHOD__, true);
                 return;
             }
         }else {
-            $registry->error->reportError('Model File Could Not Be Found!', __LINE__, __METHOD__, true);
+            static::$registry->error->reportError('Model File Could Not Be Found!', __LINE__, __METHOD__, true);
             return;
         }
     }
 
-    public static function setAutoLoader() {
+    public static function setAutoLoader(\root\core\Registry\Registry $registry) {
+        static::$registry = $registry;
         spl_autoload_register(array(__class__, 'autoLoader'));
         return;
     }
@@ -63,12 +63,13 @@ final class Loader {
          * We are checking to see whether that class exists or not,
          * If it exists then we are calling that class with using the (require_once) function.
          */
-        if (is_readable($filePath)) {
+        if (is_readable($filePath))
+        {
             require_once $filePath;
             return;
-        }else{
-            global $registry;
-            $registry->error->reportError("The Called Class File Does Not Exists! ({$filePath})", __LINE__, __METHOD__, false);
+        }else
+        {
+            static::$registry->error->reportError("The Called Class File Does Not Exists! ({$filePath})", __LINE__, __METHOD__, false);
             return;
         }
         return;
