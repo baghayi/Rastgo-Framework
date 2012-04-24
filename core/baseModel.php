@@ -3,12 +3,13 @@ namespace root\core\baseModel;
 
 abstract class baseModel extends \PDO {
 
-    public function __construct($unicodeQuery = false) {
-        global $registry;
-        
-        $dsn = $registry->db->dbDriver() . ':host=' . $registry->db->dbHost() . ';port=' . $registry->db->dbPort() . ';dbname=' . $registry->db->dbName();
+    public $registry;
 
-        parent::__construct($dsn, $registry->db->dbUsername(), $registry->db->dbPassword(), $registry->db->pdoOptions());
+    public function connect($unicodeQuery = false)
+    {
+        $dsn = $this->registry->db->dbDriver() . ':host=' . $this->registry->db->dbHost() . ';port=' . $this->registry->db->dbPort() . ';dbname=' . $this->registry->db->dbName();
+
+        parent::__construct($dsn, $this->registry->db->dbUsername(), $this->registry->db->dbPassword(), $this->registry->db->pdoOptions());
         
         if($unicodeQuery === true)
         {
@@ -18,5 +19,6 @@ abstract class baseModel extends \PDO {
     }
     
     public abstract function index();
+    public function __construct(){}
 
 }
