@@ -1,11 +1,14 @@
 <?php
-class indexModele extends \root\core\baseModel\baseModel {
+class indexModel extends \root\core\baseModel\baseModel
+{
 
-    public function index(){
+    public function index()
+    {
         return 'We Are Writing This Message From  Inside Of The Model File: => ' . __METHOD__;
     }
     
-    public function cache(){
+    public function cache()
+    {
         return 'This Message is Cached!';
     }
     
