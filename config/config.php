@@ -19,3 +19,14 @@ define('TEMPLATE_FOLDER_NAME', 'defaultTemplate');
  * If its set to true then the port number will be added to the end of the domain (or IP number), otherwise (in false) nothing will be added.
  */
 define('Port_Number_In_URL', TRUE);
+
+/**
+ * You can set your time zone using this constant.
+ */
+define('Time_Zone', 'Asia/Tehran');
+
+/**
+ * Default Controller and Default Method can be set using this constant.
+ */
+define('Default_Controller', 'index');
+define('Default_Method', 'index');
