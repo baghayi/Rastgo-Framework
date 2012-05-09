@@ -5,7 +5,8 @@ namespace root\core\LibraryController
     
     final class LibraryController implements iLibraryController
     {
-        
+        private static $registry = NULL;
+
         public static function call($libraryName, $constructorsArgument = array()) 
         {
             if(!self::libraryExistence($libraryName))
@@ -54,8 +55,7 @@ namespace root\core\LibraryController
         {
             if(!file_exists(self::configFileAddress()))
             {
-                global $registry;
-                $registry->error->reportError("(" . self::configFileName . ") file is not found at this direction: (". self::configFileAddress(). ")", __LINE__, __METHOD__, false);
+                self::$registry->error->reportError("(" . self::configFileName . ") file is not found at this direction: (". self::configFileAddress(). ")", __LINE__, __METHOD__, false);
                 return 0;
             }
             
@@ -82,12 +82,12 @@ namespace root\core\LibraryController
             return $finalresultAsArray;
         }
         
-        public static function globalizeObject()
+        public static function globalizeObject(\root\core\Registry\Registry $registry)
         {
+            self::$registry = $registry;
             $settings = self::parseConfigFile();
             $argumentsAsArray = array();
-            global $registry;
-            
+
             $arguments = self::determineArguments($settings);
 
             foreach($settings['Properties'] as $properties => $values)
@@ -100,7 +100,7 @@ namespace root\core\LibraryController
                 $object = self::call($values, $argumentsAsArray);
                 
                 if(is_a($object, self::classAddress($values)))
-                    $registry->{$properties} = $object;
+                    self::$registry->{$properties} = $object;
             }
             
             return new LibraryController;
