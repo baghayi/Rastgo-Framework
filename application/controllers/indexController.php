@@ -5,44 +5,42 @@ use root\core\baseController\baseController,
     root\library\Pagination\index\Pagination;
 
 class indexController extends baseController {
-    
-    public function index() {
-        global $registry;
-        $registry->translation = new Translator();
-        $registry->translation->loadLanguageFile('main');
 
-        $registry->view->renderTemplate(__FUNCTION__, array(
-            'title' => $registry->translation->translate('indexTitle'),
-            'content' => $registry->translation->translate('indexContent'),
-            'modelmessage' => static::loadModel(true)
+    public function index() {
+        $this->registry->translation = new Translator();
+        $this->registry->translation->loadLanguageFile('main');
+
+        $this->registry->view->renderTemplate(__FUNCTION__, array(
+            'title' => $this->registry->translation->translate('indexTitle'),
+            'content' => $this->registry->translation->translate('indexContent'),
+            'modelmessage' => $this->loadModel(true)
         ));
         return;
     }
     
     public function cache(){
-        global $registry;
-        $registry->cache = new Cache;
-        $registry->cache->setHashFileName(false);
-        $registry->translation = new Translator();
-        $registry->translation->loadLanguageFile('main');
+        $this->registry->cache = new Cache;
+        $this->registry->cache->setHashFileName(false);
+        $this->registry->translation = new Translator();
+        $this->registry->translation->loadLanguageFile('main');
         
         /**
          * If the Cache file exists these bunch of codes will be excuted.
          */
-        if($registry->cache->getCache('cache', 'cache')){
-            echo $registry->cache->getCache('cache', 'cache');
+        if($this->registry->cache->getCache('cache', 'cache')){
+            echo $this->registry->cache->getCache('cache', 'cache');
             return;
         }
         /**
          * If the cache file does not exists then these belowe codes will be excuted.
          */
-        $registry->cache->startBuffer();
-        $registry->view->renderTemplate('index', array(
-            'title' => $registry->translation->translate('indexTitle'),
-            'content' => $registry->translation->translate('indexContent'),
-            'modelmessage' => static::loadModel(true)
+        $this->registry->cache->startBuffer();
+        $this->registry->view->renderTemplate('index', array(
+            'title' => $this->registry->translation->translate('indexTitle'),
+            'content' => $this->registry->translation->translate('indexContent'),
+            'modelmessage' => $this->loadModel(true)
         ));
-        echo $registry->cache->cacheBuffer('cache', 'cache', 3);
+        echo $this->registry->cache->cacheBuffer('cache', 'cache', 3);
         return;
     }
     
