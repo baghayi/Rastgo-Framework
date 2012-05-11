@@ -5,7 +5,7 @@ namespace root\core\LibraryController
     
     final class LibraryController implements iLibraryController
     {
-        private static $registry = NULL;
+        public static $registry = NULL;
 
         public static function call($libraryName, $constructorsArgument = array()) 
         {
@@ -82,9 +82,8 @@ namespace root\core\LibraryController
             return $finalresultAsArray;
         }
         
-        public static function globalizeObject(\root\core\Registry\Registry $registry)
+        public static function globalizeObject()
         {
-            self::$registry = $registry;
             $settings = self::parseConfigFile();
             $argumentsAsArray = array();
 
