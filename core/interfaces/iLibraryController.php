@@ -17,7 +17,7 @@ interface iLibraryController
     
     public static function parseConfigFile();
     
-    public static function globalizeObject(\root\core\Registry\Registry $registry);
+    public static function globalizeObject();
     
     public static function configFileAddress();
     
