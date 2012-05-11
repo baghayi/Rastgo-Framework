@@ -1,4 +1,5 @@
 <?php
+use root\core\baseController\baseController;
 
 class bcryptController extends baseController
 {
@@ -6,15 +7,15 @@ class bcryptController extends baseController
     {
         $bcrypt = new root\library\Bcrypt\index\Bcrypt();
         $hash = $bcrypt->hash('mypassword');
-        
+
         if($bcrypt->verify('mypassword', $hash))
         {
             echo 'Verified!';
             return;
         }
-        
+
         echo 'Failure!';
-        
+
         return;
     }
 }
