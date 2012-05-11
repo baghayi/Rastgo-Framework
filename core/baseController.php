@@ -3,11 +3,11 @@ namespace root\core\baseController;
 
 abstract class baseController {
 
-    public $registry = NULL;
+    public static $registry = NULL;
 
-    public function __construct(\root\core\Registry\Registry $registry) {
-        $this->registry = $registry;
-        $this->registry->view = new \root\core\View\View();
+    public function __construct()
+    {
+        static::$registry->view = new \root\core\View\View();
         return;
     }
     
@@ -18,7 +18,7 @@ abstract class baseController {
             $modelToBeCalled = $modelName;
         }
         else{
-            $modelToBeCalled = $this->registry->request->getController();
+            $modelToBeCalled = static::$registry->request->getController();
         }
         
         if($modelMethod !== NULL)
@@ -26,19 +26,19 @@ abstract class baseController {
             $modelMethodCalled = $modelMethod;
         }
         else{
-            $modelMethodCalled = $this->registry->request->getMethod();
+            $modelMethodCalled = static::$registry->request->getMethod();
         }
-            
-        $this->registry->loader->loadModel($modelToBeCalled);
+
+        static::$registry->loader->loadModel($modelToBeCalled);
         
         if($loadDefaultMethod === TRUE)
         {
             if(method_exists($modelToBeCalled.'Model', $modelMethodCalled))
             {
-                return $this->registry->model->{$modelMethodCalled}();
+                return static::$registry->model->{$modelMethodCalled}();
             }
             else{
-                $this->registry->error->reportError('Requested Method Via The Controller Does Not Exists In The Model File.', __LINE__, __METHOD__,true);
+                static::$registry->error->reportError('Requested Method Via The Controller Does Not Exists In The Model File.', __LINE__, __METHOD__,true);
                 return;
             }
         }
