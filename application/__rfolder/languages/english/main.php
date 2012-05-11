@@ -1,5 +1,5 @@
 <?php
  return array(
-    'indexTitle' => 'Framework\'s Main Title.',
-    'indexContent' => 'The Main Page Of the MVC-Based Frameword!'
+    'indexTitle' => 'Rastgo Framework',
+    'indexContent' => 'This is a demo page only to show that how this MVC-Based framework works.'
 );
