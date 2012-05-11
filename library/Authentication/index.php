@@ -5,7 +5,8 @@ use root\library\Bcrypt\index\Bcrypt,
     root\core\baseModel\baseModel,
     root\library\SessionDB\index\SessionDB;
 
-class Authentication extends baseModel {
+class Authentication extends baseModel
+{
     private $sessionInstance = NULL,
             $dbTableName = 'authentication',
             $pepper = '',
@@ -29,18 +30,16 @@ class Authentication extends baseModel {
     
     /**
      * Through this method we can check to see it there is any valid session cookie or not, and if it exists and is valid we can let user to come in (log in).
-     * @global object $registry Object of Registry class.
      * @return int 1 on success that if user (session) is valid, or 0 on failure that if user (session) is not valid.
      */
     public function loginViaCookie()
     {
         session_commit();
         session_start();
-        global $registry;
         
         if($this->dbUserIdentifierColumnName === NULL)
         {
-            $registry->error->reportError('The "dbUserIdentifierColumnName" property is not set, You can set it by using this method: initDBUserIdentifierColumnName() ', __LINE__, __METHOD__, true, 'authentication');
+            self::$registry->error->reportError('The "dbUserIdentifierColumnName" property is not set, You can set it by using this method: initDBUserIdentifierColumnName() ', __LINE__, __METHOD__, true, 'authentication');
             return 0;
         }
 
@@ -52,7 +51,7 @@ class Authentication extends baseModel {
             if(FALSE === $sth->execute())
             {
                 $errorMessage = $sth->errorInfo();
-                $registry->error->reportError($errorMessage[2], __LINE__, __METHOD__, false, 'authentication');
+                self::$registry->error->reportError($errorMessage[2], __LINE__, __METHOD__, false, 'authentication');
                 return 0;
             }
             
@@ -60,21 +59,21 @@ class Authentication extends baseModel {
             
             if($sessionId[$this->dbSessionIdColumnName] !== session_id())
             {
-                $registry->error->reportError("The user session id was not matched with the session id inside of the database, then the user ({$_SESSION['userIdentifier']} was not allowed to log in.) ", __LINE__, __METHOD__, false, 'authentication');
+                self::$registry->error->reportError("The user session id was not matched with the session id inside of the database, then the user ({$_SESSION['userIdentifier']} was not allowed to log in.) ", __LINE__, __METHOD__, false, 'authentication');
                 session_destroy();
                 return 0;
             }
             
             if(isset($_SESSION['userIP']) and ($_SESSION['userIP'] !== $_SERVER['REMOTE_ADDR']))
             {
-                $registry->error->reportError("The user IP was not matched with the user IP of session, then the user ({$_SESSION['userIdentifier']} was not allowed to log in.) ", __LINE__, __METHOD__, false, 'authentication');
+                self::$registry->error->reportError("The user IP was not matched with the user IP of session, then the user ({$_SESSION['userIdentifier']} was not allowed to log in.) ", __LINE__, __METHOD__, false, 'authentication');
                 session_destroy();
                 return 0;
             }
             
             if(isset($_SESSION['userBrowser']) and ($_SESSION['userBrowser'] !== $_SERVER['HTTP_USER_AGENT']))
             {
-                $registry->error->reportError("The user browser type was not matched with the user browser type of session, then the user ({$_SESSION['userIdentifier']} was not allowed to log in.) ", __LINE__, __METHOD__, false, 'authentication');
+                self::$registry->error->reportError("The user browser type was not matched with the user browser type of session, then the user ({$_SESSION['userIdentifier']} was not allowed to log in.) ", __LINE__, __METHOD__, false, 'authentication');
                 session_destroy();
                 return 0;
             }
@@ -86,7 +85,6 @@ class Authentication extends baseModel {
     
     /**
      * Through this mehtod we are able to log in user to the system and set a valid session cookie to the user via login html forms.
-     * @global object $registry It's the object of the Registry class.
      * @param array $loginData The first parameter must be a unique thing to identify user by it (like username, email , etc) that the database column name must be the array's key and it's value must be that unique id (username, email, or ...)!
      * And also the second parameter must be user's password, that the array key must be the database column name and the array value must be password itself.
      * @param boolean $limitByIP If its set true then the user session will be sensitive to user IP while login through session cookie.
@@ -95,7 +93,6 @@ class Authentication extends baseModel {
      */
     public function loginViaUserRawInfo($loginData, $limitByIP = FALSE, $limitByUserBrowser = FALSE)
     {
-        global $registry;
         $this->dbUserIdentifierColumnName = key($loginData);
         $this->userIdentifier = $loginData[$this->dbUserIdentifierColumnName];
         
@@ -127,7 +124,7 @@ class Authentication extends baseModel {
         if(false === $sth->execute())
         {
             $errorMessage = $sth->errorInfo();
-            $registry->error->reportError($errorMessage[2], __LINE__, __METHOD__, false, 'authentication');
+            self::$registry->error->reportError($errorMessage[2], __LINE__, __METHOD__, false, 'authentication');
             return 0;
         }
         
@@ -149,17 +146,14 @@ class Authentication extends baseModel {
     
     /**
      * This method lets us to know that whether the user identifier like username, email, etc (that are somthing unique to identify the specific user by it) does exist or not.
-     * @global object $registry The object of Registry class.
      * @param array $userIdentifier It must be an array and must have only a key and it's value (and not any more).
      * @return int 1 if the user identifier does exist or 0 if it does not exist.
      */
     public function userIdentifierExists($userIdentifier)
     {
-        global $registry;
-        
         if(!is_array($userIdentifier) or empty($userIdentifier))
         {
-            $registry->error->reportError('The First Parameter Must Be An Array, And Also It Must Not Be Empty!', __LINE__, __METHOD__, true, 'authentication');
+            self::$registry->error->reportError('The First Parameter Must Be An Array, And Also It Must Not Be Empty!', __LINE__, __METHOD__, true, 'authentication');
             return 0;
         }
         
@@ -170,7 +164,7 @@ class Authentication extends baseModel {
         if(false === $sth->execute())
         {
             $errorMessage = $sth->errorInfo();
-            $registry->error->reportError($errorMessage[2], __LINE__, __METHOD__, false, 'authentication');
+            self::$registry->error->reportError($errorMessage[2], __LINE__, __METHOD__, false, 'authentication');
             return 0;
         }
         
@@ -215,7 +209,6 @@ class Authentication extends baseModel {
     
     /**
      * This method sets/updates the session id to its column in database.
-     * @global object $registry The object of Registry class.
      * @param str $sessionId Session ID.
      * @param str $userIdentifierColumnName The user identifier column name in database (the column name).
      * @param str $userIdentifier The user identifier code.
@@ -223,8 +216,6 @@ class Authentication extends baseModel {
      */
     private function updateDBSessionId($sessionId, $userIdentifierColumnName, $userIdentifier) 
     {
-        global $registry;
-        
         $sth = $this->prepare("UPDATE {$this->dbTableName} SET {$this->dbSessionIdColumnName}=:sessionId WHERE `{$userIdentifierColumnName}`=:userIdentifier;");
         $sth->bindValue(':sessionId', $sessionId);
         $sth->bindValue(':userIdentifier', $userIdentifier);
@@ -232,7 +223,7 @@ class Authentication extends baseModel {
         if(false === $sth->execute())
         {
             $errorMessage = $sth->errorInfo();
-            $registry->error->reportError($errorMessage[2], __LINE__, __METHOD__, false, 'authentication');
+            self::$registry->error->reportError($errorMessage[2], __LINE__, __METHOD__, false, 'authentication');
             return 0;
         }
         
@@ -431,25 +422,22 @@ class Authentication extends baseModel {
     
     /**
      * Throught this method its possible to submit our data to our database using prepared statements (Just for the array values not the array key).
-     * @global object $registry Its the instance of the Registry Class.
      * @param array $data An array that includes our database information, key as table's column name and the value for its bvalue
      * @return int 0 on failure or 1 in success.
      */
     public function registerNewUser($data)
     {
-        global $registry;
-        
         /**
          * To be sure that the first parameter of method is an array and is not empty.
          */
         if(!is_array($data))
         {
-            $registry->error->reportError('The value of the first parameter is not an array! It must be an array!', __LINE__, __METHOD__, true, 'authentication');
+            self::$registry->error->reportError('The value of the first parameter is not an array! It must be an array!', __LINE__, __METHOD__, true, 'authentication');
             return;
         }
         elseif(empty($data))
         {
-            $registry->error->reportError('The value of the first parameter is Empty! At least it must have a value (a key and and its value)!', __LINE__, __METHOD__, true, 'authentication');
+            self::$registry->error->reportError('The value of the first parameter is Empty! At least it must have a value (a key and and its value)!', __LINE__, __METHOD__, true, 'authentication');
             return;
         }
         
@@ -470,7 +458,7 @@ class Authentication extends baseModel {
         if (false === $sth->execute($values))
          {
              $errorMessage = $sth->errorInfo();
-             $registry->error->reportError($errorMessage[2], __LINE__, __METHOD__, false, 'authentication');
+             self::$registry->error->reportError($errorMessage[2], __LINE__, __METHOD__, false, 'authentication');
              return 0;
          }
         return 1;
