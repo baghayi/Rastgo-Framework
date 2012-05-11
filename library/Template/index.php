@@ -1,6 +1,10 @@
 <?php
 namespace root\library\Template\index;
-class Template {
+
+class Template
+{
+    public static $registry = NULL;
+
     /**
      * gives us the direction of template files where they are located.
      * @var string $baseDir
@@ -15,7 +19,8 @@ class Template {
     /**
      * Making ready the template directory address, and setting it in the $baseDir property.
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->baseDir = FILE_PATH . 'application' . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . TEMPLATE_FOLDER_NAME;
     }
 
@@ -23,7 +28,8 @@ class Template {
      *
      * @param string $dir to set or change the location of template files folder where template files are located.
      */
-    public function setBaseDir($dir) {
+    public function setBaseDir($dir)
+    {
         $this->baseDir = $dir;
         return 1;
     }
@@ -32,7 +38,8 @@ class Template {
      *
      * @return string gives us the template files folder where they are located.
      */
-    public function getBaseDir() {
+    public function getBaseDir()
+    {
         return $this->baseDir;
     }
 
@@ -40,7 +47,8 @@ class Template {
      *
      * @param string $ext To set or change the extention of template files.
      */
-    public function setExtension($ext) {
+    public function setExtension($ext)
+    {
         $this->defaultTemplateExtension = $ext;
         return 1;
     }
@@ -49,7 +57,8 @@ class Template {
      *
      * @return string Gives us the extention of template files.
      */
-    public function getExtension() {
+    public function getExtension()
+    {
         return $this->defaultTemplateExtension;
     }
 
@@ -60,17 +69,18 @@ class Template {
      * @param string $baseDir The folder of template files where they are located.
      * @return string returns the rendered template file .
      */
-    public function loadTemplate($template, $vars = array(), $baseDir=NULL) {
-        global $registry;
-        
-        if ($baseDir == NULL){
+    public function loadTemplate($template, $vars = array(), $baseDir=NULL)
+    {
+        if ($baseDir == NULL)
+        {
             $baseDir = $this->getBaseDir();
         }
 
         $templatePath = $baseDir . DIRECTORY_SEPARATOR . $template . $this->getExtension();
         
-        if (!file_exists($templatePath)) {
-            $registry->error->reportError('Could not include template ' . $templatePath, __LINE__, __METHOD__, true);
+        if (!file_exists($templatePath))
+        {
+            self::$registry->error->reportError('Could not include template ' . $templatePath, __LINE__, __METHOD__, true);
             return;
         }
         
@@ -83,7 +93,8 @@ class Template {
      * @param array $vars The name and value of variables in template file to replace them with our values.
      * @param string $baseDir The folder of template files where they are located.
      */
-    public function renderTemplate($template, $vars = array(), $baseDir=NULL) {
+    public function renderTemplate($template, $vars = array(), $baseDir=NULL)
+    {
         echo $this->loadTemplate($template, $vars, $baseDir);
         return;
     }
@@ -94,7 +105,8 @@ class Template {
      * @param array $vars The name and value of variables in template file to replace them with our values.
      * @return string Returns the rendered template files as result .
      */
-    private function loadTemplateFile($templatePath, $vars) {
+    private function loadTemplateFile($templatePath, $vars)
+    {
         extract($vars, EXTR_OVERWRITE);
         ob_start();
         require $templatePath;
