@@ -1,16 +1,30 @@
+body
+{
+    font-family: georgia, arial, sans-serif;
+    font-size: 1em;
+}
+
 h2{
-    background-color: yellow;
+    padding: 5px;
+    background-color: black;
+    color: white;
     text-align: center;
     border-radius: 20px 20px 0px 0px;
+    font-variant: small-caps;
 }
 p{
-    background: red;
+    padding-left: 10px;
 }
+
+p:first-letter{
+    font-size: 2em;
+}
+
 #maindiv{
     width: 500px;
     height: 500px;
-    background-color: green;
-    margin: 0 auto;
+    background-color: gray;
+    margin: 50px auto;
     border-radius: 20px;
-    box-shadow: 5px 5px blue;
+    box-shadow: 4px 4px 5px black;
 }
