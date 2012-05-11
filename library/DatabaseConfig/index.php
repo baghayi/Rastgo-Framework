@@ -1,7 +1,9 @@
 <?php
 namespace root\library\DatabaseConfig\index;
 
-final class DatabaseConfig {
+final class DatabaseConfig
+{
+    public static $registry = NULL;
 
     private 
             /**
@@ -47,19 +49,17 @@ final class DatabaseConfig {
     /**
      * This constructor method will be run after instantiation and will get the database configuration as az array.
      * The array keys are: name, username, password, host, driver, port, pdoOptions .
-     * 
-     * @global object $registry The object of the Registry Class.
+     *
      * @param array $dbConfigInfo The array that includes the database configuration, such as database name, database username, ... .
      * @return void
      */
     public function __construct() 
     {
-        global $registry;
         $dbConfigInfo = $this->parseConfigFile();
         
         if (!is_array($dbConfigInfo)) 
         {
-            $registry->error->reportError('The Entered Parameter Is Not An Array! <br />It Must Be An Array!', __LINE__, __METHOD__, true);
+            self::$registry->error->reportError('The Entered Parameter Is Not An Array! <br />It Must Be An Array!', __LINE__, __METHOD__, true);
             return 0;
         }
         elseif (is_array($dbConfigInfo)) 
@@ -188,14 +188,11 @@ final class DatabaseConfig {
     
     /**
      * This method lets us to define PDO's fourth parameter that in options for PDO and must be an array.
-     * @global object $registry The object of the Registry class.
      * @param array $pdoOptions The PDO's fourth parameter that must be an array.
      * @return array The current value ( the new value if is defined ) will be returned.
      */
     public function pdoOptions($pdoOptions = NULL) 
     {
-        global $registry;
-
         if($pdoOptions === NULL)
         {
             return $this->pdoOptions;
@@ -203,7 +200,7 @@ final class DatabaseConfig {
         
         if(!is_array($pdoOptions))
         {
-            $registry->error->reportError('The PDOOptions() first parameter must be an array!', __LINE__, __METHOD__, true);
+            self::$registry->error->reportError('The PDOOptions() first parameter must be an array!', __LINE__, __METHOD__, true);
             return 0;
         }
         
