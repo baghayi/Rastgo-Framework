@@ -1,8 +1,10 @@
 <?php
 namespace root\library\Crontab\index;
 
-class Crontab {
+class Crontab
+{
     private $CrontabCommandObject = NULL;
+    public static $registry;
     
     /**
      * By calling this method we will be received an object of the CrontabCommand class of will be able to use it to access CrontabCommand class methods.
@@ -25,11 +27,10 @@ class Crontab {
     public function getJobs() 
     {
         $output = shell_exec('crontab -l');
-        
+
         if(gettype($output) !== 'string')
         {
-            global $registry;
-            $registry->error->reportError('Something does not work properly while working with crontab command!', __LINE__, __METHOD__, true);
+            self::$registry->error->reportError('Something does not work properly while working with crontab command!', __LINE__, __METHOD__, true);
             return 0;
         }
         
