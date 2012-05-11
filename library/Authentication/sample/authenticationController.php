@@ -1,13 +1,15 @@
 <?php
-use root\library\Authentication\index\Authentication;
+use root\library\Authentication\index\Authentication,
+root\core\baseController\baseController;
 
-class authenticationController extends baseController 
+class authenticationController extends baseController
 {
+
     /**
      * Will show a link for each methods and with some information in the URL to use them.
      * @return void
      */
-    public function index() 
+    public function index()
     {
         $url = URL . 'authentication/';
         echo <<<HTML
@@ -20,9 +22,9 @@ class authenticationController extends baseController
                 <li><a href="{$url}mainMethod/" alt="">mainMethod()</a></li>
             </ul>
 HTML;
-                return;
+        return;
     }
-    
+
     /**
      * This method shows infact most of the Authentication methods in action and how they work and some information about them , ... .
      * @return void
@@ -77,141 +79,141 @@ HTML;
          * insert the user information to database
          */
         $auth->registerNewUser(array('username' => 'hossein', 'email' => 'golam@gmail.com', 'password_hash' => $password['passHash'], 'password_salt' => $password['passSalt']));
-        
+
         return;
     }
-    
+
     /**
      * This method checks to see whether the requested username is exist or not.
      * @return void
      */
-    public function chekingTheUser() 
+    public function chekingTheUser()
     {
         # The URL is look like this: http://127.0.0.1/RastgoFramework/authentication/chekingTheUser/username:hossein/
         $obj = new Authentication();
         $obj->initDbTableName('auth');
-        $userInfo = func_get_args();
+        $userInfo = self::$registry->request->getArgs();
         $username = explode(':', $userInfo[0]);
-        
+
         if($obj->userIdentifierExists(array($username[0] => $username[1])))
         {
             echo 'Yes, The User Does Exist.';
             return;
         }
-        
+
         echo 'Unfortunatly, The Requested User Does Not Exist!';
         return;
     }
-    
+
     /**
      * This method shows us how to hash user password in action.
-     * 
+     *
      * The MD5 hash maker method will return used salt (a random salt if is not set), and also hashed of the password + salt.
      * These two strings will be needed for Authentication (verifying the user).
      */
-    public function registerMD5() 
+    public function registerMD5()
     {
         #URL can be look like this: http://127.0.0.1/RastgoFramework/authentication/registerBcrypt/username:hossein/password:yourpasswordhere/email:yourmail@gmail.com/
         $obj = new Authentication();
         $obj->initDbTableName('auth');
-        $userInfo = func_get_args();
+        $userInfo = self::$registry->request->getArgs();
         $username = explode(':', $userInfo[0]);
         $password = explode(':', $userInfo[1]);
         $email = explode(':', $userInfo[2]);
-        
+
 //        echo $username[1];
 //        echo '<br />';
 //        echo $password[1];
 //        echo '<br />';
 //        echo $email[1];
-        
-        
+
+
         # Is used to create a hash and also a random salt (if the salt in not set) using this method, then we can insert them to the database using $obj->registerNewUser() method.
         echo '<br /><pre>';
         var_dump($obj->makePassHashMD5($password[1]));
         echo '</pre><br />';
-        
-        
+
+
         #And finally you can store the information in the database, using the registerNewUser() method (but it is optional).
     }
-    
+
     /**
      * This method shows us how to verify user password if we had saved user information susing the md5 hash maker method.
      */
-    public function verifyMD5Hash() 
+    public function verifyMD5Hash()
     {
         #URL can be look like this: http://127.0.0.1/RastgoFramework/authentication/registerBcrypt/username:hossein/password:yourpasswordhere/email:yourmail@gmail.com/
         $obj = new Authentication();
         $obj->initDbTableName('auth');
-        $userInfo = func_get_args();
+        $userInfo = self::$registry->request->getArgs();
         $username = explode(':', $userInfo[0]);
         $password = explode(':', $userInfo[1]);
         $email = explode(':', $userInfo[2]);
-        
+
 //        echo $username[1];
 //        echo '<br />';
 //        echo $password[1];
 //        echo '<br />';
 //        echo $email[1];
-        
-        
+
+
         $storedSaltInDatabase = '155ee3a3edd7a2fdf90ef7116658e71f';
         $storedHashOfPasswordInDatabase = '7c6e3b3bd9b5d7b46246cc02700d21da';
-        
-        
+
+
         echo '<br /><pre>';
         var_dump($obj->makePassHashMD5($password[1], $storedSaltInDatabase, $storedHashOfPasswordInDatabase));
         echo '</pre><br />';
     }
-    
+
     /**
      * Through this method we are able to make a hash of user raw password with the Bcrypt password.
      */
-    public function registerBcrypt() 
+    public function registerBcrypt()
     {
         #URL can be look like this: http://127.0.0.1/RastgoFramework/authentication/registerBcrypt/username:hossein/password:yourpasswordhere/email:yourmail@gmail.com/
         $obj = new Authentication();
         $obj->initDbTableName('auth');
-        $userInfo = func_get_args();
+        $userInfo = self::$registry->request->getArgs();
         $username = explode(':', $userInfo[0]);
         $password = explode(':', $userInfo[1]);
         $email = explode(':', $userInfo[2]);
-        
+
 //        echo $username[1];
 //        echo '<br />';
 //        echo $password[1];
 //        echo '<br />';
 //        echo $email[1];
-        
+
         echo '<br /><pre>';
         var_dump($obj->makePassHashBcrypt($password[1]));
         echo '</pre><br />';
-        
+
         #And finally you can store the information in the database, using the registerNewUser() method (but it is optional).
     }
-    
+
     /**
      * This method shows us how to verify user password if we had saved user information susing the Bcrypt hash maker method.
      */
-    public function verifyBcryptHash() 
+    public function verifyBcryptHash()
     {
         #URL can be look like this: http://127.0.0.1/RastgoFramework/authentication/registerBcrypt/username:hossein/password:yourpasswordhere/email:yourmail@gmail.com/
         $obj = new Authentication();
         $obj->initDbTableName('auth');
-        $userInfo = func_get_args();
+        $userInfo = self::$registry->request->getArgs();
         $username = explode(':', $userInfo[0]);
         $password = explode(':', $userInfo[1]);
         $email = explode(':', $userInfo[2]);
-        
+
 //        echo $username[1];
 //        echo '<br />';
 //        echo $password[1];
 //        echo '<br />';
 //        echo $email[1];
-        
+
         #This info can be retrieved from the Database.
         $storedHashInDatabase = '$2a$12$mz7ZqbX4IlX3KznsflPxi.KaM/.IZRxDmNjg8Jd8vW.ydpnPsOfIm';
-        
+
         echo '<br /><pre>';
         var_dump($obj->makePassHashBcrypt($password[1], $storedHashInDatabase));
         echo '</pre><br />';
