@@ -3,13 +3,15 @@ namespace root\library\Cache\index;
 
 final class Cache {
 
+    public static $registry = NULL;
     private $fileExtension = '.txt', $hashFileName = true, $cacheFolderPath, $cacheFolderName = 'cache', $bufferContent, $hasBufferStarted = false;
     
     /**
      * This construct method makes our cache Folder Path and puts it in a proper property ($cacheFolderPath).
      * Instead of using the constant.
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->cacheFolderPath = FILE_PATH . 'application' . DIRECTORY_SEPARATOR . '__rfolder' . DIRECTORY_SEPARATOR . $this->cacheFolderName. DIRECTORY_SEPARATOR;
         return;
     }
@@ -25,8 +27,8 @@ final class Cache {
      * 	@param int $duration Time you want to keep the content cached (in SECONDS). If $duration = 0, then the cache file will be saved for ever until you delete it manualy.
      * 	@return bool Either Simply returns true if the process has been successful., or returns false if could not cache the contents.
      */
-    public function cacheContent($name, $groupName, $content, $duration = 3600) {
-        global $registry;
+    public function cacheContent($name, $groupName, $content, $duration = 3600)
+    {
         $this->createCacheFolder();
         $filename = $this->cacheFolderPath . $this->encryptName($name, $groupName);
 
@@ -42,7 +44,7 @@ final class Cache {
         fclose($handle);
 
         if (!strlen($result)) {
-            $registry->error->reportError('An Error occured while caching the content!!', __LINE__, __METHOD__, true);
+            self::$registry->error->reportError('An Error occured while caching the content!!', __LINE__, __METHOD__, true);
             return;
         } else {
             return 1;
@@ -51,17 +53,15 @@ final class Cache {
 
     /**
      * This method are going to create our cache directory where our cache files will be stored.
-     * @global object $registry , The object of Registry Class.
      */
     private function createCacheFolder() {
-        if (!file_exists($this->cacheFolderPath) or !is_dir($this->cacheFolderPath)) {
-            global $registry;
-            
+        if (!file_exists($this->cacheFolderPath) or !is_dir($this->cacheFolderPath))
+        {
             if(is_writable(dirname($this->cacheFolderPath))){
                 chdir(dirname($this->cacheFolderPath));
                 mkdir($this->cacheFolderPath);
             }else{
-                $registry->error->reportError('The Cache Directory Is Not Writeable,
+                self::$registry->error->reportError('The Cache Directory Is Not Writeable,
                 Please Change The Cache Directory\'s Permission To 777, Then Refresh The Page And Then Change It To 755 (Do Not Forget It, Its neccesary
                  To Change It Back To 755 Again, OtherWise It Can Be Security Issue)<br />
                  Cache Directory Path: <strong>(' . dirname($this->cacheFolderPath) . ')</strong>', __LINE__, __METHOD__, true);
@@ -78,12 +78,12 @@ final class Cache {
      *  @param string $groupName has to be the same name as used when calling cacheContent() method.
      * 	@return bool False if the cache has expired or doesn't exist, otherwise cache content will be returned.
      */
-    public function getCache($name, $groupName) {
-        global $registry;
+    public function getCache($name, $groupName)
+    {
         $filename = $this->cacheFolderPath . $this->encryptName($name, $groupName);
         
         if(!file_exists($filename)){
-            $registry->error->reportError('Requested Cache File Does Not Exists.', __LINE__, __METHOD__);
+            self::$registry->error->reportError('Requested Cache File Does Not Exists.', __LINE__, __METHOD__);
             return;
         }
         
@@ -159,18 +159,17 @@ final class Cache {
 
     /**
      * This method let's us to remove a group of files, the cache files will be detected using their group name that their are cached!
-     * @global object $registry, let's us to access Registry class that can been able to use other classes too .
      * @param string $groupName, The group name of the cache file to detect and remove those files at once .
      * @return int, it will return 1 in success, otherwise it will return 0 .
      */
-    public function deleteAGroup($groupName) {
-        global $registry;
+    public function deleteAGroup($groupName)
+    {
         $toSearch = $this->encryptName('', $groupName);
         
         foreach (glob("{$this->cacheFolderPath}*{$toSearch}") as $file) {
             
             if (!unlink($file)) {
-                $registry->error->reportError('The Cache file ( ' . $file . ' ) Could not be removed', __LINE__, __METHOD__);
+                self::$registry->error->reportError('The Cache file ( ' . $file . ' ) Could not be removed', __LINE__, __METHOD__);
                 return 0;
             }
             
