@@ -3,20 +3,18 @@ namespace root\core\Router;
 
 class Router
 {
+    public static $registry = NULL;
+
     private $controllerReflectionInstance,
             $controllerInstance,
             $controllerName,
-            $controllerAddress,
-            $registry;
+            $controllerAddress;
 
     /**
-     * Using this constructor method we inject the Object of the Registry class and then calling other methods of the class!
-     * @param \root\core\Registry\Registry $registry Object of the class Registry.
+     * Using this constructor method we are calling other methods of the class!
      */
-    public function __construct(\root\core\Registry\Registry $registry)
+    public function __construct()
     {
-        $this->registry = $registry;
-
         $this->getController();
         $this->instantiatingController();
         $this->checkingMethod();
@@ -32,11 +30,11 @@ class Router
      */
     private function getController()
     {
-        $this->controllerAddress = FILE_PATH . 'application' . DIRECTORY_SEPARATOR . 'controllers' . DIRECTORY_SEPARATOR . $this->registry->request->getController() . 'Controller.php';
+        $this->controllerAddress = FILE_PATH . 'application' . DIRECTORY_SEPARATOR . 'controllers' . DIRECTORY_SEPARATOR . self::$registry->request->getController() . 'Controller.php';
         
         if(file_exists($this->controllerAddress) && is_readable($this->controllerAddress))
         {
-            $this->controllerName = $this->registry->request->getController() . 'Controller';
+            $this->controllerName = self::$registry->request->getController() . 'Controller';
             return;
         }
 
@@ -52,7 +50,7 @@ class Router
     {
         require_once $this->controllerAddress;
         $this->controllerReflectionInstance = new \ReflectionClass($this->controllerName);
-        $this->controllerInstance = $this->controllerReflectionInstance->newInstance($this->registry->getInstance());
+        $this->controllerInstance = $this->controllerReflectionInstance->newInstance(self::$registry->getInstance());
 
         return;
     }
@@ -64,8 +62,8 @@ class Router
     private function checkingMethod()
     {
         if(
-            !($this->controllerReflectionInstance->hasMethod($this->registry->request->getMethod())) ||
-            !($this->controllerReflectionInstance->getMethod($this->registry->request->getMethod())->isPublic()))
+            !($this->controllerReflectionInstance->hasMethod(self::$registry->request->getMethod())) ||
+            !($this->controllerReflectionInstance->getMethod(self::$registry->request->getMethod())->isPublic()))
         {
             header("Location: " . URL . 'error/notFound/Method/');
             exit;
@@ -80,7 +78,7 @@ class Router
      */
     private function callingMethod()
     {
-        $this->controllerReflectionInstance->getMethod($this->registry->request->getMethod())->invoke($this->controllerInstance, $this->registry->request->getArgs());
+        $this->controllerReflectionInstance->getMethod(self::$registry->request->getMethod())->invoke($this->controllerInstance, self::$registry->request->getArgs());
         return;
     }
 }
