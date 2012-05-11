@@ -8,22 +8,10 @@ class CrontabCommand
             $dayOfMonth = '*',
             $month = '*',
             $dayOfWeek = '*',
-            $command = NULL,
-            $registry = NULL;
-    
-    /**
-     * This construct class is just bringing the Registry class object to this class, to use it in the class methods.
-     * @global object $registry The object of the Registry Class.
-     * @return void
-     */
-    public function __construct() 
-    {
-        global $registry;
-        $this->registry = $registry;
-        
-        return;
-    }
-    
+            $command = NULL;
+    public static $registry = NULL;
+
+
     /**
      * Using this method we can define the 'Minute' part of the cron job command.
      * @param array|int $input It can be as an array like array(1, 2, 3 , ...), or just a number: 22 .
@@ -49,7 +37,7 @@ class CrontabCommand
         {
             if(($value < 0) || ($value > 59))
             {
-                $this->registry->error->reportError('The Minute can not be lower that zero (0) or more that fifty-nine (59).', __LINE__, __METHOD__, true);
+                self::$registry->error->reportError('The Minute can not be lower that zero (0) or more that fifty-nine (59).', __LINE__, __METHOD__, true);
             }
         }
         
@@ -83,7 +71,7 @@ class CrontabCommand
         {
             if(($value < 0) || ($value > 23))
             {
-                $this->registry->error->reportError('The Hour can not be lower that zero (0) or more that twenty-three (23).', __LINE__, __METHOD__, true);
+                self::$registry->error->reportError('The Hour can not be lower that zero (0) or more that twenty-three (23).', __LINE__, __METHOD__, true);
             }
         }
         
@@ -118,7 +106,7 @@ class CrontabCommand
         {
             if(($value < 1) || ($value > 31))
             {
-                $this->registry->error->reportError('The Day Of Month can not be lower that one (1) or more that thirty-one (31).', __LINE__, __METHOD__, true);
+                self::$registry->error->reportError('The Day Of Month can not be lower that one (1) or more that thirty-one (31).', __LINE__, __METHOD__, true);
             }
         }
         
@@ -153,7 +141,7 @@ class CrontabCommand
         {
             if(($value < 1) || ($value > 12))
             {
-                $this->registry->error->reportError('The Month can not be lower that one (1) or more that twelve (12).', __LINE__, __METHOD__, true);
+                self::$registry->error->reportError('The Month can not be lower that one (1) or more that twelve (12).', __LINE__, __METHOD__, true);
             }
         }
         
@@ -187,7 +175,7 @@ class CrontabCommand
         {
             if(($value < 0) || ($value > 6))
             {
-                $this->registry->error->reportError('The Day Of Week can not be lower that Erone (0) or more that Six (6).', __LINE__, __METHOD__, true);
+                self::$registry->error->reportError('The Day Of Week can not be lower that Erone (0) or more that Six (6).', __LINE__, __METHOD__, true);
             }
         }
         
@@ -217,7 +205,7 @@ class CrontabCommand
     {
         if($this->command === NULL)
         {
-            $this->registry->error->reportError('The Command is not defined in CrontabCommand Class via this method: setCommand() ! Please set it first. ', __LINE__, __METHOD__, true);
+            self::$registry->error->reportError('The Command is not defined in CrontabCommand Class via this method: setCommand() ! Please set it first. ', __LINE__, __METHOD__, true);
             return;
         }
         
