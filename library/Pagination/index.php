@@ -1,7 +1,9 @@
 <?php
 namespace root\library\Pagination\index;
 
-class Pagination extends \root\core\baseModel\baseModel {
+use \root\core\baseModel\baseModel;
+
+class Pagination extends baseModel {
     
     private $firstPageName = 'First Page', $lastPageName = 'Last Page', $nextPageName = 'Next Page', $previousPageName = 'Previous Page', $urlQueryStringName = NULL, $totalItemsToBeShown = NULL;
     private $totalPages = NULL, $URLQueryString, $currentPageNumber = NULL, $currentPageNumberState = false, $dbQuery;
@@ -12,7 +14,8 @@ class Pagination extends \root\core\baseModel\baseModel {
      * @param type $unicodeQuery if it's set t True then this query ('SET NAMES utf8') will be run before other querys, and it is good to use it in utf8 languages such as Farsi, ... .
      * @return void 
      */
-    public function __construct($URLQueryString, $unicodeQuery = false) {
+    public function __construct($URLQueryString, $unicodeQuery = false)
+    {
         parent::__construct($unicodeQuery);
         $this->URLQueryString = $URLQueryString;
         
@@ -21,17 +24,14 @@ class Pagination extends \root\core\baseModel\baseModel {
     
     /**
      * Through this method we can get our content related to our page number (if its not set then the default page number is 1), and it will return the content (rows) that we had wanted (in our query) as an array.
-     * @global object $registry The object of the Registry class.
      * @param string $dbQuery The (database) query which will be used to get the rows fromn the database.
      * @return mixed 0 on failure, an array that includes the content on success.
      */
     public function getContent($dbQuery = NULL)
     {
-        global $registry;
-        
         if($this->totalItemsToBeShown == NULL)
         {
-            $registry->error->reportError('Total Items that must be shown in a page is not defined yet, You can do it by using initTotalItemToBeShown() method.', __LINE__, __METHOD__, true);
+            self::$registry->error->reportError('Total Items that must be shown in a page is not defined yet, You can do it by using initTotalItemToBeShown() method.', __LINE__, __METHOD__, true);
             return 0;
         }
         
@@ -45,7 +45,7 @@ class Pagination extends \root\core\baseModel\baseModel {
         }
         else
         {
-            $registry->error->reportError('Query is not set, You can set it using the method\'s first parameter, ir using initDBQuery() method.', __LINE__, __METHOD__, true);
+            self::$registry->error->reportError('Query is not set, You can set it using the method\'s first parameter, ir using initDBQuery() method.', __LINE__, __METHOD__, true);
             return 0;
         }
         
@@ -54,7 +54,7 @@ class Pagination extends \root\core\baseModel\baseModel {
         if(false === ($sth = $this->query($queryFirstPart . $limitPartOfQuery)))
         {
             $errorMessage = $this->errorInfo();
-            $registry->error->reportError($errorMessage[2], __LINE__, __METHOD__, false);
+            self::$registry->error->reportError($errorMessage[2], __LINE__, __METHOD__, false);
             return 0;
         }
         
@@ -76,14 +76,11 @@ class Pagination extends \root\core\baseModel\baseModel {
      * This method tells us which pages we have got and will bring those page numbers as an array, like array(1, 2, 3, 4, ... ) .
      * Then we can use those numbers to make our own pagination style.
      * By the way, we can use other method to make our method for professional, like currentPageNumber(), ... .
-     * @global object $registry The object of the Registry class.
      * @param string $dbQuery The (database) query which will be used to get rows from the database.
      * @return mixed 0 on failure that it there is no items in database it will return 0 or if $totalItemsToBeShown property was now set then it will return 0, otherwise it will bring as array that include our page numbers.
      */
     public function getPageNumbers($dbQuery = NULL)
     {
-        global $registry;
-        
         if($dbQuery != NULL)
         {
             $query = $dbQuery;
@@ -94,14 +91,14 @@ class Pagination extends \root\core\baseModel\baseModel {
         }
         else
         {
-            $registry->error->reportError('Query is not set, You can set it using the method\'s first parameter, ir using initDBQuery() method.', __LINE__, __METHOD__, true);
+            self::$registry->error->reportError('Query is not set, You can set it using the method\'s first parameter, ir using initDBQuery() method.', __LINE__, __METHOD__, true);
             return 0;
         }
         
         if(false === ($sth = $this->query($query)))
         {
             $errorMessage = $this->errorInfo();
-            $registry->error->reportError($errorMessage[2], __LINE__, __METHOD__, false);
+            self::$registry->error->reportError($errorMessage[2], __LINE__, __METHOD__, false);
             return 0;
         }
             
@@ -119,7 +116,7 @@ class Pagination extends \root\core\baseModel\baseModel {
         
         if($this->totalItemsToBeShown === NULL)
         {
-            $registry->error->reportError('Total Items that must be shown in a page is not defined yet, You can do it by using initTotalItemToBeShown() method.', __LINE__, __METHOD__, true);
+            self::$registry->error->reportError('Total Items that must be shown in a page is not defined yet, You can do it by using initTotalItemToBeShown() method.', __LINE__, __METHOD__, true);
             return 0;
         }
         
@@ -210,17 +207,14 @@ class Pagination extends \root\core\baseModel\baseModel {
 
     /**
      * Through this method we can find the new address (URL) of the new page number that we want.
-     * @global object $registry The object of the Registry Class.
      * @param int $newPageNumber The new page number that we want to make an address for that page.
      * @return mixed 0 on failure and an exception will be thrown too, the new page's address if everything is okay.
      */
     public function getNewPageAddress($newPageNumber)
     {
-        global $registry;
-        
         if($this->urlQueryStringName === NULL)
         {
-            $registry->error->reportError('The Url Query String for Pagination is not defined yet, You can do it by using initURLQueryStringName() method.', __LINE__, __METHOD__, true);
+            self::$registry->error->reportError('The Url Query String for Pagination is not defined yet, You can do it by using initURLQueryStringName() method.', __LINE__, __METHOD__, true);
             return 0;
         }
         
@@ -244,24 +238,21 @@ class Pagination extends \root\core\baseModel\baseModel {
          * Making the url and then returning it back.
          */
         $finalQueryString = implode('/', $this->URLQueryString);
-        $newAddress = URL . $registry->request->getController() . '/' . $registry->request->getMethod() . '/' . $finalQueryString . '/';
+        $newAddress = URL . self::$registry->request->getController() . '/' . self::$registry->request->getMethod() . '/' . $finalQueryString . '/';
         
         return $newAddress;
     }
     
     /**
      * This method lets us to redirect user to the new page number that we want user to go there.
-     * @global object $registry The object of the Registry Class.
      * @param int $newPageNumber The new page number which we want to go there.
      * @return int 0 on failure with an exception will be thrown, 1 if we are already in the requested page, Nothing if it will do its job well.
      */
     public function redirectToNewPage($newPageNumber)
     {
-        global $registry;
-        
         if($this->urlQueryStringName === NULL)
         {
-            $registry->error->reportError('The Url Query String for Pagination is not defined yet, You can do it by using initURLQueryStringName() method.', __LINE__, __METHOD__, true);
+            self::$registry->error->reportError('The Url Query String for Pagination is not defined yet, You can do it by using initURLQueryStringName() method.', __LINE__, __METHOD__, true);
             return 0;
         }
         
@@ -293,7 +284,7 @@ class Pagination extends \root\core\baseModel\baseModel {
          * Making the url and then redirect to the new address.
          */
         $finalQueryString = implode('/', $this->URLQueryString);
-        $newAddress = URL . $registry->request->getController() . '/' . $registry->request->getMethod() . '/' . $finalQueryString . '/';
+        $newAddress = URL . self::$registry->request->getController() . '/' . self::$registry->request->getMethod() . '/' . $finalQueryString . '/';
         header("Location: $newAddress");
         exit;
         
@@ -302,16 +293,13 @@ class Pagination extends \root\core\baseModel\baseModel {
     
     /**
      * If the query string is added but the number not (is empty) it will redirect to first page, or if its set to 0 then it will redirect to page 1 (because we have not got any page number in 0).
-     * @global object $registry The object of the Registry class.
      * @return mixed 0 on failure,  Nothing if the condition is not true, redirection if the condition is true.
      */
     private function autoRedirectToFirstpage()
     {
-        global $registry;
-        
         if($this->urlQueryStringName === NULL)
         {
-            $registry->error->reportError('The Url Query String for Pagination is not defined yet, You can do it by using initURLQueryStringName() method.', __LINE__, __METHOD__, true);
+            self::$registry->error->reportError('The Url Query String for Pagination is not defined yet, You can do it by using initURLQueryStringName() method.', __LINE__, __METHOD__, true);
             return 0;
         }
         
@@ -321,7 +309,7 @@ class Pagination extends \root\core\baseModel\baseModel {
             {
                 $this->URLQueryString[$pageQueryStringNamePosition] = 1;
                 $finalQueryString = implode('/', $this->URLQueryString);
-                $newAddress = URL . $registry->request->getController() . '/' . $registry->request->getMethod() . '/' . $finalQueryString . '/';
+                $newAddress = URL . self::$registry->request->getController() . '/' . self::$registry->request->getMethod() . '/' . $finalQueryString . '/';
                 header("Location: $newAddress");
                 exit;
             }
@@ -331,16 +319,13 @@ class Pagination extends \root\core\baseModel\baseModel {
     
     /**
      * If the inserted page number is more than the total (last page number) numbers that we have got then this method will be started and redirect the user to the last page that we have got.
-     * @global object $registry The object of the Registry class.
      * @return mixed 0 on failure,  Nothing if the condition is not true, redirection if the condition is true.
      */
     private function autoRedirectToLastPage()
     {
-        global $registry;
-        
         if($this->urlQueryStringName === NULL)
         {
-            $registry->error->reportError('The Url Query String for Pagination is not defined yet, You can do it by using initURLQueryStringName() method.', __LINE__, __METHOD__, true);
+            self::$registry->error->reportError('The Url Query String for Pagination is not defined yet, You can do it by using initURLQueryStringName() method.', __LINE__, __METHOD__, true);
             return 0;
         }
         
@@ -349,7 +334,7 @@ class Pagination extends \root\core\baseModel\baseModel {
             $pageQueryStringNamePosition = array_search($this->urlQueryStringName, $this->URLQueryString);
             $this->URLQueryString[++$pageQueryStringNamePosition] = $this->totalPages;
             $finalQueryString = implode('/', $this->URLQueryString);
-            $newAddress = URL . $registry->request->getController() . '/' . $registry->request->getMethod() . '/' . $finalQueryString . '/';
+            $newAddress = URL . self::$registry->request->getController() . '/' . self::$registry->request->getMethod() . '/' . $finalQueryString . '/';
             header("Location: $newAddress");
             exit;
         }
@@ -363,7 +348,6 @@ class Pagination extends \root\core\baseModel\baseModel {
      * If just the query string defined but the page number is not defined then 0 as false will be returned, like for example( http://www.domain.com/index/index/page/   => incorrect) that it must had been this one, like for example( http://www.domain.com/index/index/page/56/   => correct),
      * If its defined but the value is not a number then 0 will be returned as false,,
      * If the query string is not defined using this method (initURLQueryStringName()) then 0 will be returned and also an exception will be thrown ( for instance, the query instance can be 'page', or 'p', or ... ).
-     * @global object $registry The instance of the Registry Class.
      * @return int 0 on failure, 1 if the page number is not defined in URL (the query its self and it's value), or the actual number that is defined in url.
      */
     public function currentPageNumber()
