@@ -4,27 +4,25 @@ namespace root\library\Bcrypt\index;
 class Bcrypt {
 
     private $rounds, $prefix;
+    public static $registry = NULL;
 
     /**
      * Our construct method to set and also config some settings, as described below (for parameters of the construct method).
-     * @global object $registry Globalizing the object of the Registry class.
      * @param string|int $prefix To use it in making the salt in the uniqid() function in one of the class methods.
      * @param int $rounds By increasing this number, you will cause the class to make the hash slower that default. And vice versa.
      * @return void
      */
     public function __construct($prefix = '', $rounds = 12) 
     {
-        global $registry;
-        
         if(!is_numeric($rounds))
         {
-            $registry->error->reportError("The second parameter of the __construct method must be an integer!", __LINE__, __METHOD__, true, 'authentication');
+            self::$registry->error->reportError("The second parameter of the __construct method must be an integer!", __LINE__, __METHOD__, true, 'authentication');
         }
         
         if (CRYPT_BLOWFISH != 1) 
         {
-            
-            $registry->error->reportError("bcrypt is not supported in this installation. See http://php.net/crypt", __LINE__, __METHOD__, true, 'authentication');
+
+            self::$registry->error->reportError("bcrypt is not supported in this installation. See http://php.net/crypt", __LINE__, __METHOD__, true, 'authentication');
         }
 
         $this->rounds = $rounds;
