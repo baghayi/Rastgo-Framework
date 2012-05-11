@@ -11,6 +11,10 @@ define('FILE_PATH', get_magic_quotes_gpc() ? dirname(dirname(__FILE__)) . DIRECT
 require_once FILE_PATH . 'config' . DIRECTORY_SEPARATOR . 'config.php';
 
 /**
+ * Setting the Default Time Zone.
+ */
+date_default_timezone_set(Time_Zone);
+/**
  * IIS >= 6 ,
  * In IIS, It might have not been setted, then we can do ot manually!
  */
@@ -32,9 +36,8 @@ define('URL', WEB_PROTOCOL . '://' . $_SERVER["SERVER_NAME"] . $portNumber . '/'
 define('TEMPLATE_URL', URL . 'public/views/' . TEMPLATE_FOLDER_NAME . '/');
 
 /**
- * We are just including the Loader file that
- * can been able to load or include other classes and files
- * then instantiating it.
+ * We are just including the Loader and also Registry file that
+ * can been able to load or include other classes and files.
  */
+require_once FILE_PATH . 'core' . DIRECTORY_SEPARATOR . 'Registry.php';
 require_once FILE_PATH . 'core' . DIRECTORY_SEPARATOR . 'Loader.php';
-\root\core\Loader\Loader::setAutoLoader();
