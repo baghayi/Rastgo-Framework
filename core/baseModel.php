@@ -1,15 +1,15 @@
 <?php
 namespace root\core\baseModel;
 
-abstract class baseModel extends \PDO {
+abstract class baseModel extends \PDO
+{
+    public static $registry;
 
-    public $registry;
-
-    public function connect($unicodeQuery = false)
+    public function __construct($unicodeQuery = false)
     {
-        $dsn = $this->registry->db->dbDriver() . ':host=' . $this->registry->db->dbHost() . ';port=' . $this->registry->db->dbPort() . ';dbname=' . $this->registry->db->dbName();
+        $dsn = static::$registry->db->dbDriver() . ':host=' . static::$registry->db->dbHost() . ';port=' . static::$registry->db->dbPort() . ';dbname=' . static::$registry->db->dbName();
 
-        parent::__construct($dsn, $this->registry->db->dbUsername(), $this->registry->db->dbPassword(), $this->registry->db->pdoOptions());
+        parent::__construct($dsn, static::$registry->db->dbUsername(), static::$registry->db->dbPassword(), static::$registry->db->pdoOptions());
         
         if($unicodeQuery === true)
         {
@@ -17,8 +17,7 @@ abstract class baseModel extends \PDO {
         }
         return;
     }
-    
+
     public abstract function index();
-    public function __construct(){}
 
 }
