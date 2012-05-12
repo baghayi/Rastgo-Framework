@@ -89,7 +89,7 @@ final class Loader
         return;
     }
 
-    public static function registryInjection($className)
+    private static function registryInjection($className)
     {
         $reflectionClass = new \ReflectionClass($className);
 
