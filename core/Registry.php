@@ -20,7 +20,16 @@ final class Registry {
     public function __get($var){
         return $this->registry[$var]; 
     }
-    
+
+	 public function __unset($var){
+        unset($this->registry[$var]);
+    }
+
+	 public function __isset($var){
+        return isset($this->registry[$name]);
+    }
+
     private function __construct() {}
 
+	 private function __clone() {}
 }
