@@ -5,7 +5,7 @@ Contents/Menu
 - About
 - Requirements
 - Download
-- Help/Wiki
+- Documentation
 - License
 - Issues/Feedbacks
 - Credits
@@ -28,9 +28,9 @@ Download
 - git http: git clone https://github.com/baghayi/Rastgo-Framework.git
 - git: git://github.com/baghayi/Rastgo-Framework.git
 
-Help/Wiki
+Documentation
 ----------
-https://github.com/baghayi/Rastgo-Framework/wiki
+https://github.com/baghayi/Rastgo-Framework-Documentation
 
 License
 ----------
