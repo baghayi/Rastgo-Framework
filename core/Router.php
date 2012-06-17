@@ -38,7 +38,7 @@ class Router
             return;
         }
 
-        header("Location: " . URL . 'error/notFound/Controller/');
+        header("Location: " . URL . '?q=error/notFound/Controller/');
         exit;
     }
 
@@ -65,7 +65,7 @@ class Router
             !($this->controllerReflectionInstance->hasMethod(self::$registry->request->getMethod())) ||
             !($this->controllerReflectionInstance->getMethod(self::$registry->request->getMethod())->isPublic()))
         {
-            header("Location: " . URL . 'error/notFound/Method/');
+            header("Location: " . URL . '?q=error/notFound/Method/');
             exit;
         }
 
