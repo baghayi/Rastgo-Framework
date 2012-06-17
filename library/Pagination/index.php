@@ -238,7 +238,7 @@ class Pagination extends baseModel {
          * Making the url and then returning it back.
          */
         $finalQueryString = implode('/', $this->URLQueryString);
-        $newAddress = URL . self::$registry->request->getController() . '/' . self::$registry->request->getMethod() . '/' . $finalQueryString . '/';
+        $newAddress = URL . '?q=' . self::$registry->request->getController() . '/' . self::$registry->request->getMethod() . '/' . $finalQueryString . '/';
         
         return $newAddress;
     }
@@ -284,7 +284,7 @@ class Pagination extends baseModel {
          * Making the url and then redirect to the new address.
          */
         $finalQueryString = implode('/', $this->URLQueryString);
-        $newAddress = URL . self::$registry->request->getController() . '/' . self::$registry->request->getMethod() . '/' . $finalQueryString . '/';
+        $newAddress = URL . '?q=' . self::$registry->request->getController() . '/' . self::$registry->request->getMethod() . '/' . $finalQueryString . '/';
         header("Location: $newAddress");
         exit;
         
@@ -309,7 +309,7 @@ class Pagination extends baseModel {
             {
                 $this->URLQueryString[$pageQueryStringNamePosition] = 1;
                 $finalQueryString = implode('/', $this->URLQueryString);
-                $newAddress = URL . self::$registry->request->getController() . '/' . self::$registry->request->getMethod() . '/' . $finalQueryString . '/';
+                $newAddress = URL . '?q=' . self::$registry->request->getController() . '/' . self::$registry->request->getMethod() . '/' . $finalQueryString . '/';
                 header("Location: $newAddress");
                 exit;
             }
@@ -334,7 +334,7 @@ class Pagination extends baseModel {
             $pageQueryStringNamePosition = array_search($this->urlQueryStringName, $this->URLQueryString);
             $this->URLQueryString[++$pageQueryStringNamePosition] = $this->totalPages;
             $finalQueryString = implode('/', $this->URLQueryString);
-            $newAddress = URL . self::$registry->request->getController() . '/' . self::$registry->request->getMethod() . '/' . $finalQueryString . '/';
+            $newAddress = URL . '?q=' . self::$registry->request->getController() . '/' . self::$registry->request->getMethod() . '/' . $finalQueryString . '/';
             header("Location: $newAddress");
             exit;
         }
