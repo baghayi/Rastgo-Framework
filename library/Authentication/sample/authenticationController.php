@@ -11,7 +11,7 @@ class authenticationController extends baseController
      */
     public function index()
     {
-        $url = URL . 'authentication/';
+        $url = URL . '?q=authentication/';
         echo <<<HTML
             <ul>
                 <li><a href="{$url}chekingTheUser/username:hossein/" alt="">chekingTheUser()</a></li>
