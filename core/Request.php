@@ -5,15 +5,24 @@ final class Request {
     private $controller, $method, $args;
     private static $defaultController = Default_Controller, $defaultMethod = Default_Method;
 
-    public function __construct() {
-        /**
-         * Taking the the URL and cleaning it with the current filder name and then,
-         * We could been able to extract controller, method and arguments .
+    public function __construct() 
+    {
+        $queryString = $this->parseQueryString();
+        $this->specifyingControllerMethodArguments($queryString);
+        return;
+    }
+    
+    /**
+    * This method sets our controller if is not specified by user the default one will be used,
+    * And sets our method (action) if is not specified by user the default one will be used,
+    * And finally the Arguments as array will be set but if is not specified by user , an empty array() will be set.
+    */
+    private function specifyingControllerMethodArguments($queryString)
+    {
+         /**
+         * Extracting the query string by forward-slash and then using them as controller , method (action) and arguments.
          */
-        $url = array_filter(explode('/', $_SERVER['REQUEST_URI']));
-        if (in_array(SCRIPT_ROOT_FOLDER_NAME, $url)) {
-            array_shift($url);
-        }
+        $url = array_filter(explode('/', $queryString));
         
         /**
          * Getting controller.
@@ -31,6 +40,16 @@ final class Request {
         $this->args = isset($url[0])? $url : array();
         
         return;
+    }
+    
+    /**
+    * will return a strin if query string is set, like: $_GET['q'] .
+    * otherwise false will be returned.
+    */
+    private function parseQueryString()
+    {
+        $queryString = isset($_GET['q']) ? $_GET['q'] : false;
+        return $queryString;
     }
     
     public function getController(){
