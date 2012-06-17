@@ -8,7 +8,7 @@ RewriteCond %{REQUEST_FILENAME} !public/
 #This parameter is used to set the default directory and it's file.
 DirectoryIndex public/index.php
 
-RewriteRule ^(.+)$ public/index.php/$1
+RewriteRule ^(.+)$ public/index.php/?q=$1
 
 # To disallow folders to show their contents (files)
 Options All -Indexes
