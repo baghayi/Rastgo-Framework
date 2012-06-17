@@ -1,4 +1,0 @@
-location /
-{
-deny all;
-}
