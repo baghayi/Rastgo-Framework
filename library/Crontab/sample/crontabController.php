@@ -5,7 +5,7 @@ class crontabController extends baseController {
     
     public function index() 
     {
-        $url = URL . 'crontab/';
+        $url = URL . '?q=crontab/';
         
         $html = <<<_VIEW
         <ul>
