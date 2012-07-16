@@ -5,7 +5,7 @@ class crontabController extends baseController {
     
     public function index() 
     {
-        $url = URL . '?q=crontab/';
+        $url = self::$registry->request->go("crontab", null, null, true);
         
         $html = <<<_VIEW
         <ul>
