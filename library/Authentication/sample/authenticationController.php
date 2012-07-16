@@ -11,7 +11,7 @@ class authenticationController extends baseController
      */
     public function index()
     {
-        $url = URL . '?q=authentication/';
+        $url = self::$registry->request->go("authentication", NULL, NULL, true);
         echo <<<HTML
             <ul>
                 <li><a href="{$url}chekingTheUser/username:hossein/" alt="">chekingTheUser()</a></li>
