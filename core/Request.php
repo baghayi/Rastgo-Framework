@@ -4,9 +4,12 @@ namespace root\core\Request;
 final class Request {
     private $controller, $method, $args;
     private static $defaultController = Default_Controller, $defaultMethod = Default_Method;
+    public static $enableRewrite = false;
 
     public function __construct() 
     {
+        self::$enableRewrite = Enable_Rewrite;
+        
         $queryString = $this->parseQueryString();
         $this->specifyingControllerMethodArguments($queryString);
         return;
@@ -71,6 +74,36 @@ final class Request {
     public static function setDefaultMethod($method){
         self::$defaultMethod = $method;
         return;
+    }
+    
+    public function go($controller = NULL, $method = NULL, $args = NULL, $returnAddress = false)
+    {
+        $controller = ($controller == NULL)? $this->getController(): $controller;
+        $method = ($method == NULL)? $this->getMethod(): $method;
+        $args = ($args == NULL)? $this->getArgs(): $args;
+        
+        switch(self::$enableRewrite){
+            case TRUE:
+                $newAddress = URL . "";
+            break;
+            case FALSE:
+            default: 
+                $newAddress = URL . "?q=";
+            break;
+        }
+        
+        if(is_array($args)){
+            $newAddress .= $controller . '/' . $method . '/' . implode('/', $args);
+        }elseif(is_string($args)){
+            $newAddress .= $controller . '/' . $method . '/' . $args;
+        }
+        
+        if($returnAddress === true){
+            return $newAddress;
+        }
+        
+        header("Location: ". $newAddress);
+        exit;
     }
 
 }
