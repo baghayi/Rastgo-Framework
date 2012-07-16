@@ -30,3 +30,8 @@ define('Time_Zone', 'Asia/Tehran');
  */
 define('Default_Controller', 'index');
 define('Default_Method', 'index');
+
+/**
+* Setting this property to true was cause URLs to be user friendly (rewrited) otherwise witt be query String like. (?q= ...).
+*/
+define("Enable_Rewrite", FALSE);
