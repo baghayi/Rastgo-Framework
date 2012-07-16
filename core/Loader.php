@@ -22,7 +22,7 @@ final class Loader
                 return;
             }
             else{
-                self::$registry->error->reportError ('Model Class Does Not Exists!', __LINE__, __METHOD__, true);
+                self::$registry->error->reportError('Model Class Does Not Exists!', __LINE__, __METHOD__, true);
                 return;
             }
         }else {
