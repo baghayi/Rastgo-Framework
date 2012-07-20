@@ -1,4 +1,6 @@
 <?php
+header("Content-Type: text/html; charset=UTF-8");
+
 require_once dirname(dirname(__FILE__)) . '/core/bootStrap.php';
 $registry = \root\core\Registry\Registry::getInstance();
 \root\core\Loader\Loader::setAutoLoader($registry);
