@@ -30,7 +30,7 @@ Download
 
 Documentation
 ----------
-https://github.com/baghayi/Rastgo-Framework-Documentation
+http://baghayi.github.com/Rastgo-Framework-Documentation/
 
 License
 ----------
