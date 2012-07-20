@@ -6,7 +6,7 @@ class paginationController extends baseController
 {
     public function index()
     {
-        $page = new Pagination(self::$registry->request->getArgs());
+        $page = new Pagination();
         $page->initURLQueryStringName('page');
         $page->initTotalItemToBeShown(10);
         echo($page->getNewPageAddress($page->currentPageNumber()));

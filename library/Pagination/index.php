@@ -14,10 +14,10 @@ class Pagination extends baseModel {
      * @param type $unicodeQuery if it's set t True then this query ('SET NAMES utf8') will be run before other querys, and it is good to use it in utf8 languages such as Farsi, ... .
      * @return void 
      */
-    public function __construct($URLQueryString, $unicodeQuery = false)
+    public function __construct($unicodeQuery = false)
     {
         parent::__construct($unicodeQuery);
-        $this->URLQueryString = $URLQueryString;
+        $this->URLQueryString = self::$registry->request->getArgs();
         
         return;
     }
