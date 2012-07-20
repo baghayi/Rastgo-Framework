@@ -58,7 +58,7 @@ class Pagination extends baseModel {
             return 0;
         }
         
-        return $sth->fetchAll();
+        return $sth->fetchAll(\PDO::FETCH_ASSOC);
     }
     
     /**
@@ -102,7 +102,7 @@ class Pagination extends baseModel {
             return 0;
         }
             
-        $totalSelectedItems = count($sth->fetchAll());
+        $totalSelectedItems = count($sth->fetchAll(\PDO::FETCH_ASSOC));
         
         $this->autoRedirectToFirstpage();
         
