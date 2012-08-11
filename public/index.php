@@ -14,4 +14,3 @@ $registry = \root\core\Registry\Registry::getInstance();
     {
         echo $e->getMessage();
     }
-?>

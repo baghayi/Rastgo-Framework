@@ -166,7 +166,7 @@ class SessionDB extends \root\core\baseModel\baseModel {
      */
     public function initCreateSessionTable()
     {
-        $query = "CREATE TABLE IF NOT EXISTS `$this->DBTableName` (
+        $query = "CREATE TABLE IF NOT EXISTS `{$this->DBTableName}` (
   `session_id` char(26) NOT NULL,
   `session_name` varchar(15) NOT NULL,
   `access_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
