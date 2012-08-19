@@ -12,6 +12,11 @@ $registry = \root\core\Registry\Registry::getInstance();
         $registry->request = new \root\core\Request\Request();
         $registry->router = new \root\core\Router\Router();
     }
+    catch(PDOException $e)
+    {
+        $registry->error->reportError($e->getMessage(), $e->getLine(), $e->getFile(), false, 'database');
+        return;
+    }
     catch (Exception $e)
     {
         echo $e->getMessage();

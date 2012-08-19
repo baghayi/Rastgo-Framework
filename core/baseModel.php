@@ -10,6 +10,7 @@ abstract class baseModel extends \PDO
         $dsn = static::$registry->db->dbDriver() . ':host=' . static::$registry->db->dbHost() . ';port=' . static::$registry->db->dbPort() . ';dbname=' . static::$registry->db->dbName();
 
         parent::__construct($dsn, static::$registry->db->dbUsername(), static::$registry->db->dbPassword(), static::$registry->db->pdoOptions());
+        $this->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
         
         if($unicodeQuery === true)
         {
