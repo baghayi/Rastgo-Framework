@@ -7,8 +7,9 @@ use root\library\Bcrypt\index\Bcrypt,
 
 class Authentication extends baseModel
 {
-    private $sessionInstance = NULL,
-            $dbTableName = 'authentication',
+    private static $sessionInstance = NULL;
+
+    private $dbTableName = 'authentication',
             $pepper = '',
             $dbHashColumnName = 'pass_hash',
             $dbSaltColumnName = 'pass_salt',
@@ -22,12 +23,16 @@ class Authentication extends baseModel
     public function __construct($unicodeQuery = false) 
     {
         parent::__construct($unicodeQuery);
-        $this->sessionInstance = new SessionDB();
+
+        if(self::$sessionInstance !== NULL) //if session has already been started then there is no need for it to be started again, otherwise errors will rise by PHP itself.
+            return;
+
+        self::$sessionInstance = new SessionDB();
         /**
          * For security reasons it's better only allow cookies to been able to have the sessions and nothing esle (like URLs)
          */
-        $this->sessionInstance->initUseOnlyCookie();
-        $this->sessionInstance->start();
+        self::$sessionInstance->initUseOnlyCookie();
+        self::$sessionInstance->start();
     }
     
     /**
