@@ -4,6 +4,14 @@ root\core\baseController\baseController;
 
 class authenticationController extends baseController
 {
+    /**
+     * A sample password to use it throughout of the class to demonstrate how does this Library (Authentication) works.
+     */
+    const samplePassword = 'aBigSecurePassword';
+    /**
+     * A sample bcrypted password (aove password hass) to use it throughout of the class to demonstrate how does this Library (Authentication) works.
+     */
+    const aBcryptedHashOfsamplePassword = '$2a$12$j/VL35/SRCHhrB.zAps5b.fKRBuwQYhH0bA9I3tBLfKPQkBRB3mP6';
 
     /**
      * Will show a link for each methods and with some information in the URL to use them.
@@ -11,15 +19,22 @@ class authenticationController extends baseController
      */
     public function index()
     {
-        $url = self::$registry->request->go("authentication", NULL, NULL, true);
+        $chekingTheUser = self::$registry->request->go("authentication", "chekingTheUser", "username:hossein", true);
+        $registerMD5 = self::$registry->request->go("authentication", "registerMD5", "username:hossein/password:yourpasswordhere/email:yourmail@gmail.com", true);
+        $verifyMD5Hash = self::$registry->request->go("authentication", "verifyMD5Hash", "username:hossein/password:yourpasswordhere/email:yourmail@gmail.com", true);
+        $registerBcrypt = self::$registry->request->go("authentication", "registerBcrypt", "username:hossein/password:yourpasswordhere/email:yourmail@gmail.com", true);
+        $verifyBcryptHash = self::$registry->request->go("authentication", "verifyBcryptHash", "username:hossein/password:yourpasswordhere/email:yourmail@gmail.com", true);
+        $logUseInUsingBcryptMethod = self::$registry->request->go("authentication", "logUseInUsingBcryptMethod", "", true);
+        $mainMethod = self::$registry->request->go("authentication", "mainMethod", "", true);
         echo <<<HTML
             <ul>
-                <li><a href="{$url}chekingTheUser/username:hossein/" alt="">chekingTheUser()</a></li>
-                <li><a href="{$url}registerMD5/username:hossein/password:yourpasswordhere/email:yourmail@gmail.com/" alt="">registerMD5()</a></li>
-                <li><a href="{$url}verifyMD5Hash/username:hossein/password:yourpasswordhere/email:yourmail@gmail.com/" alt="">verifyMD5Hash()</a></li>
-                <li><a href="{$url}registerBcrypt/username:hossein/password:yourpasswordhere/email:yourmail@gmail.com/" alt="">registerBcrypt() </a></li>
-                <li><a href="{$url}verifyBcryptHash/username:hossein/password:yourpasswordhere/email:yourmail@gmail.com/" alt="">verifyBcryptHash()</a></li>
-                <li><a href="{$url}mainMethod/" alt="">mainMethod()</a></li>
+                <li><a href="{$chekingTheUser}/" alt="">chekingTheUser()</a></li>
+                <li><a href="{$registerMD5}/" alt="">registerMD5()</a></li>
+                <li><a href="{$verifyMD5Hash}/" alt="">verifyMD5Hash()</a></li>
+                <li><a href="{$registerBcrypt}/" alt="">registerBcrypt() </a></li>
+                <li><a href="{$verifyBcryptHash}/" alt="">verifyBcryptHash()</a></li>
+                <li><a href="{$logUseInUsingBcryptMethod}/" alt="">logUseInUsingBcryptMethod()</a></li>
+                <li><a href="{$mainMethod}" alt="">mainMethod()</a></li>
             </ul>
 HTML;
         return;
@@ -59,11 +74,13 @@ HTML;
          * Used to set a expiration time for the session cookie,
          * It's neccessary to use this method if you do not want your session cookie to be expired after your user close the browser.
          */
-        var_dump($auth->initSessionCookieParams('day'));
+        $auth->initSessionCookieParams('day');
         /**
          * This is used to login user via session cookie that is set by this mehtod: loginViaUserRawInfo()
          */
         var_dump($auth->loginViaCookie());
+
+        
         /**
          * Login for the first time using this method (via html forms)
          */
@@ -79,6 +96,62 @@ HTML;
          * insert the user information to database
          */
         $auth->registerNewUser(array('username' => 'hossein', 'email' => 'golam@gmail.com', 'password_hash' => $password['passHash'], 'password_salt' => $password['passSalt']));
+
+        return;
+    }
+
+    /**
+     * A sample example method which demonstrates how to use bcrypte method to log user in with raw information
+     *      that may come from a login page or whatever.
+     */
+    public function logUseInUsingBcryptMethod()
+    {
+        /*
+          Database Users Table Structure:
+          
+          CREATE TABLE `users` (
+             `id` int(11) NOT NULL AUTO_INCREMENT,
+             `username` varchar(20) NOT NULL,
+             `password` varchar(80) NOT NULL,
+             `session_id` varchar(80) DEFAULT NULL,
+              PRIMARY KEY (`id`),
+              UNIQUE KEY `username` (`username`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1
+        */
+        $auth = new Authentication();
+        //echo $obj->makePassHashBcrypt(self::samplePassword, self::aBcryptedHashOfsamplePassword);
+
+        /**
+         * is used to set the name of the database table name with all operations will be done in it.
+         */
+        $auth->initDbTableName('users');
+        /**
+         * used to set the name of the database column which the hash of password will be saved in it.
+         */
+        $auth->initDBHashColumnName('password');
+        /**
+         * This method is used to set the session_id column name in database which session_id should store in that column.
+         */
+        $auth->initDBSessionIdColumnName('session_id');
+        /**
+         * via this method you must set the name of the database column which stores user unique id that you can identify user with it (like: username, email, or other thing that you want)
+         */
+        $auth->initDBUserIdentifierColumnName('username');
+        /**
+         * Used to set a expiration time for the session cookie,
+         * It's neccessary to use this method if you do not want your session cookie to be expired after your user close the browser.
+         */
+        $auth->initSessionCookieParams('day');
+
+        /**
+         * select which encryption method type we want to use
+         */
+        $auth->initencryptionMethod("BCRYPT");
+
+        var_dump($auth->loginViaUserRawInfo(array(
+            "username" => "test",
+            "password" => "aBigSecurePassword"
+            )));
 
         return;
     }

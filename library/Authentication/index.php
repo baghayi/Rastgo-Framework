@@ -15,7 +15,9 @@ class Authentication extends baseModel
             $userIdentifier,
             $dbUserIdentifierColumnName = NULL,
             $sessionId,
-            $dbSessionIdColumnName = 'session_id';
+            $dbSessionIdColumnName = 'session_id',
+            $encryptionMethods = array("BCRYPT", "MD5"),
+            $selectedEncryptionMethod = NULL;
     
     public function __construct($unicodeQuery = false) 
     {
@@ -38,10 +40,7 @@ class Authentication extends baseModel
         session_start();
         
         if($this->dbUserIdentifierColumnName === NULL)
-        {
             self::$registry->error->reportError('The "dbUserIdentifierColumnName" property is not set, You can set it by using this method: initDBUserIdentifierColumnName() ', __LINE__, __METHOD__, true, 'authentication');
-            return 0;
-        }
 
         if(isset($_SESSION['userIdentifier']) and ($_SESSION['verified'] === true))
         {
@@ -112,6 +111,32 @@ class Authentication extends baseModel
             return 0;
         }
         
+        #CHECKING TO SEE IF CRYPTIONMETHOD IS SET OTHERWISE THROW AN ERROR AND COMPLAIN ABOUT IT.
+        if($this->selectedEncryptionMethod == NULL)
+            self::$registry->error->reportError("Please Select Encryption method type before doing anything else.", __LINE__, __METHOD__, true);
+        
+        
+        #now select the proper method to run, according to the selected encryption method tyoe.
+        switch($this->selectedEncryptionMethod){
+            case "MD5":
+                return $this->encryptionMethodTypeUsingMD5($loginData, $limitByIP, $limitByUserBrowser);
+            break;
+            case "BCRYPT":
+                return $this->encryptionMethodTypeUsingBCRYPT($loginData, $limitByIP, $limitByUserBrowser);
+            break;
+            default:
+                return False;
+        }
+    }
+    
+    /**
+     * This method is used when MD5 is used to encrypt the passwords as encryption method type and will be called by `loginViaUserRawInfo` method.
+     * @param array $loginData The first parameter must be a unique thing to identify user by it (like username, email , etc) that the database column name must be the array's key and it's value must be that unique id (username, email, or ...)!
+     * And also the second parameter must be user's password, that the array key must be the database column name and the array value must be password itself.
+     * @return boolean True when no problem occured, othwerwise false
+     */
+    private function encryptionMethodTypeUsingMD5($loginData, $limitByIP = FALSE, $limitByUserBrowser = FALSE)
+    {
         /**
          * - The first parameter must be an array!
          * - It's first element must be something unique that we can identify user with it, such as username, or email (if it's using as a username / (instead of username infact)), etc ,
@@ -125,23 +150,77 @@ class Authentication extends baseModel
         {
             $errorMessage = $sth->errorInfo();
             self::$registry->error->reportError($errorMessage[2], __LINE__, __METHOD__, false, 'authentication');
-            return 0;
+            return False;
         }
         
         $result = $sth->fetch();
         next($loginData);
         $rawPassword = $loginData[key($loginData)];
         
-        if($this->makePassHashSalt($rawPassword, $result[$this->dbSaltColumnName], $result[$this->dbHashColumnName]))        
+        if($this->makePassHashMD5($rawPassword, $result[$this->dbSaltColumnName], $result[$this->dbHashColumnName]))        
         {
             $this->setSession($this->userIdentifier, $limitByIP , $limitByUserBrowser);
             
             $this->updateDBSessionId($this->sessionId, $this->dbUserIdentifierColumnName, $this->userIdentifier);
             
-            return 1;
+            return True;
         }
         
-        return 0;
+        return False;
+    }
+    
+    /**
+     * This method is used when BCRYPT is used to encrypt the passwords as encryption method type and will be called by `loginViaUserRawInfo` method.
+     * @param array $loginData The first parameter must be a unique thing to identify user by it (like username, email , etc) that the database column name must be the array's key and it's value must be that unique id (username, email, or ...)!
+     * And also the second parameter must be user's password, that the array key must be the database column name and the array value must be password itself.
+     * @return boolean True when no problem occured, othwerwise false
+     */
+    private function encryptionMethodTypeUsingBCRYPT($loginData, $limitByIP = FALSE, $limitByUserBrowser = FALSE)
+    {
+        #{$this->dbHashColumnName} is name of the column in database table where the bcrypted password is stored there.
+        $sth = $this->prepare("SELECT `{$this->dbHashColumnName}` FROM {$this->dbTableName} WHERE `{$this->dbUserIdentifierColumnName}`=:username;");
+        $sth->bindValue('username', $this->userIdentifier);
+        
+        if(false === $sth->execute())
+        {
+            $errorMessage = $sth->errorInfo();
+            self::$registry->error->reportError($errorMessage[2], __LINE__, __METHOD__, false, 'authentication');
+            return False;
+        }
+        
+        $result = $sth->fetch();
+        next($loginData);
+        $rawPassword = $loginData[key($loginData)];
+        
+        if($this->makePassHashBcrypt($rawPassword, $result[$this->dbHashColumnName]))        
+        {
+            $this->setSession($this->userIdentifier, $limitByIP , $limitByUserBrowser);
+            
+            $this->updateDBSessionId($this->sessionId, $this->dbUserIdentifierColumnName, $this->userIdentifier);
+            
+            return True;
+        }
+        
+        return False;
+    }
+
+     /**
+     * Using this method we can specify which encryption method we want to use.
+     *     Right now there is only two Encryption Method is supported (MD5 and BCrypt).
+     * @param string $methodType Encryption method type. (Currently MD5 and BCrypt is supported.)
+     * @return mixed True or String of which encryption method id used.
+     */
+    public function initEncryptionMethod($methodType = NULL)
+    {
+        if(is_null($methodType))
+            return $this->selectedEncryptionMethod;
+        
+        if(is_string($methodType) && in_array(strtoupper($methodType), $this->encryptionMethods)){
+            $this->selectedEncryptionMethod = strtoupper($methodType);
+            return TRUE;
+        }
+        
+        self::$registry->error->reportError("Wrong Argument Type!", __LINE__, __METHOD__, TRUE);
     }
     
     /**
@@ -332,7 +411,7 @@ class Authentication extends baseModel
     public function initDBHashColumnName($columnName)
     {
         $this->dbHashColumnName = $columnName;
-        return 1;
+        return;
     }
     
     /**
@@ -393,7 +472,7 @@ class Authentication extends baseModel
             }
             
             session_set_cookie_params($lifeTime, $path, $domain, $secure, $httponly);
-            
+
             return 1;
     }
     
@@ -405,7 +484,7 @@ class Authentication extends baseModel
     public function initDBUserIdentifierColumnName($columnName) 
     {
         $this->dbUserIdentifierColumnName = $columnName;
-        return 1;
+        return;
     }
     
     /**
@@ -417,7 +496,7 @@ class Authentication extends baseModel
     public function initDBSaltColumnName($columnName) 
     {
         $this->dbSaltColumnName = $columnName;
-        return 1;
+        return;
     }
     
     /**
@@ -472,7 +551,7 @@ class Authentication extends baseModel
     public function initDbTableName($tableName) 
     {
         $this->dbTableName = $tableName;
-        return 1;
+        return;
     }
     
     /**
@@ -483,7 +562,7 @@ class Authentication extends baseModel
     public function initDBSessionIdColumnName($columnName) 
     {
         $this->dbSessionIdColumnName = $columnName;
-        return 1;
+        return;
     }
     
     /**
