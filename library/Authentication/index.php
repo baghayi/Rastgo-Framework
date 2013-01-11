@@ -543,9 +543,9 @@ class Authentication extends baseModel
          {
              $errorMessage = $sth->errorInfo();
              self::$registry->error->reportError($errorMessage[2], __LINE__, __METHOD__, false, 'authentication');
-             return 0;
+             return false;
          }
-        return 1;
+        return $this->lastInsertId();
     }
     
     /**
