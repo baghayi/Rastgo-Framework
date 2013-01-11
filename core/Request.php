@@ -76,11 +76,21 @@ final class Request {
         return;
     }
     
+    /**
+     * Using this method we can redirect user to other pages (controller, methods) which is defined in this framework (internal link).
+     * Or We can get a link for those controller, methods.
+     * With third parameter of this method we can pass arguments to methods (A similar way of using _GET).
+     * @param  mixed  $controller    Controller name, or null to select the current controller.
+     * @param  mixed  $method        Method name, or null to select the current method.
+     * @param  mixed  $args          Array which its elements should be string and can not have keys and only array value, or String can be passed as well rather than array.
+     * @param  boolean $returnAddress Specifies whether to sent the Redirect header to return back a make link as string.
+     * @return string|Void                 Depends on the forth ($returnAddress) parameter.
+     */
     public function go($controller = NULL, $method = NULL, $args = NULL, $returnAddress = false)
     {
-        $controller = ($controller == NULL)? $this->getController(): $controller;
-        $method = ($method == NULL)? $this->getMethod(): $method;
-        $args = ($args == NULL)? $this->getArgs(): $args;
+        $controller = ($controller === NULL)? $this->getController(): $controller;
+        $method = ($method === NULL)? $this->getMethod(): $method;
+        $args = ($args === NULL)? $this->getArgs(): $args;
         
         switch(self::$enableRewrite){
             case TRUE:
