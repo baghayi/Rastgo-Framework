@@ -34,7 +34,7 @@ http://baghayi.github.com/Rastgo-Framework-Documentation/
 
 License
 ----------
-Free / Copyleft
+MIT
 
 Issues/Feedbacks
 ----------
@@ -44,4 +44,4 @@ Credits
 ----------
 - Hossein Baghayi [Maintainer] (http://www.facebook.com/baghayi)
 - Saleh Souzanchi [Contributer] (http://www.facebook.com/soozanchi)
-- Yousha Aleayoub [Contributer] (http://www.facebook.com/profile.php?id=100002947970288)
+- Yousha Aleayoub [Contributer] (https://www.facebook.com/yousha.aleayoub)
