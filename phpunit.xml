@@ -1,8 +1,0 @@
-<phpunit colors="false">
-	<testsuites>
-  		<testsuite name="Form Handling">
-	  		<directory suffix=".php">library/FormHandler/Test</directory>
-  		</testsuite>
-	</testsuites>
-</phpunit>
-
