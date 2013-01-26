@@ -15,6 +15,6 @@ class errorController extends baseController
             $arg = $argArray[0];
         }
 
-        echo 'The Requested URL ( '.$arg.' ) Does Not Exist.';
+        echo "The Requested URL '{$arg}' Does Not Exist.";
     }
 }
