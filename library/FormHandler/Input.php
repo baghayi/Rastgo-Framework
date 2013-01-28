@@ -90,29 +90,12 @@ class Input
 
         $result = array();
         array_map(function($eachRequestedElement) use(&$result){
-            $result[$eachRequestedElement] = $this->getRequestedValuesByType($eachRequestedElement);
+            $result[$eachRequestedElement] = $this->getValue($eachRequestedElement);
         }, $arrayIndexList);
 
         return $result;
     }
 
-    /**
-     * This method first checks to see check input type is selected, then will check to see if requested type (i.e _POST or _GET) has requested key that is provided as first argument of method.
-     *     And if it exists then its value will return otherwise NULL will return.
-     * @param  mixed $eachRequestedElement string or integer to check it against _POST or _GET array variable keys.
-     * @return mixed                       Will return the value of _POST or _GET requested key's value if found, otherwise null will return.
-     */
-    private function getRequestedValuesByType($eachRequestedElement)
-    {
-        switch($this->type){
-            case self::TYPE_POST:
-                return (isset($_POST[$eachRequestedElement])) ? $_POST[$eachRequestedElement] : NULL;
-                break;
-            case self::TYPE_GET:
-                return (isset($_GET[$eachRequestedElement])) ? $_GET[$eachRequestedElement] : NULL;
-                break;       
-        }
-    }
 
     /**
      * Will return all the values of requested input type (i.e _POST or _GET) as is.
