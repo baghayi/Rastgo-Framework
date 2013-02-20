@@ -1,17 +1,13 @@
 <?php
-use root\core\baseController\baseController,
-    \root\library\Translator\index\Translator;
+use root\core\baseController\baseController;
 
 class indexController extends baseController {
 
     public function index()
     {
-        self::$registry->translation = new Translator();
-        self::$registry->translation->loadLanguageFile('main');
-
         self::$registry->view->renderTemplate(__FUNCTION__, array(
-            'title' => self::$registry->translation->translate('indexTitle'),
-            'content' => self::$registry->translation->translate('indexContent'),
+            'title' => 'Rastgo Framework',
+            'content' => 'This is a demo page only to show that how this MVC-Based framework works.',
             'modelmessage' => $this->loadModel(true)
         ));
         return;
