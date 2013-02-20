@@ -12,7 +12,7 @@ class TranslatorTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->obj = new Translator;
-        $this->languagesFolderAddress = dirname(dirname(dirname(__DIR__))) . DIRECTORY_SEPARATOR . 'application' . DIRECTORY_SEPARATOR . '__rfolder' . DIRECTORY_SEPARATOR . 'languages';
+        $this->languagesFolderAddress = dirname(dirname(dirname(__DIR__))) . DIRECTORY_SEPARATOR . 'application' . DIRECTORY_SEPARATOR . '__rfolder';
         //creating a folder named testLanguage, and a file named main.php in it
         $this->languageFolderDirectory = $this->languagesFolderAddress . DIRECTORY_SEPARATOR . 'testLanguage';
         $this->languageFileNameWithValidContent = $this->languagesFolderAddress . DIRECTORY_SEPARATOR . 'testLanguage' . DIRECTORY_SEPARATOR. 'main.php';
